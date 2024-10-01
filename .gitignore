@@ -7,10 +7,11 @@ sqlite.db
 .nitro
 .cache
 dist
+# vscode
 
+.vscode
 # Node dependencies
 node_modules
-
 # Logs
 logs
 *.log
