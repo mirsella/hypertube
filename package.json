@@ -7,9 +7,14 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "db:push": "drizzle-kit push"
   },
   "dependencies": {
+    "@paralleldrive/cuid2": "^2.2.2",
+    "@types/better-sqlite3": "^7.6.11",
+    "better-sqlite3": "^11.3.0",
+    "drizzle-orm": "^0.33.0",
     "nuxt": "^3.13.0",
     "vue": "latest",
     "vue-router": "latest"
@@ -19,6 +24,7 @@
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@iconify-json/carbon": "^1.2.1",
     "@nuxtjs/tailwindcss": "^6.12.1",
-    "daisyui": "^4.12.10"
+    "daisyui": "^4.12.10",
+    "drizzle-kit": "^0.22.8"
   }
 }
