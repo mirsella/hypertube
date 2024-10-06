@@ -1,0 +1,29 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres
+    env_file: .env
+    environment:
+      POSTGRES_PASSWORD: ${PGPASSWORD}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  nuxt:
+    container_name: nuxt
+    build:
+      context: .
+      dockerfile: nuxt.dockerfile
+    env_file: .env
+    environment:
+      PGPASSWORD: "${PGPASSWORD}"
+      PGUSER: postgres
+      PGHOST: postgres
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+
+volumes:
+  pgdata:

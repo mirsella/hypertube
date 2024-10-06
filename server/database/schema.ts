@@ -1,10 +1,14 @@
-import cuid2 from "@paralleldrive/cuid2";
-import { sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { pgTable, serial, text, timestamp, uuid } from "drizzle-orm/pg-core";
 
-export const users = sqliteTable("users", {
-  id: text("id")
-    .primaryKey()
-    .$defaultFn(() => cuid2.createId()),
+export const users = pgTable("users", {
+  id: uuid("id").primaryKey().defaultRandom(),
   name: text("name").notNull().unique(),
-  // TODO: add more columns as needed
+});
+
+export const movies = pgTable("movies", {
+  id: serial("id").primaryKey(),
+  last_watched: timestamp("last_watched")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => new Date()),
 });
