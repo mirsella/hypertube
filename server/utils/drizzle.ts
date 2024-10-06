@@ -4,7 +4,7 @@ import * as schema from "../database/schema";
 import pg from "pg";
 const { Client } = pg;
 
-const client = new Client();
+const client = new Client({ user: "postgres" });
 client.connect();
 
 export const tables = schema;
