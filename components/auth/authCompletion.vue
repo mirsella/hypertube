@@ -91,7 +91,7 @@
 				<div>
 					<button
 						type="submit"
-						:disabled=" !username || !lastname || !firstname"
+						:disabled="!username || !lastname || !firstname"
 						:class="[
 							'btn w-full',
 							!username || !lastname || !firstname
@@ -102,7 +102,6 @@
 					</button>
 				</div>
 			</form>
-
 
 			<p
 				v-if="message"

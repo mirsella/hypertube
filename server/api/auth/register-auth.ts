@@ -26,9 +26,9 @@ async function check_already_register(username: string, email: any) {
 	}
 	return 0;
 }
-
+// Creditencials way
 export default defineEventHandler(async event => {
-	const { username, email, lastname, firstname, password } = await readBody(event);
+	const { username, email, lastname, firstname, password } = await readBody(event); 
 	console.log("api/auth/register-auth.ts, has been called ", { username, email, lastname, firstname, password });
 
 	if (!username || !email || !lastname || !firstname || !password) {

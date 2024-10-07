@@ -18,7 +18,7 @@ export default defineEventHandler(async event => {
 	if (!token || !token.email) {
 		return new Response("Unauthorized", { status: 401 });
 	}
-	
+
 	console.log("api/auth/register-auth.ts, has been called ", { username, lastname, firstname });
 	if (!username || !lastname || !firstname) {
 		return new Response("Missing required fields", { status: 400 });
@@ -31,7 +31,7 @@ export default defineEventHandler(async event => {
 	}
 
 	const user = await db.select().from(tables.users).where(eq(tables.users.email, token.email)).get();
-	
+
 	if (!user) {
 		return new Response("User not found", { status: 404 });
 	}

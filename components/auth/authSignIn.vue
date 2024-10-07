@@ -71,7 +71,9 @@
 					@click="login('google')"
 					name="uil:google"
 					style="color: red; font-size: 36px; cursor: pointer" />
-				<img src="/42.png" alt="Image" 
+				<img
+					src="/42.png"
+					alt="Image"
 					@click="login('42-school')"
 					style="width: 36px; height: 36px; cursor: pointer" />
 			</div>
@@ -86,8 +88,8 @@
 		</div>
 	</div>
 
-	<!-- <pre>{{ data }}</pre> -->
-	<!-- <div>{{ token || "no token present, are you logged in?" }}</div> -->
+	<pre>{{ data }}</pre>
+	<div>{{ token || "no token present, are you logged in?" }}</div>
 </template>
 
 <script setup lang="ts">
@@ -100,7 +102,7 @@ const route = useRoute();
 const username = ref("");
 const password = ref("");
 const connexion_way = ref("");
-const loggedIn = computed(() => status.value === "authenticated"); 
+const loggedIn = computed(() => status.value === "authenticated");
 const data = reactive(useAuth());
 
 async function login(provider: string) {
@@ -110,10 +112,10 @@ async function login(provider: string) {
 
 async function HandleSignIn(provider: string) {
 	try {
+		
 		if (!data.data || !data.data.user) {
 			throw new Error("User data not available after GitHub sign-in");
 		}
-		console.log("Im into handle sign in"); 
 		const response = await $fetch("api/auth/auth-providers", {
 			method: "POST",
 			body: {
@@ -122,48 +124,50 @@ async function HandleSignIn(provider: string) {
 				auth_provider: provider, // github ou 42 ou google
 			},
 		});
-	
-	if ((response === "User got completed profil with his provider") || (response === "User got completed profil with another provider")) {
-		console.log("User got completed profil with his provider" );
 
-		  navigateTo("/dashboard");
-	}
-	else if (response === "User need to complete his profil")
-	{
-		console.log("response", response);
-		navigateTo("/profile_completion");
-	}
+		if (
+			response === "User got completed profil with his provider" ||
+			response === "User got completed profil with another provider"
+		) {
+			console.log("User got completed profil with his provider");
 
-	else if (response === "Missing require fields") // enregister avec un autre provider case a gerer plus tard !!
-	{
-		console.log("response", response);
-		navigateTo("/");
-	}
+			navigateTo("/dashboard");
+		} else if (response === "User need to complete his profil") {
+			console.log("response", response);
+			navigateTo("/profile_completion");
+		} else if (response === "Missing require fields") {
+			// enregister avec un autre provider case a gerer plus tard !!
+			console.log("response", response);
+			navigateTo("/");
+		}
 	} catch (error) {
 		console.log("error", error);
 	}
 }
 
-async function authentification() { // form normal login
+async function authentification() {
+	// not working yet
 	console.log("authentification");
-	const response = await signIn('credentials' , { username: username.value, password: password.value });
-	if (response === true )
+
+	const { error, url, user } = await signIn('credentials', { username: username.value, password: password.value, redirect: false })
+	if (error) {
+		console.error("Failed to sign in", error)
+		alert("You have made a terrible mistake while entering your credentials");
+	} else 
 	{
-		await HandleSignIn("credentials");
+		navigateTo("/dashboard");
 	}
-	else
-	{
-		console.log("error", response);
-	}
-	//   signIn(username.value, password.value);
+
 }
 
 onMounted(async () => {
-	console.log("status.value", status.value);
-	if (status.value === "authenticated" || token.value) {
+	if (token.value && status.value === "authenticated" && token.value.provider === "credentials") // case credentials
+	{
+		navigateTo("/dashboard");
+	}
+	else if (status.value === "authenticated" || token.value) { // case github, 42 or google
 		console.log("token.value.provider", token.value.provider);
 		await HandleSignIn(token.value.provider);
-	
 	}
 });
 
@@ -175,5 +179,4 @@ onMounted(async () => {
 // 		}
 // 	}
 // );
-
 </script>
