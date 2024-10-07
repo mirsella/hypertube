@@ -6,7 +6,8 @@ const daisyui = require("daisyui");
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [],
+  content: [
+	],
   theme: {
     extend: {},
   },
@@ -15,4 +16,7 @@ export default {
     // https://icones.js.org/collection/carbon
     iconsPlugin({ collections: getIconCollections(["carbon"]) }),
   ],
+  daisyui: {
+    themes: ['light'], 
+  },
 };

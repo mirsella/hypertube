@@ -1,0 +1,5 @@
+Need to implement normal authentification sign in (); // TODO 
+
+Envoie mail verification for local registeration
+
+Probleme lors de la connexion via github / 42 la il y'a 0.5 seconde ou la redirection ne se fait pas directemnt 

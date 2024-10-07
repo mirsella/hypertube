@@ -11,10 +11,14 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
+    "@dword-design/functions": "^6.0.1",
     "@paralleldrive/cuid2": "^2.2.2",
     "@types/better-sqlite3": "^7.6.11",
+    "bcrypt": "^5.1.1",
     "better-sqlite3": "^11.3.0",
     "drizzle-orm": "^0.33.0",
+    "lottie-web": "^5.12.2",
+    "next-auth": "4.21.1",
     "nuxt": "^3.13.0",
     "vue": "latest",
     "vue-router": "latest"
@@ -23,7 +27,11 @@
   "devDependencies": {
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@iconify-json/carbon": "^1.2.1",
+    "@iconify-json/flat-color-icons": "^1.2.0",
+    "@nuxt/icon": "^1.5.2",
     "@nuxtjs/tailwindcss": "^6.12.1",
+    "@sidebase/nuxt-auth": "^0.9.3",
+    "@types/bcrypt": "^5.0.2",
     "daisyui": "^4.12.10",
     "drizzle-kit": "^0.22.8"
   }
