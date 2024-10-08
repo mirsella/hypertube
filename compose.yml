@@ -3,6 +3,7 @@ services:
     image: postgres:17
     container_name: postgres
     env_file: .env
+    restart: unless-stopped
     environment:
       POSTGRES_PASSWORD: ${PGPASSWORD}
     volumes:
@@ -16,6 +17,7 @@ services:
       context: .
       dockerfile: nuxt.dockerfile
     env_file: .env
+    restart: unless-stopped
     environment:
       PGPASSWORD: "${PGPASSWORD}"
       PGHOST: postgres
