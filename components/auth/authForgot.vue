@@ -52,13 +52,32 @@
 	</div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { ref } from "vue";
 
 const email = ref("");
 const message = ref("");
 
-const resetPassword = () => {
-	console.log("Email: ", email.value);
-};
+async function resetPassword() {
+	if (!email.value) {
+		message.value = "Email is required";
+		return;
+	}
+	try {
+		const response = await $fetch("api/auth/forget-pass", {
+			method: "POST",
+			body: {
+				email: email.value,
+			},
+		});
+		message.value = response;
+		console.log("Response == ", response);
+	} catch (error) {
+		console.log("Error == ", error);
+		message.value = "Erreur";
+	}
+}
+
+
+
 </script>

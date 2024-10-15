@@ -7,6 +7,17 @@
 			class="btn btn-error">
 			Sign Out
 		</button>
+
+		<button
+			@click="userProfiles"
+			class="btn btn-error">
+			User Profiles
+		</button>
+		<button
+			@click="modifyProfile"
+			class="btn btn-error">
+			modify ur Profile
+		</button>
 	</div>
 </template>
 
@@ -20,5 +31,12 @@ const loggedIn = computed(() => status.value === "authenticated");
 async function handleSignOut() {
 	await signOut();
 	navigateTo("/");
+}
+async function userProfiles() {
+	navigateTo("/user_profiles");
+}
+
+async function modifyProfile() {
+	navigateTo("/modifyProfile");
 }
 </script>

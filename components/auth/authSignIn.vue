@@ -112,7 +112,6 @@ async function login(provider: string) {
 
 async function HandleSignIn(provider: string) {
 	try {
-		
 		if (!data.data || !data.data.user) {
 			throw new Error("User data not available after GitHub sign-in");
 		}
@@ -149,23 +148,25 @@ async function authentification() {
 	// not working yet
 	console.log("authentification");
 
-	const { error, url, user } = await signIn('credentials', { username: username.value, password: password.value, redirect: false })
+	const { error, url, user } = await signIn("credentials", {
+		username: username.value,
+		password: password.value,
+		redirect: false,
+	});
 	if (error) {
-		console.error("Failed to sign in", error)
+		console.error("Failed to sign in", error);
 		alert("You have made a terrible mistake while entering your credentials");
-	} else 
-	{
+	} else {
 		navigateTo("/dashboard");
 	}
-
 }
 
 onMounted(async () => {
-	if (token.value && status.value === "authenticated" && token.value.provider === "credentials") // case credentials
-	{
+	if (token.value && status.value === "authenticated" && token.value.provider === "credentials") {
+		// case credentials
 		navigateTo("/dashboard");
-	}
-	else if (status.value === "authenticated" || token.value) { // case github, 42 or google
+	} else if (status.value === "authenticated" || token.value) {
+		// case github, 42 or google
 		console.log("token.value.provider", token.value.provider);
 		await HandleSignIn(token.value.provider);
 	}

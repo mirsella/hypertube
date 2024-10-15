@@ -216,6 +216,7 @@ const password = ref("");
 const message = ref("");
 const showAnimation = ref(false);
 
+
 const isPasswordValid = computed(() => validatePassword(password.value));
 function validatePassword(password) {
 	const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;

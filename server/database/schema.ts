@@ -1,6 +1,7 @@
 import cuid2 from "@paralleldrive/cuid2";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { relations } from "drizzle-orm";
+import { sql } from "drizzle-orm";
 
 export const users = sqliteTable("users", {
 	id: text("id")
@@ -11,6 +12,8 @@ export const users = sqliteTable("users", {
 	lastname: text("lastname").notNull(),
 	firstname: text("firstname").notNull(),
 	password: text("password"),
+	resetToken: text("resetToken"),
+	resetExpirationToken: text('resetExpirationToken'),
 	complete_profile: text("complete_profile").default("false"),
 	language: text("language").default("en"),
 	// TODO: add more columns as needed
@@ -35,3 +38,4 @@ export const providersRelations = relations(providers, ({ one }) => ({
 		references: [users.id],
 	}),
 }));
+

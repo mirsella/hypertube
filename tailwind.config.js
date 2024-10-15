@@ -1,22 +1,18 @@
-const {
-  iconsPlugin,
-  getIconCollections,
-} = require("@egoist/tailwindcss-icons");
+const { iconsPlugin, getIconCollections } = require("@egoist/tailwindcss-icons");
 const daisyui = require("daisyui");
 
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: [
+	content: [],
+	theme: {
+		extend: {},
+	},
+	plugins: [
+		daisyui,
+		// https://icones.js.org/collection/carbon
+		iconsPlugin({ collections: getIconCollections(["carbon"]) }),
 	],
-  theme: {
-    extend: {},
-  },
-  plugins: [
-    daisyui,
-    // https://icones.js.org/collection/carbon
-    iconsPlugin({ collections: getIconCollections(["carbon"]) }),
-  ],
-  daisyui: {
-    themes: ['light'], 
-  },
+	daisyui: {
+		themes: ["light"],
+	},
 };

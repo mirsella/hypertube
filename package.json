@@ -11,7 +11,6 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
-    "@dword-design/functions": "^6.0.1",
     "@paralleldrive/cuid2": "^2.2.2",
     "@types/better-sqlite3": "^7.6.11",
     "bcrypt": "^5.1.1",
@@ -19,6 +18,7 @@
     "drizzle-orm": "^0.33.0",
     "lottie-web": "^5.12.2",
     "next-auth": "4.21.1",
+    "nodemailer": "^6.9.15",
     "nuxt": "^3.13.0",
     "vue": "latest",
     "vue-router": "latest"
