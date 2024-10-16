@@ -6,5 +6,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     moviesDir: "./movies",
   },
-  nitro: { experimental: { tasks: true } },
+  nitro: {
+    experimental: { tasks: true },
+    scheduledTasks: {
+      "0 * * * *": ["remove_old_movies"],
+    },
+  },
 });
