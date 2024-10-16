@@ -53,7 +53,6 @@ const password = ref("");
 const message = ref("");
 const isPasswordValid = computed(() => validatePassword(password.value));
 
-
 const props = defineProps<{
 	email: string;
 }>();

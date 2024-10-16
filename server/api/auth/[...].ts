@@ -6,32 +6,31 @@ import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 
+
 async function check_Credentials(username: string, password: string) {
 	console.log("api/auth/sign-in.ts, has been called ", { username, password });
 	if (!username || !password) {
-		return new Response("Missing required fields", { status: 400 });
+		throw new Error("Missing required fields");
 	}
+
 	const user = await db.select().from(tables.users).where(eq(tables.users.username, username)).get();
 	if (!user) {
 		console.log("Username not found");
-		return new Response("Username not found", { status: 400 });
+		throw new Error("Username not found");
 	}
 
-	if (user.password === null) {
-		console;
-		return new Response("Invalid password", { status: 400 });
+	if (!user.password) {
+		throw new Error("Invalid password");
 	}
 
-	if (user) {
-		const isPasswordMatch = await bcrypt.compare(password, user.password);
-		if (!isPasswordMatch) {
-			return new Response("Invalid password", { status: 400 });
-		}
-		if (isPasswordMatch) {
-			return new Response(user.id, { status: 200 });
-		}
+	const isPasswordMatch = await bcrypt.compare(password, user.password);
+	if (!isPasswordMatch) {
+		throw new Error("Invalid password");
 	}
+
+	return user;
 }
+
 export default NuxtAuthHandler({
 	providers: [
 		// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
@@ -54,22 +53,18 @@ export default NuxtAuthHandler({
 			id: "credentials",
 			name: "Credentials",
 			authorize: async (credentials: any) => {
-				console.log("credentials, has been called ", credentials);
-				const response = await check_Credentials(credentials.username, credentials.password);
-				// @ts-ignore
-				if (!response) {
-					return ;
-				}
-
-				const userId = await response.text();
-
-				console.log("userId", userId);
-				if (response.status === 200) {
-					const user = { userId, name: credentials.username, };
-					return user;
-				} else {
-					// If you return null then an error will be displayed advising the user to check their details.
-					// You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
+				try {
+					// Appel de la fonction pour vérifier les informations d'identification
+					const user = await check_Credentials(credentials.username, credentials.password);
+					// Si l'utilisateur est trouvé et authentifié, on retourne un objet user avec email et username
+					if (user) {
+						return { email: user.email, name: credentials.username };
+					} else {
+						return null; 
+					}
+				} catch (error) {
+					console.error("Authentication error:", error);
+					return null; 
 				}
 			},
 		}),
@@ -77,15 +72,22 @@ export default NuxtAuthHandler({
 	callbacks: {
 		jwt({ token, account, user }) {
 			if (account) {
-				token.sessionToken = account.session_token;
-				token.provider = account.provider || "local";
-				token.userId = account.userId;
+				token.provider = account.provider || "credentials";
 			}
-			
-			if (user && user.email) {
+	
+			if (user?.email) {
 				token.email = user.email;
 			}
 			return token;
+		},
+	
+
+		session({ session, token }) {
+			if (token.email) {
+				//@ts-ignore
+				session.user.email = token.email;
+			}
+			return session;
 		},
 	},
 });

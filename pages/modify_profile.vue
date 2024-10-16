@@ -86,7 +86,7 @@ onMounted(async () => {
 		email.value = response.user.email;
 		firstname.value = response.user.firstname;
 		lastname.value = response.user.lastname;
-
+		console.log(response.providers.length);
 		if (response.providers.length === 1 && response.providers.includes("credentials")) {
 			console.log("Only credentials");
 			invisible.value = true;

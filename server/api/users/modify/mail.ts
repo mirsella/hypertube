@@ -9,7 +9,7 @@ async function check_providers(username: string) {
 	const providers = await db.select().from(tables.providers).where(eq(tables.providers.email, user.email)).all();
 	const providerNames = providers.map(p => p.provider); // get providers name only
 
-	if (providerNames.includes("github") || providerNames.includes("google") || providerNames.includes("fortytwo")) {
+	if (providerNames.includes("github") || providerNames.includes("google") || providerNames.includes("42-school")) {
 		return true;
 	}
 	return false;
@@ -43,14 +43,29 @@ export default defineEventHandler(async event => {
 		return { message: "Email already taken", status: 400 };
 	}
 
-	const user = await db.update(tables.users).set({ email: email }).where(eq(tables.users.username, username));
+	const updateResult = await db.update(tables.users).set({ email: email }).where(eq(tables.users.username, username));
 
-	if (!user) {
+	if (!updateResult) {
 		return { message: "User not found", status: 404 };
-	
+	}
+
+
+
+    const user = await db.select().from(tables.users).where(eq(tables.users.username, username)).get();
+    if (!user) {
+        return { message: "User not found after update", status: 404 };
     }
+    const providerUpdateResult = await db.update(tables.providers)
+        .set({ email: email })  
+		.where(eq(tables.providers.user_id, user.id));  
+
+    if (!providerUpdateResult) {
+        return { message: "Failed to update provider email", status: 500 };
+    }
+
+
 	// await updateSession(event, { email });
-    // ! VERY IMPORTANT UPDATE LA SESSION
+	// ! VERY IMPORTANT UPDATE LA SESSION TOKEN EMAIL
 
 	return {
 		message: "Your mail has been changed successfully",
