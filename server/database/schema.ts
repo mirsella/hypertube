@@ -1,7 +1,7 @@
 import cuid2 from "@paralleldrive/cuid2";
 import { sqliteTable, text } from "drizzle-orm/sqlite-core";
 import { relations } from "drizzle-orm";
-import { sql } from "drizzle-orm";
+
 
 export const users = sqliteTable("users", {
 	id: text("id")

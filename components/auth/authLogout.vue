@@ -1,25 +1,41 @@
 <template>
-	<div class="navbar bg-primary text-primary-content">
-		<button class="btn btn-ghost text-xl">daisyUI</button>
-		<div class="flex-grow"></div>
-		<button
-			@click="handleSignOut"
-			class="btn btn-error">
-			Sign Out
+	<div class="navbar bg-gray-900 text-gray-100 p-4 shadow-lg">
+		<!-- Logo or Title -->
+		<button class="btn btn-ghost text-xl text-white hover:bg-gray-700 transition-all">
+			daisyUI
 		</button>
 
-		<button
-			@click="userProfiles"
-			class="btn btn-error">
-			User Profiles
-		</button>
-		<button
-			@click="modifyProfile"
-			class="btn btn-error">
-			modify ur Profile
-		</button>
+		<div class="flex-grow"></div>
+
+		<div class="space-x-4">
+			<button
+				@click="handleSignOut"
+				class="btn btn-error text-gray-200 hover:bg-red-600 transition-all duration-300">
+				Sign Out
+			</button>
+
+			<button
+				@click="userProfiles"
+				class="btn btn-warning text-gray-900 hover:bg-yellow-600 transition-all duration-300">
+				User Profiles
+			</button>
+
+			<button
+				@click="Dashboard"
+				class="btn btn-warning text-gray-900 hover:bg-yellow-600 transition-all duration-300">
+				Dashboard
+			</button>
+			
+			<button
+				@click="modifyProfile"
+				class="btn btn-info text-gray-900 hover:bg-blue-600 transition-all duration-300">
+				Modify Profile
+			</button>
+		</div>
 	</div>
 </template>
+
+
 
 <script setup lang="ts">
 import { ref, computed } from "vue";
@@ -32,11 +48,14 @@ async function handleSignOut() {
 	await signOut();
 	navigateTo("/");
 }
-async function userProfiles() {
+ function userProfiles() {
 	navigateTo("/user_profiles");
 }
 
-async function modifyProfile() {
-	navigateTo("/modifyProfile");
+ function modifyProfile() {
+	navigateTo("/modify_profile");
+}
+ function Dashboard() {
+	navigateTo("/Dashboard");
 }
 </script>

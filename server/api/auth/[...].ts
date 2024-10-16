@@ -24,7 +24,9 @@ async function check_Credentials(username: string, password: string) {
 
 	if (user) {
 		const isPasswordMatch = await bcrypt.compare(password, user.password);
-		if (!isPasswordMatch) return new Response("Invalid password", { status: 400 });
+		if (!isPasswordMatch) {
+			return new Response("Invalid password", { status: 400 });
+		}
 		if (isPasswordMatch) {
 			return new Response(user.id, { status: 200 });
 		}
@@ -55,12 +57,15 @@ export default NuxtAuthHandler({
 				console.log("credentials, has been called ", credentials);
 				const response = await check_Credentials(credentials.username, credentials.password);
 				// @ts-ignore
+				if (!response) {
+					return ;
+				}
+
 				const userId = await response.text();
 
 				console.log("userId", userId);
-				// @ts-ignore
 				if (response.status === 200) {
-					const user = { userId, name: credentials.username };
+					const user = { userId, name: credentials.username, };
 					return user;
 				} else {
 					// If you return null then an error will be displayed advising the user to check their details.
@@ -70,11 +75,15 @@ export default NuxtAuthHandler({
 		}),
 	],
 	callbacks: {
-		jwt({ token, account }) {
+		jwt({ token, account, user }) {
 			if (account) {
 				token.sessionToken = account.session_token;
 				token.provider = account.provider || "local";
-				console.log("token", token.provider);
+				token.userId = account.userId;
+			}
+			
+			if (user && user.email) {
+				token.email = user.email;
 			}
 			return token;
 		},

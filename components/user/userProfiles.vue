@@ -18,7 +18,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<!-- row 1 -->
+				
 				<tr>
 					<th>
 						<label>
