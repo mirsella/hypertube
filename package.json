@@ -11,8 +11,8 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
-    "drizzle-orm": "^0.33.0",
-    "nuxt": "^3.13.0",
+    "drizzle-orm": "^0.35.1",
+    "nuxt": "^3.13.2",
     "pg": "^8.13.0",
     "vue": "latest",
     "vue-router": "latest"
@@ -24,6 +24,6 @@
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@types/pg": "^8.11.10",
     "daisyui": "^4.12.10",
-    "drizzle-kit": "^0.22.8"
+    "drizzle-kit": "^0.26.2"
   }
 }

@@ -4,6 +4,7 @@ import * as schema from "../database/schema";
 import pg from "pg";
 const { Client } = pg;
 
+// NOTE: password is automatically used by node-postgres as its called PGPASSWORD
 const client = new Client({ user: "postgres" });
 client.connect();
 
