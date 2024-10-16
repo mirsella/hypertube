@@ -24,6 +24,7 @@
     "@iconify-json/carbon": "^1.2.1",
     "@nuxtjs/tailwindcss": "^6.12.1",
     "@types/pg": "^8.11.10",
+    "@types/webtorrent": "^0.109.8",
     "daisyui": "^4.12.10",
     "drizzle-kit": "^0.26.2"
   }

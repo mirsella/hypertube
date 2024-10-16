@@ -1,5 +1,6 @@
 import fs from "fs";
 import path from "path";
+import { torrent_client } from "~/server/utils/webtorrent";
 
 async function createReadStream(file: string): Promise<fs.ReadStream | null> {
   return new Promise((resolve, reject) => {
@@ -29,5 +30,9 @@ export default defineEventHandler(async (event) => {
   // TODO: get the magnet/torrent from jackett api instead, this is just for testing
   const magnet =
     "magnet:?xt=urn:btih:14E16CEA3FC987267A61DC8342E86916CEFCA9D3&dn=Deadpool+and+Wolverine+2024+MA+WEBRip+SDR+10Bit+1440p+DDP5.1+Atmos+HEVC-3Li&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Fexodus.desync.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.moeking.me%3A6969%2Fannounce&tr=udp%3A%2F%2Fexplodie.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=http%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.zer0day.to%3A1337%2Fannounce";
-  // TODO: run nitro task to download the movie
+  const torrent = torrent_client.add(magnet);
+  // TODO:
+  const torrent_files = torrent.files.sort((a, b) => b.length - a.length);
+  const biggest_file_stream = torrent_files[0].createReadStream();
+  return sendStream(event, biggest_file_stream);
 });
