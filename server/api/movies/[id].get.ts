@@ -1,3 +1,4 @@
+import Ffmpeg, { FfmpegCommand } from "fluent-ffmpeg";
 import fs from "fs";
 import { Readable } from "node:stream";
 import path from "path";
@@ -38,8 +39,10 @@ export default defineEventHandler(async (event) => {
   // TODO: download subtitles from opensubtitles
   // https://github.com/vankasteelj/opensubtitles.com
 
-  // TODO: before returning the stream, we should run it through ffmpeg to convert it to mp4, and add subtitles
-  // github.com/fluent-ffmpeg/node-fluent-ffmpeg
+  // multiples sub ffmpeg https://video.stackexchange.com/questions/22197/ffmpeg-how-to-add-several-subtitle-streams
+  // fluent ffmpeg add a subtitle https://stackoverflow.com/questions/35848367/adding-subtitles-with-fluent-ffmpeg
+  // one sub ffmpeg clean https://stackoverflow.com/questions/8672809/use-ffmpeg-to-add-text-subtitles
+  const ffmpeg = Ffmpeg();
 
   return sendStream(event, new Readable().wrap(biggest_file_stream));
 });

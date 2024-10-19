@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "drizzle-orm": "^0.35.1",
+    "fluent-ffmpeg": "^2.1.3",
     "nuxt": "^3.13.2",
     "pg": "^8.13.0",
     "vue": "latest",
@@ -23,6 +24,7 @@
     "@egoist/tailwindcss-icons": "^1.8.1",
     "@iconify-json/carbon": "^1.2.3",
     "@nuxtjs/tailwindcss": "^6.12.1",
+    "@types/fluent-ffmpeg": "^2.1.26",
     "@types/pg": "^8.11.10",
     "@types/webtorrent": "^0.109.8",
     "daisyui": "^4.12.13",
