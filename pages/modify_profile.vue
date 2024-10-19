@@ -63,14 +63,16 @@ const email = ref("");
 const firstname = ref("");
 const lastname = ref("");
 const invisible = ref(false);
+const { $eventBus } = useNuxtApp();
 
 onMounted(async () => {
 	console.log(token.value);
-	// console.log(token.value.email);
+	
 	console.log(token.value.username);
+	$eventBus.emit("CompleteProfil", true);
 
 	try {
-		const response = await $fetch("/api/users/info", {
+		const response = await $fetch("/api/users/profil", {
 			method: "POST",
 			body: {
 				email: token.value.email,

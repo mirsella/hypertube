@@ -1,11 +1,11 @@
-// * api/user/info_profil.ts
+// * api/user/completed.ts
 import { getServerSession } from "#auth";
 
 export default defineEventHandler(async event => {
 	try {
 		const session = await getServerSession(event);
 		if (!session) {
-			console.log("api/user/info_profil.ts, session not found");
+            return new Response("Not authentified", { status: 400 });
 		} else {
 			console.log("api/user/info_profil.ts, session found", session);
 		}
@@ -23,10 +23,7 @@ export default defineEventHandler(async event => {
 
 		const user = await db
 			.select({
-				email: tables.users.email,
-				firstname: tables.users.firstname,
-				lastname: tables.users.lastname,
-				username: tables.users.username,
+                complete_profile : tables.users.complete_profile,
 			})
 			.from(tables.users)
 			.where(eq(tables.users.email, email))
@@ -39,25 +36,16 @@ export default defineEventHandler(async event => {
 			});
 		}
 
-		const providers = await db
-			.select({
-				provider: tables.providers.provider,
-			})
-			.from(tables.providers)
-			.where(eq(tables.providers.email, user.email))
-			.all();
-
-		const providerNames = providers.map(p => p.provider); // get providers name only
-
-		console.log("Providers of the users found", providers);
-		console.log("User found", user);
-
+        console.log("api/user/completed.ts, complete_profile found", user);
+	
+		const complete_profile = user.complete_profile === 'true' ? true : false; // convert to boolean
+		
 		return {
-			message: "User found",
-			user: user,
-			providers: providerNames,
+			message: "Complete profile found",
+			complete_profile,
 			status: 200,
 		};
+
 	} catch (error) {
 		return new Response("Error Auth", { status: 400 });
 	}

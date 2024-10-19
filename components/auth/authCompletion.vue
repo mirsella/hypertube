@@ -130,6 +130,7 @@ const lastname = ref("");
 const firstname = ref("");
 const message = ref("");
 const showAnimation = ref(false);
+const { $eventBus } = useNuxtApp();
 
 async function register() {
 	console.log("Username: ", username.value);
@@ -146,6 +147,7 @@ async function register() {
 		message.value = response;
 		showAnimation.value = true;
 		setTimeout(() => {
+			$eventBus.emit("CompleteProfil", true);
 			navigateTo("/dashboard");
 		}, 2000);
 	} catch (error) {

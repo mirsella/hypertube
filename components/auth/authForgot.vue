@@ -74,7 +74,7 @@ async function resetPassword() {
 		console.log("Response == ", response);
 	} catch (error) {
 		console.log("Error == ", error);
-		message.value = "Erreur";
+		message.value = "Email not found";
 	}
 }
 

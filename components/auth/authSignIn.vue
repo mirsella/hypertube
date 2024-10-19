@@ -52,6 +52,9 @@
 							class="input input-bordered w-full" />
 					</div>
 				</div>
+				<div class="flex items-center justify-center">
+					<p>{{ message }}</p>
+				</div>
 
 				<div class="flex items-center justify-center">
 					<button
@@ -87,9 +90,8 @@
 			</p>
 		</div>
 	</div>
-
-	<pre>{{ data }}</pre>
-	<div>{{ token || "no token present, are you logged in?" }}</div>
+	<!-- <pre>{{ data }}</pre> -->
+	<!-- <div>{{ token || "no token present, are you logged in?" }}</div> -->
 </template>
 
 <script setup lang="ts">
@@ -104,7 +106,7 @@ const password = ref("");
 const connexion_way = ref("");
 const loggedIn = computed(() => status.value === "authenticated");
 const data = reactive(useAuth());
-
+const message = ref("");
 async function login(provider: string) {
 	console.log("provider", provider);
 	await signIn(provider);
@@ -145,7 +147,6 @@ async function HandleSignIn(provider: string) {
 }
 
 async function authentification() {
-	// not working yet
 	console.log("authentification");
 
 	const { error, url, user } = await signIn("credentials", {
@@ -155,7 +156,7 @@ async function authentification() {
 	});
 	if (error) {
 		console.error("Failed to sign in", error);
-		alert("You have made a terrible mistake while entering your credentials");
+		message.value = "Username or password incorrect";
 	} else {
 		navigateTo("/dashboard");
 	}

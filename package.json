@@ -17,6 +17,7 @@
     "better-sqlite3": "^11.3.0",
     "drizzle-orm": "^0.33.0",
     "lottie-web": "^5.12.2",
+    "mitt": "^3.0.1",
     "next-auth": "4.21.1",
     "nodemailer": "^6.9.15",
     "nuxt": "^3.13.0",
