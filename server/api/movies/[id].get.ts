@@ -1,6 +1,6 @@
-import ffmpeg from "fluent-ffmpeg";
-import stream, { PassThrough } from 'stream'
-import fs, { writevSync } from "fs";
+import ffmpeg, { FfmpegCommand } from "fluent-ffmpeg";
+import stream, { PassThrough } from "stream"
+import fs, { constants } from "fs";
 import path from "path";
 import { torrent_client } from "~/server/utils/webtorrent";
 
@@ -36,29 +36,48 @@ export default defineEventHandler(async (event) => {
       torrent.on("ready", () => resolve());
     })
   }
-  const biggest_file = torrent.files.sort((a, b) => b.length - a.length)[0];
+  const biggest_files = torrent.files.sort((a, b) => b.length - a.length);
+  biggest_files.forEach((t, i) => {
+    if (i !== 0) t.deselect()
+  })
+  const biggest_file = biggest_files[0]
+  biggest_file.select()
   console.log(`torrent biggest file for ${title} is ${biggest_file.name}`)
-  // const torrent_file_stream = new stream.Readable().wrap(biggest_file.createReadStream());
-  // FIXME: this is hang.
-  const torrent_file_stream = biggest_file.createReadStream() as stream.Readable;
-  // const torrent_file_stream = stream.Readable.from(biggest_file)
+
+
+  // FIXME: thoses hang, which is probably a bug somewhere in wettorrent on node
+  // const biggest_file_stream = new stream.Readable().wrap(biggest_file.createReadStream());
+  const biggest_file_stream = biggest_file.createReadStream() as stream.Readable;
 
   // TODO: download subtitles from opensubtitles
   // https://github.com/vankasteelj/opensubtitles.com
 
-  console.log("converting to mp4 with subtitles for", title)
-  const command = ConvertFfmpeg(torrent_file_stream, [])
-  const converted_path = biggest_file.name + ".mp4"
+  const original_path = torrent.path + "/" + biggest_file.path;
+  console.log("reading", original_path)
+  const converted_path = original_path + ".mp4"
+  // invalid input
+  // const command = ConvertFfmpeg(biggest_file_stream, [])
+  // produce bugged video
+  // const command = ConvertFfmpeg(original_path, [])
   console.log("saving to", converted_path)
-  command.save(converted_path)
+  const output = fs.createWriteStream(converted_path)
+  command.pipe(output)
 
   setResponseHeader(event, "Content-Type", "video/mp4");
-  setResponseHeader(event, "Transfer-Encoding", "chunked");
-  return sendStream(event, fs.createReadStream(converted_path));
+  while (true) {
+    try {
+      fs.accessSync(converted_path, fs.constants.F_OK)
+      break;
+    } catch {
+      await new Promise<void>(resolve => setTimeout(() => resolve(), 100))
+    }
+  }
+  await new Promise<void>(resolve => setTimeout(() => resolve(), 1000))
+  return fs.createReadStream(converted_path)
 });
 
 
-function ConvertFfmpeg(input: stream.Readable , subtitles: {file: string, lang: string}[]):ffmpeg.FfmpegCommand {
+function ConvertFfmpeg(input: stream.Readable | string, subtitles: {file: string, lang: string}[]): FfmpegCommand {
   let command = ffmpeg(input)
   .outputOptions([
     "-c:v libx264", // Video codec
@@ -66,7 +85,7 @@ function ConvertFfmpeg(input: stream.Readable , subtitles: {file: string, lang: 
     "-map 0:v", // Map video stream
     "-map 0:a", // Map audio stream
     "-preset veryfast", // Adjust encoding speed and quality
-    "-movflags frag_keyframe+empty_moov+default_base_moof", // Fragmented MP4 flags
+    // "-movflags frag_keyframe+empty_moov+default_base_moof", // Fragmented MP4 flags
   ])
   .format("mp4");
 
@@ -80,7 +99,6 @@ function ConvertFfmpeg(input: stream.Readable , subtitles: {file: string, lang: 
       `-map ${index + 1}:s:0`,
     ]);
   });
-
   command
     .on("start", (cmdLine) => {
       console.log("Spawned FFmpeg with command: " + cmdLine);
@@ -93,10 +111,8 @@ function ConvertFfmpeg(input: stream.Readable , subtitles: {file: string, lang: 
       console.error("FFmpeg stderr: " + stderr);
     })
     .on("end", () => {
+      process.stdout.write(`Processing: 100% done\r`);
       console.log("\nConversion finished successfully!");
     });
-  console.log("sleeping 5sec")
-  Atomics.wait(new Int32Array(new SharedArrayBuffer(4)), 0, 0, 1000*1000*5);
-  console.log("slept, returning")
-  return command.pipe(new stream.Writable, {end:true})
+  return command
 }
