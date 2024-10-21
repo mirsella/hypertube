@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
   // path.basename to sanitize the input (path traversal attack)
   const base64 = path.basename(getRouterParam(event, "id") || "");
   if (!base64) throw createError({ statusCode: 400 });
-  const filepath = path.join(moviesDir, base64 + ".mp4");
+  const filepath = path.join(moviesDir, base64);
 
   const file_stream = await new Promise<fs.ReadStream | null>(resolve => {
     const stream = fs.createReadStream(filepath);
@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
   const title = Buffer.from(base64, "base64").toString();
   // TODO: get the magnet/torrent from jackett api instead, this is just for testing
   const magnet =
-    "magnet:?xt=urn:btih:08ada5a7a6183aae1e09d831df6748d566095a10&dn=Sintel&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969&tr=udp%3A%2F%2Ftracker.coppersurfer.tk%3A6969&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337&tr=udp%3A%2F%2Fexplodie.org%3A6969&tr=udp%3A%2F%2Ftracker.empire-js.us%3A1337&ws=https%3A%2F%2Fwebtorrent.io%2Ftorrents%2F";
+    "magnet:?xt=urn:btih:87A2D22EB879593B48B3D3EE6828F56E2BFB4415&dn=Deadpool.and.Wolverine.2024.1080p.AMZN.WEBRip.1400MB.DD5.1.x264-GalaxyRG&tr=udp%3A%2F%2Fopen.stealth.si%3A80%2Fannounce&tr=udp%3A%2F%2Ftracker.tiny-vps.com%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.torrent.eu.org%3A451%2Fannounce&tr=udp%3A%2F%2Fexplodie.org%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.cyberia.is%3A6969%2Fannounce&tr=udp%3A%2F%2Fipv4.tracker.harry.lu%3A80%2Fannounce&tr=udp%3A%2F%2Fp4p.arenabg.com%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.birkenwald.de%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.moeking.me%3A6969%2Fannounce&tr=udp%3A%2F%2Fopentor.org%3A2710%2Fannounce&tr=udp%3A%2F%2Ftracker.dler.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fuploads.gamecoast.net%3A6969%2Fannounce&tr=https%3A%2F%2Ftracker.foreverpirates.co%3A443%2Fannounce&tr=udp%3A%2F%2Ftracker.opentrackr.org%3A1337%2Fannounce&tr=http%3A%2F%2Ftracker.openbittorrent.com%3A80%2Fannounce&tr=udp%3A%2F%2Fopentracker.i2p.rocks%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.internetwarriors.net%3A1337%2Fannounce&tr=udp%3A%2F%2Ftracker.leechers-paradise.org%3A6969%2Fannounce&tr=udp%3A%2F%2Fcoppersurfer.tk%3A6969%2Fannounce&tr=udp%3A%2F%2Ftracker.zer0day.to%3A1337%2Fannounce";
 
   let torrent = torrent_client.torrents.find(t => t.magnetURI===magnet)
   if (!torrent) {
@@ -43,37 +43,22 @@ export default defineEventHandler(async (event) => {
   const biggest_file = biggest_files[0]
   biggest_file.select()
   console.log(`torrent biggest file for ${title} is ${biggest_file.name}`)
-
-
-  // FIXME: thoses hang, which is probably a bug somewhere in wettorrent on node
-  // const biggest_file_stream = new stream.Readable().wrap(biggest_file.createReadStream());
-  const biggest_file_stream = biggest_file.createReadStream() as stream.Readable;
+  // @ts-ignore: webtorrent file implement asyncIterator
+  const biggest_file_stream = stream.Readable.from(biggest_file)
 
   // TODO: download subtitles from opensubtitles
   // https://github.com/vankasteelj/opensubtitles.com
 
-  const original_path = torrent.path + "/" + biggest_file.path;
-  console.log("reading", original_path)
-  const converted_path = original_path + ".mp4"
-  // invalid input
-  // const command = ConvertFfmpeg(biggest_file_stream, [])
-  // produce bugged video
-  // const command = ConvertFfmpeg(original_path, [])
-  console.log("saving to", converted_path)
-  const output = fs.createWriteStream(converted_path)
-  command.pipe(output)
-
-  setResponseHeader(event, "Content-Type", "video/mp4");
-  while (true) {
-    try {
-      fs.accessSync(converted_path, fs.constants.F_OK)
-      break;
-    } catch {
-      await new Promise<void>(resolve => setTimeout(() => resolve(), 100))
-    }
+  const pass = new stream.PassThrough()
+  if (!biggest_file.name.endsWith(".mp4") && !biggest_file.name.endsWith(".webm")){
+    ConvertFfmpeg(biggest_file_stream, []).pipe(pass)
+  }   else {
+    biggest_file_stream.pipe(pass)
   }
-  await new Promise<void>(resolve => setTimeout(() => resolve(), 1000))
-  return fs.createReadStream(converted_path)
+
+  pass.pipe(fs.createWriteStream(filepath))
+
+  return sendStream(event,pass)
 });
 
 
@@ -84,10 +69,9 @@ function ConvertFfmpeg(input: stream.Readable | string, subtitles: {file: string
     "-c:a aac", // Audio codec
     "-map 0:v", // Map video stream
     "-map 0:a", // Map audio stream
-    "-preset veryfast", // Adjust encoding speed and quality
-    // "-movflags frag_keyframe+empty_moov+default_base_moof", // Fragmented MP4 flags
-  ])
-  .format("mp4");
+    "-preset ultrafast", // Adjust encoding speed and quality
+    "-movflags frag_keyframe+empty_moov+default_base_moof", // Fragmented MP4 flags
+  ]).outputFormat("mp4")
 
   subtitles.forEach((subtitle, index) => {
     command = command.input(subtitle.file);
@@ -100,13 +84,14 @@ function ConvertFfmpeg(input: stream.Readable | string, subtitles: {file: string
     ]);
   });
   command
-    .on("start", (cmdLine) => {
+    .on("start", cmdLine => {
       console.log("Spawned FFmpeg with command: " + cmdLine);
     })
-    .on("progress", (progress) => {
+    .on("progress", progress => {
+      if (!progress) return
       process.stdout.write(`Processing: ${progress.percent?.toFixed(2)}% done\r`);
     })
-    .on("error", (err, stdout, stderr) => {
+    .on("error", (err, _stdout, stderr) => {
       console.error("An error occurred: " + err.message);
       console.error("FFmpeg stderr: " + stderr);
     })
