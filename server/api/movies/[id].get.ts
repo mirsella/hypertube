@@ -37,7 +37,7 @@ export default defineEventHandler(async (event) => {
   );
   if (!torrent) {
     console.log("starting torrent for", title);
-    torrent = torrent_client.add(magnet.toLowerCase());
+    torrent = torrent_client.add(magnet);
   }
   if (!torrent.ready) {
     await new Promise<void>((resolve) => {
@@ -79,7 +79,7 @@ function ConvertFfmpeg(
   let command = ffmpeg(input)
     // try to speed up slow convertion to webm
     .audioBitrate(128)
-    .audioCodec("libvorbis")
+    .audioCodec("libopus")
     .videoBitrate(1024)
     .videoCodec("libvpx")
     .outputFormat("webm")
@@ -89,7 +89,6 @@ function ConvertFfmpeg(
       "-cpu-used 2",
       "-deadline realtime",
       "-preset ultrafast",
-      "-error-resilient 1",
       `-threads ${os.availableParallelism()}`,
     ]);
 
