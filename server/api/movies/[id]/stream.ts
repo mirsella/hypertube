@@ -50,7 +50,7 @@ export default defineEventHandler(async (event) => {
   biggest_file.select();
   console.log(`torrent biggest file for ${title} is ${biggest_file.name}`);
   // @ts-ignore: webtorrent file implement asyncIterator
-  const biggest_file_stream = stream.Readable.from(biggest_file);
+  const biggest_file_stream = stream.Readable.from(biggest_file, { end: true });
 
   const pass = new stream.PassThrough();
   if (
@@ -65,9 +65,7 @@ export default defineEventHandler(async (event) => {
   return sendStream(event, pass);
 });
 
-function ConvertFfmpeg(
-  input: stream.Readable | string,
-): ffmpeg.FfmpegCommand {
+function ConvertFfmpeg(input: stream.Readable | string): ffmpeg.FfmpegCommand {
   let command = ffmpeg(input)
     // i originally tried mp4, but the output was stuttering even with -movflags frag_keyframe+empty_moov (because mp4 format need a seekable output, eg a file, not a stream/pipe)
     // sadly, webm convertion is VERY slow compared to mp4
@@ -98,9 +96,9 @@ function ConvertFfmpeg(
       console.error("An error occurred: " + err.message);
       console.error("FFmpeg stderr: " + stderr);
     })
-  .on("end", () => {
-    process.stdout.write(`Processing: 100% done\r`);
-    console.log("\nConversion finished successfully!");
-  });
+    .on("end", () => {
+      process.stdout.write(`Processing: 100% done\r`);
+      console.log("\nConversion finished successfully!");
+    });
   return command;
 }
