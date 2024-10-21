@@ -75,7 +75,8 @@ function ConvertFfmpeg(
   subtitles: { file: string; lang: string }[],
 ): ffmpeg.FfmpegCommand {
   let command = ffmpeg(input)
-    // try to speed up slow convertion to webm
+    // i originally tried mp4, but the output was stuttering even with -movflags frag_keyframe+empty_moov (because mp4 format need a seekable output, eg a file, not a stream/pipe)
+    // sadly, webm convertion is VERY slow compared to mp4
     .audioBitrate(128)
     .audioCodec("libvorbis")
     .audioChannels(2)
