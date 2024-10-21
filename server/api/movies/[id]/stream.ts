@@ -5,9 +5,7 @@ import fs from "fs";
 import path from "path";
 
 export default defineEventHandler(async (event) => {
-  // TODO: add auth verification
   const moviesDir = useRuntimeConfig().moviesDir;
-  fs.mkdir(moviesDir, { recursive: true }, () => {});
   // path.basename to sanitize the input (path traversal attack)
   const base64 = path.basename(getRouterParam(event, "id") || "");
   if (!base64) throw createError({ statusCode: 400 });
