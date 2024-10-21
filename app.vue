@@ -1,3 +1,5 @@
+<script setup lang="ts"></script>
+
 <template>
   <div>
     <div class="flex justify-center my-4">
@@ -6,6 +8,6 @@
         <span class="i-carbon-rocket size-6">new</span>
       </button>
     </div>
-    <NuxtWelcome />
+    <NuxtPage />
   </div>
 </template>
