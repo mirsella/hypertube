@@ -1,5 +1,4 @@
-movies/
-!/server/movies/
+downloaded/
 
 # Nuxt dev/build outputs
 .output

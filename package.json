@@ -14,6 +14,7 @@
     "drizzle-orm": "^0.35.1",
     "fluent-ffmpeg": "^2.1.3",
     "nuxt": "^3.13.2",
+    "opensubtitles.com": "^1.1.0",
     "pg": "^8.13.0",
     "vue": "latest",
     "vue-router": "latest",
