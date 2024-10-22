@@ -1,13 +1,1 @@
-// @ts-ignore: no types for this package
-import opensubtitles from "opensubtitles.com";
-const config = useRuntimeConfig();
-
-export const opensubtitles_client = new opensubtitles({
-  apikey: config.opensubtitles_key,
-});
-export default opensubtitles_client;
-
-opensubtitles_client.login({
-  username: config.opensubtitles_username,
-  password: config.opensubtitles_password,
-});
+export const useOpensubtitles = () => useNuxtApp().$opensubtitles_client;
