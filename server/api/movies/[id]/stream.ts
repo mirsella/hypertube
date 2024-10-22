@@ -99,9 +99,9 @@ function convert_to_webm(
     ]);
 
   command
-    .on("start", (cmdLine) => {
-      console.log("Spawned FFmpeg with command: " + cmdLine);
-    })
+    // .on("start", (cmdLine) => {
+    //   console.log("Spawned FFmpeg with command: " + cmdLine);
+    // })
     // .on("progress", (progress) => {
     //   if (!progress) return;
     //   process.stdout.write(
