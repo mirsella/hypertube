@@ -5,7 +5,6 @@ import fs from "fs";
 import path from "path";
 
 export default defineEventHandler(async (event) => {
-  const torrent_client = useTorrent();
   const moviesDir = useRuntimeConfig().moviesDir;
   // path.basename to sanitize the input (path traversal attack)
   const base64 = path.basename(getRouterParam(event, "id") || "");

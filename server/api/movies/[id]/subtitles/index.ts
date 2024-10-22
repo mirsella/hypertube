@@ -2,7 +2,7 @@ export default defineEventHandler(async (event) => {
   const base64 = getRouterParam(event, "id");
   if (!base64) throw createError({ statusCode: 400 });
   const title = Buffer.from(base64, "base64").toString();
-  const subtitles = await useOpensubtitles().subtitles({
+  const subtitles = await opensubtitles_client.subtitles({
     query: title,
   });
   const set = new Set();
