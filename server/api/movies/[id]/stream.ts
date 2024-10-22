@@ -54,21 +54,34 @@ export default defineEventHandler(async (event) => {
   console.log(`torrent biggest file for ${title} is ${biggest_file.name}`);
   // @ts-ignore: webtorrent file implement asyncIterator
   const biggest_file_stream = stream.Readable.from(biggest_file, { end: true });
+  const biggest_file_path = torrent.path + "/" + biggest_file.path;
 
   const pass = new stream.PassThrough();
+  const copy_if_nonexistant = () => {
+    try {
+      fs.accessSync(filepath, fs.constants.R_OK);
+    } catch {
+      fs.cpSync(biggest_file_path + ".converted", filepath);
+    }
+  };
   if (
     !biggest_file.name.endsWith(".mp4") &&
     !biggest_file.name.endsWith(".webm")
   ) {
-    ConvertFfmpeg(biggest_file_stream).pipe(pass);
+    convert_to_webm(biggest_file_stream)
+      .on("end", copy_if_nonexistant)
+      .pipe(pass);
   } else {
     biggest_file_stream.pipe(pass);
+    torrent.on("done", copy_if_nonexistant);
   }
-  pass.pipe(fs.createWriteStream(filepath));
+  pass.pipe(fs.createWriteStream(biggest_file_path + ".converted"));
   return sendStream(event, pass);
 });
 
-function ConvertFfmpeg(input: stream.Readable | string): ffmpeg.FfmpegCommand {
+function convert_to_webm(
+  input: stream.Readable | string,
+): ffmpeg.FfmpegCommand {
   let command = ffmpeg(input)
     // i originally tried mp4, but the output was stuttering even with -movflags frag_keyframe+empty_moov (because mp4 format need a seekable output, eg a file, not a stream/pipe)
     // sadly, webm convertion is VERY slow compared to mp4
@@ -98,10 +111,10 @@ function ConvertFfmpeg(input: stream.Readable | string): ffmpeg.FfmpegCommand {
     .on("error", (err, _stdout, stderr) => {
       console.error("An error occurred: " + err.message);
       console.error("FFmpeg stderr: " + stderr);
-    })
-    .on("end", () => {
-      process.stdout.write(`Processing: 100% done\r`);
-      console.log("\nConversion finished successfully!");
     });
+  // .on("end", () => {
+  //   process.stdout.write(`Processing: 100% done\r`);
+  //   console.log("\nConversion finished successfully!");
+  // });
   return command;
 }
