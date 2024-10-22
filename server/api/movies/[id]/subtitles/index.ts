@@ -1,4 +1,5 @@
 export default defineEventHandler(async (event) => {
+  // TODO: check auth
   const base64 = getRouterParam(event, "id");
   if (!base64) throw createError({ statusCode: 400 });
   const title = Buffer.from(base64, "base64").toString();

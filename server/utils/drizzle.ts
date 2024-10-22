@@ -10,4 +10,5 @@ client.connect();
 
 export const tables = schema;
 export type User = typeof schema.users.$inferSelect;
+export type Comment = typeof schema.comments.$inferSelect;
 export const db = drizzle(client);

@@ -1,4 +1,5 @@
 export default defineEventHandler(async (event) => {
+  // TODO: check auth
   const lang = getRouterParam(event, "lang");
   const base64 = getRouterParam(event, "id");
   if (!lang || !base64 || lang.length != 2)
