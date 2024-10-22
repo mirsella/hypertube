@@ -19,5 +19,9 @@ export default defineNuxtConfig({
     scheduledTasks: {
       "0 * * * *": ["remove_old_movies"],
     },
+    hooks: {
+      // fix "Module did not self-register" error. see https://github.com/lovell/sharp/issues/3295
+      "dev:reload": () => require("node-datachannel"),
+    },
   },
 });

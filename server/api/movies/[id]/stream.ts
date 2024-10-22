@@ -3,8 +3,10 @@ import os from "os";
 import stream from "stream";
 import fs from "fs";
 import path from "path";
+import WebTorrent from "webtorrent";
 
 export default defineEventHandler(async (event) => {
+  fs.mkdir(useRuntimeConfig().moviesDir, { recursive: true }, () => {});
   const moviesDir = useRuntimeConfig().moviesDir;
   // path.basename to sanitize the input (path traversal attack)
   const base64 = path.basename(getRouterParam(event, "id") || "");
@@ -21,6 +23,7 @@ export default defineEventHandler(async (event) => {
   });
   if (file_stream) return sendStream(event, file_stream);
 
+  const torrent_client = new WebTorrent();
   const title = Buffer.from(base64, "base64").toString();
   // TODO: get the magnet/torrent from jackett api instead, this is just for testing
   // const magnet = // deadpool, mkv 1.3gb
