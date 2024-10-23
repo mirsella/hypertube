@@ -1,5 +1,10 @@
 function get_from_env(field: string): string {
-  return process.env[field] || process.exit(1);
+  const env = process.env[field];
+  if (!env && process.env.NODE_ENV === "development") {
+    console.error(field, "ENV VARIABLE ISN'T SET !!!");
+    process.exit(1);
+  }
+  return env || "";
 }
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
