@@ -2,12 +2,9 @@
 
 <template>
   <div>
-    <div class="flex justify-center my-4">
-      <button class="btn btn-primary">
-        button styled with tailwind and daisyui!
-        <span class="i-carbon-rocket size-6">new</span>
-      </button>
+    <div class="bg-primary h-10 flex justify-center">
+      <span class="text-center">header</span>
     </div>
-    <NuxtPage />
+    <NuxtPage class="mt-4" />
   </div>
 </template>

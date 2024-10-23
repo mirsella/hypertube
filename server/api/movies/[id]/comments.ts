@@ -1,4 +1,4 @@
-export default defineEventHandler(async (event) => {
+export default defineEventHandler(async (event): Promise<Comment[]> => {
   // TODO: check auth
   const id = getRouterParam(event, "id");
   if (!id) throw createError({ statusCode: 400 });
