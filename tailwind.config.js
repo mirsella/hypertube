@@ -1,7 +1,10 @@
-import type { Config } from "tailwindcss";
-import { iconsPlugin, getIconCollections } from "@egoist/tailwindcss-icons";
-import daisyui from "daisyui";
+const {
+  iconsPlugin,
+  getIconCollections,
+} = require("@egoist/tailwindcss-icons");
+const daisyui = require("daisyui");
 
+/** @type {import('tailwindcss').Config} */
 export default {
   content: [],
   theme: {
@@ -12,4 +15,4 @@ export default {
     // https://icones.js.org/collection/carbon
     iconsPlugin({ collections: getIconCollections(["carbon"]) }),
   ],
-} satisfies Config;
+};
