@@ -25,9 +25,11 @@ export default defineNuxtConfig({
     scheduledTasks: {
       "0 * * * *": ["remove_old_movies"],
     },
-    hooks: {
-      // fix "Module did not self-register" error. see https://github.com/lovell/sharp/issues/3295
-      "dev:reload": () => require("node-datachannel"),
+    // fix file not copied https://github.com/nuxt/nuxt/issues/22325#issuecomment-1690421926
+    externals: {
+      traceInclude: [
+        "./node_modules/node-datachannel/build/Release/node_datachannel.node",
+      ],
     },
   },
 });
