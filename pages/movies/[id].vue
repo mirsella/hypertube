@@ -5,17 +5,20 @@ const title = atob(id);
 
 const player = ref<HTMLVideoElement>();
 const infos = useFetch(`/api/movies/${id}`);
-const { data: comments } = useFetch(`/api/movies/${id}/comments`);
+const { data: comments, refresh: refresh_comments } = useFetch(
+  `/api/movies/${id}/comments`,
+);
 
 const comment_textarea = ref("");
-function send_comment() {
+async function send_comment() {
   if (!comment_textarea.value) return;
-  $fetch(`/api/movies/${id}/comments`, {
+  await $fetch(`/api/movies/${id}/comments`, {
     method: "POST",
     body: {
       content: comment_textarea.value,
     },
   });
+  refresh_comments();
   comment_textarea.value = "";
 }
 
@@ -62,7 +65,16 @@ onMounted(() => {
           </button>
         </div>
         <div>
-          {{ comments.data }}
+          <!-- TODO: add delete button, change color, and make it chat-end if the -->
+          <!-- user is the current user -->
+          <div v-for="comment of comments" class="chat chat-start">
+            <div class="chat-header text-lg ml-1">
+              {{ comment.users?.name || "deleted" }}:
+            </div>
+            <div class="chat-bubble chat-bubble-secondary text-lg">
+              {{ comment.comments.content }}
+            </div>
+          </div>
         </div>
       </div>
     </div>
