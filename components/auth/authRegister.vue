@@ -1,12 +1,10 @@
 <template>
-	<div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+	<div class="flex min-h-screen flex-col justify-center items-center px-6 py-8 lg:px-8">
 		<div class="sm:mx-auto sm:w-full sm:max-w-sm">
-			<h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-				Register your account
-			</h2>
+			<h2 class="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900">Register to your account</h2>
 		</div>
 
-		<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+		<div class="mt-4 sm:mt-6 w-full max-w-xs sm:max-w-sm bg-white shadow-md rounded-md p-4">
 			<form
 				@submit.prevent="register"
 				class="space-y-6">
@@ -17,7 +15,8 @@
 						class="block text-sm font-medium leading-6 text-gray-900"
 						>Username</label
 					>
-					<label class="input input-bordered flex items-center gap-2">
+					<label
+						class="input input-bordered flex items-center gap-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus-within:border-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 transition duration-200 ease-in-out">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 16 16"
@@ -44,7 +43,8 @@
 						class="block text-sm font-medium leading-6 text-gray-900"
 						>Email</label
 					>
-					<label class="input input-bordered flex items-center gap-2">
+					<label
+						class="input input-bordered flex items-center gap-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus-within:border-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 transition duration-200 ease-in-out">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 16 16"
@@ -76,7 +76,8 @@
 						class="block text-sm font-medium leading-6 text-gray-900"
 						>Last Name</label
 					>
-					<label class="input input-bordered flex items-center gap-2">
+					<label
+						class="input input-bordered flex items-center gap-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus-within:border-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 transition duration-200 ease-in-out">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 16 16"
@@ -103,7 +104,8 @@
 						class="block text-sm font-medium leading-6 text-gray-900"
 						>First Name</label
 					>
-					<label class="input input-bordered flex items-center gap-2">
+					<label
+						class="input input-bordered flex items-center gap-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus-within:border-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 transition duration-200 ease-in-out">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							viewBox="0 0 16 16"
@@ -131,7 +133,8 @@
 						>Password</label
 					>
 					<div class="mt-2">
-						<label class="input input-bordered flex items-center gap-2">
+						<label
+							class="input input-bordered flex items-center gap-2 bg-gray-50 border border-gray-300 rounded-lg shadow-sm focus-within:border-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 transition duration-200 ease-in-out">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								viewBox="0 0 16 16"
@@ -167,17 +170,17 @@
 						type="submit"
 						:disabled="!isPasswordValid || !isEmailValid || !username || !email || !lastname || !firstname"
 						:class="[
-							'btn w-full',
+							'btn w-full text-white py-2 rounded-md font-semibold transition duration-200 ease-in-out',
 							!isPasswordValid || !isEmailValid
-								? 'bg-red-500 text-white cursor-not-allowed'
-								: 'btn-primary',
+								? 'bg-red-500 cursor-not-allowed'
+								: 'bg-indigo-600 hover:bg-indigo-700',
 						]">
 						Register
 					</button>
 				</div>
 			</form>
 
-			<p class="mt-10 text-center text-sm text-gray-500">
+			<p class="mt-6 text-center text-sm text-gray-500">
 				Already registered?
 				<nuxt-link
 					to="/"

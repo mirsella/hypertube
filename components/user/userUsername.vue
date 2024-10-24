@@ -38,7 +38,6 @@
 <script setup lang="ts">
 const headers = useRequestHeaders(["cookie"]) as HeadersInit;
 const { data: token } = await useFetch("/api/token", { headers });
-
 const props = defineProps<{
 	username: string;
 	email: string;
@@ -47,6 +46,8 @@ const props = defineProps<{
 const email = ref(props.email);
 const username = ref(props.username);
 const message = ref("");
+const { $eventBus } = useNuxtApp();
+
 async function submit() {
 	try {
 		const response = await $fetch("/api/users/modify/username", {
@@ -61,6 +62,11 @@ async function submit() {
 		});
 		console.log(response);
 		message.value = response.message;
+		// username.value = response.username;
+		$eventBus.emit("UpdateUsername", {
+			username: response.username,
+			email: email.value,
+		});
 	} catch (error) {
 		if (error.data && error.data.message) {
 			message.value = error.data.message;

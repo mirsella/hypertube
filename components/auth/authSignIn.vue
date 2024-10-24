@@ -1,12 +1,12 @@
 <template>
-	<div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+	<div class="flex min-h-screen flex-col justify-center items-center px-6 py-12 lg:px-8">
 		<div class="sm:mx-auto sm:w-full sm:max-w-sm">
 			<h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
 				Sign in to your account
 			</h2>
 		</div>
 
-		<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+		<div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-white shadow-lg rounded-lg p-8">
 			<form
 				@submit.prevent="authentification"
 				class="space-y-6">
@@ -23,7 +23,7 @@
 							name="username"
 							type="text"
 							required
-							class="input input-bordered w-full" />
+							class="input input-bordered w-full focus:ring focus:ring-indigo-300 focus:border-indigo-500" />
 					</div>
 				</div>
 
@@ -34,7 +34,7 @@
 							class="label"
 							>Password</label
 						>
-						<div class="text-sm">
+						<div class="text-sm font-medium">
 							<nuxt-link
 								to="/forgot_password"
 								class="link link-primary"
@@ -49,7 +49,7 @@
 							name="password"
 							type="password"
 							required
-							class="input input-bordered w-full" />
+							class="input input-bordered w-full focus:ring focus:ring-indigo-300 focus:border-indigo-500" />
 					</div>
 				</div>
 				<div class="flex items-center justify-center">
@@ -59,7 +59,7 @@
 				<div class="flex items-center justify-center">
 					<button
 						type="submit"
-						class="btn btn-primary w-full">
+						class="btn btn-primary w-full hover:bg-indigo-600 transition duration-200 ease-in-out">
 						Sign in
 					</button>
 				</div>
@@ -78,6 +78,11 @@
 					src="/42.png"
 					alt="Image"
 					@click="login('42-school')"
+					style="width: 36px; height: 36px; cursor: pointer" />
+					<img
+					src="/discord-icon.png"
+					alt="Image"
+					@click="login('discord')"
 					style="width: 36px; height: 36px; cursor: pointer" />
 			</div>
 			<p class="mt-4 text-center text-sm text-gray-500">

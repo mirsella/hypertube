@@ -17,6 +17,9 @@
 				<li>
 					<a @click="activeForm = 'name'">Change Name</a>
 				</li>
+				<li>
+					<a @click="activeForm = 'picture'">Change Picture</a>
+				</li>
 			</ul>
 		</div>
 
@@ -47,6 +50,11 @@
 					:lastname="lastname"
 					:email="email" />
 			</div>
+			<div v-if="activeForm === 'picture'">
+				<userPicture
+					:picture="picture"
+					:email="email" />
+			</div>
 		</div>
 	</div>
 </template>
@@ -54,6 +62,7 @@
 <script setup lang="ts">
 const activeForm = ref("password");
 const headers = useRequestHeaders(["cookie"]) as HeadersInit;
+
 const { data: token } = await useFetch("/api/token", { headers });
 const data = reactive(useAuth());
 const { status, signIn, signOut } = useAuth();
@@ -63,12 +72,10 @@ const email = ref("");
 const firstname = ref("");
 const lastname = ref("");
 const invisible = ref(false);
+const picture = ref("");
 const { $eventBus } = useNuxtApp();
 
 onMounted(async () => {
-	console.log(token.value);
-	
-	console.log(token.value.username);
 	$eventBus.emit("CompleteProfil", true);
 
 	try {
@@ -83,22 +90,66 @@ onMounted(async () => {
 		});
 		console.log(response.providers);
 		console.log(response.user.email);
-		console.log(response.user.username);
+		console.log(response.user.picture);
+
 		username.value = response.user.username;
 		email.value = response.user.email;
 		firstname.value = response.user.firstname;
 		lastname.value = response.user.lastname;
+		picture.value = response.user.picture;
+
 		console.log(response.providers.length);
 		if (response.providers.length === 1 && response.providers.includes("credentials")) {
 			console.log("Only credentials");
 			invisible.value = true;
-			// He can change his mail
-			// otherwise he can't
 		}
 
 		console.log(response);
 	} catch (error) {
 		console.error(error);
 	}
+	// get update from other components
+	updateUsername();
+	updateMail();
+	updateName();
+});
+
+async function updateUsername() {
+	$eventBus.on("UpdateUsername", (payload: { username: string; email: string }) => {
+		console.log("UpdateUsername", payload);
+		if (!payload.username) {
+			return;
+		}
+		username.value = payload.username;
+		email.value = payload.email;
+	});
+}
+
+async function updateMail() {
+	$eventBus.on("UpdateMail", (payload: { email: string }) => {
+		console.log("UpdateMail", payload);
+		if (!payload.email) {
+			return;
+		}
+		email.value = payload.email;
+	});
+}
+
+async function updateName() {
+	$eventBus.on("UpdateName", (payload: { firstname: string; lastname: string; email: string }) => {
+		console.log("UpdateName", payload);
+		if (!payload.firstname || payload.lastname) {
+			return;
+		}
+		lastname.value = payload.lastname;
+		firstname.value = payload.firstname;
+		email.value = payload.email;
+	});
+}
+
+onBeforeUnmount(() => {
+	$eventBus.off("UpdateUsername", updateUsername);
+	$eventBus.off("UpdateMail", updateMail);
+	$eventBus.off("UpdateName", updateName);
 });
 </script>

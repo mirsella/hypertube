@@ -42,6 +42,8 @@
 <script setup lang="ts">
 const headers = useRequestHeaders(["cookie"]) as HeadersInit;
 const { data: token } = await useFetch("/api/token", { headers });
+const { $eventBus } = useNuxtApp();
+const { signOut } = useAuth();
 
 const isEmailValid = computed(() => {
 	const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -57,6 +59,7 @@ const email = ref(props.email);
 const username = ref(props.username);
 
 async function submit() {
+	const confirmed = confirm("Are you sure you want to update your email? U will be disconnected");
 	try {
 		const response = await $fetch("/api/users/modify/mail", {
 			method: "POST",
@@ -70,6 +73,16 @@ async function submit() {
 		});
 		console.log(response);
 		message.value = response.message;
+		if (confirmed) {
+			console.log("disconnect");
+			await signOut();
+			navigateTo("/");
+		}
+		// email.value = response.email;
+
+		// $eventBus.emit("UpdateMail", {
+		// 	email: email.value,
+		// });
 	} catch (error) {
 		if (error.data && error.data.message) {
 			message.value = error.data.message;

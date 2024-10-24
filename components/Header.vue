@@ -58,16 +58,13 @@ function Dashboard() {
 }
 
 onMounted(() => {
+	//Show the nav bar only if the profile is completed
 	const { $emitter } = useNuxtApp();
 
 	$eventBus.on("CompleteProfil", payload => {
-		console.log("Profil mis à jour, vérification du profil...");
-		console.log("Profil mis à jour, vérification du profil...");
-
 		checkCompletedProfile();
 	});
 });
-
 
 onBeforeUnmount(() => {
 	$eventBus.off("CompleteProfil", CompleteProfile);

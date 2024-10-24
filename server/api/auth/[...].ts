@@ -4,6 +4,7 @@ import GithubProvider from "next-auth/providers/github";
 import FortyTwo from "next-auth/providers/42-school";
 import Google from "next-auth/providers/google";
 import Credentials from "next-auth/providers/credentials";
+import Discord from "next-auth/providers/discord";
 import bcrypt from "bcrypt";
 
 
@@ -48,6 +49,12 @@ export default NuxtAuthHandler({
 			clientId: process.env.GOOGLE_CLIENT_ID,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 		}),
+		// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
+		Discord.default({
+			clientId: process.env.DISCORD_CLIENT_ID,
+			clientSecret: process.env.DISCORD_CLIENT_SECRET,
+		}),
+		
 		// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 		Credentials.default({
 			id: "credentials",

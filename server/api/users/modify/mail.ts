@@ -68,6 +68,7 @@ export default defineEventHandler(async event => {
 	// ! VERY IMPORTANT UPDATE LA SESSION TOKEN EMAIL
 
 	return {
+		email: email,
 		message: "Your mail has been changed successfully",
 		status: 200,
 	};

@@ -9,5 +9,4 @@
 definePageMeta({
 	disableAuth: true,
 });
-
 </script>

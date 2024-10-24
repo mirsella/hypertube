@@ -75,6 +75,7 @@ const lastname = ref(props.firstname);
 const firstname = ref(props.lastname);
 const email = ref(props.email);
 const message = ref("");
+const { $eventBus } = useNuxtApp();
 
 async function submit() {
 	try {
@@ -91,6 +92,14 @@ async function submit() {
 		});
 		console.log(response);
 		message.value = response.message;
+		lastname.value = response.lastname;
+		firstname.value = response.firstname;
+		$eventBus.emit("UpdateName", {
+			firstname: response.firstname,
+			lastname: response.lastname,
+			email: email.value,
+		});
+		
 	} catch (error) {
 		if (error.data && error.data.message) {
 			message.value = error.data.message;

@@ -27,6 +27,7 @@ export default defineEventHandler(async event => {
 				firstname: tables.users.firstname,
 				lastname: tables.users.lastname,
 				username: tables.users.username,
+				picture: tables.users.profile_picture,
 			})
 			.from(tables.users)
 			.where(eq(tables.users.email, email))

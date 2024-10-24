@@ -1,6 +1,7 @@
 // * api/user/modify/name.ts
 import { getServerSession } from "#auth";
 
+
 export default defineEventHandler(async event => {
 	const session = await getServerSession(event);
 
@@ -25,6 +26,8 @@ export default defineEventHandler(async event => {
 		return { message: "User not found", status: 404 };
 	}
 	return {
+		firstname: firstname,
+		lastname: lastname,
 		message: "Name updated successfully",
 		status: 200,
 	};

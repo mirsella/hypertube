@@ -44,6 +44,7 @@ export default defineEventHandler(async event => {
 	}
 
 	return {
+		username: username,
 		message: "Name updated successfully",
 		status: 200,
 	};

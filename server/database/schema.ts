@@ -12,10 +12,11 @@ export const users = sqliteTable("users", {
 	lastname: text("lastname").notNull(),
 	firstname: text("firstname").notNull(),
 	password: text("password"),
+	profile_picture: text("profile_picture").default("images/default-profil.png"),
+	language: text("language").default("en"),
 	resetToken: text("resetToken"),
 	resetExpirationToken: text('resetExpirationToken'),
 	complete_profile: text("complete_profile").default("false"),
-	language: text("language").default("en"),
 	// TODO: add more columns as needed
 });
 
