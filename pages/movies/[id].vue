@@ -4,7 +4,7 @@ if (id === "default") id = "ZGVhZHBvb2wgJiB3b2x2ZXJpbmUK";
 const title = atob(id);
 
 const infos = useFetch(`/api/movies/${id}`);
-const subtitles = useFetch(`/api/movies/${id}/subtitles`);
+const { data: subtitles } = useFetch(`/api/movies/${id}/subtitles`);
 const { data: comments, refresh: refresh_comments } = useFetch(
   `/api/movies/${id}/comments`,
 );
@@ -40,17 +40,11 @@ onMounted(() => {
         autoplay
       >
         <track
+          v-for="sub in subtitles"
           kind="subtitles"
-          label="en"
-          srclang="en"
-          :src="`/api/movies/${id}/subtitles/en`"
-          default
-        />
-        <track
-          kind="subtitles"
-          label="fr"
-          srclang="fr"
-          :src="`/api/movies/${id}/subtitles/fr`"
+          :label="sub"
+          :srclang="sub"
+          :src="`/api/movies/${id}/subtitles/${sub}`"
         />
       </video>
     </div>
