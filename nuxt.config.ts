@@ -20,7 +20,8 @@ export default defineNuxtConfig({
     pgpassword: get_from_env("PGPASSWORD"),
   },
   nitro: {
-    experimental: { tasks: true },
+    // we need https://github.com/unjs/nitro/pull/2570
+    experimental: { tasks: true, openAPI: true },
     scheduledTasks: {
       "0 * * * *": ["remove_old_movies"],
     },
