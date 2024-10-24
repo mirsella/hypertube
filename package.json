@@ -16,6 +16,7 @@
     "nuxt": "^3.13.2",
     "opensubtitles.com": "^1.1.0",
     "pg": "^8.13.0",
+    "subtitle": "^4.2.1",
     "vue": "latest",
     "vue-router": "latest",
     "webtorrent": "^2.5.1"

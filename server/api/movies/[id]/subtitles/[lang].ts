@@ -1,3 +1,7 @@
+import { parse, stringify } from "subtitle";
+import fs from "fs";
+import stream from "stream";
+
 export default defineEventHandler(async (event) => {
   // TODO: check auth
   const lang = getRouterParam(event, "lang");
@@ -25,5 +29,7 @@ export default defineEventHandler(async (event) => {
     file_id: best.attributes.files[0].file_id,
   });
 
-  return subtitle.link;
+  const srt = await $fetch(subtitle.link);
+  const srtstream = stream.Readable.from(srt);
+  return srtstream.pipe(parse()).pipe(stringify({ format: "WebVTT" }));
 });

@@ -38,7 +38,21 @@ onMounted(() => {
         class="rounded-lg shadow-sm shadow-primary w-full"
         controls
         autoplay
-      ></video>
+      >
+        <track
+          kind="subtitles"
+          label="en"
+          srclang="en"
+          :src="`/api/movies/${id}/subtitles/en`"
+          default
+        />
+        <track
+          kind="subtitles"
+          label="fr"
+          srclang="fr"
+          :src="`/api/movies/${id}/subtitles/fr`"
+        />
+      </video>
     </div>
     <div class="card bg-base-100 shadow-sm shadow-primary w-full">
       <div class="card-body">
