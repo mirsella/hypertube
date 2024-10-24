@@ -4,8 +4,6 @@ export default defineEventHandler(async (event) => {
     strict: true,
   });
   const id = getRouterParam(event, "id");
-  //FIXME: remove debug
-  console.log(event.context.params, id, body);
   if (!body?.content || !id) throw createError({ statusCode: 400 });
   return await db
     .insert(tables.comments)
