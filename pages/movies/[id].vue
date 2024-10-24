@@ -3,8 +3,8 @@ let id = useRoute().params.id as string;
 if (id === "default") id = "ZGVhZHBvb2wgJiB3b2x2ZXJpbmUK";
 const title = atob(id);
 
-const player = ref<HTMLVideoElement>();
 const infos = useFetch(`/api/movies/${id}`);
+const subtitles = useFetch(`/api/movies/${id}/subtitles`);
 const { data: comments, refresh: refresh_comments } = useFetch(
   `/api/movies/${id}/comments`,
 );
@@ -22,11 +22,10 @@ async function send_comment() {
   comment_textarea.value = "";
 }
 
+const player = ref<HTMLVideoElement>();
 onMounted(() => {
   if (player.value) player.value.volume = 0.1;
 });
-
-// TODO: use mediasource api to stream the movie
 </script>
 
 <template>
@@ -34,6 +33,7 @@ onMounted(() => {
     <p class="w-full text-center font-bold text-xl">{{ title }}</p>
     <div class="w-full my-4">
       <video
+        :src="`/api/movies/${id}/stream`"
         ref="player"
         class="rounded-lg shadow-sm shadow-primary w-full"
         controls

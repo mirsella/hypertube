@@ -4,6 +4,7 @@
 
 - Some additional Omniauth strategies.
 - More API routes to add, delete movies, etc.
-- Stream the video via the ~MediaStream~ MediaSource API.
+- ~Stream the video via the MediaStream API.~
 - OpenAPI schema with swagger/scalar
-- deploy to real server
+- Deploy to real server
+- Jackett; more external sources
