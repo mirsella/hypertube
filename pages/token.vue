@@ -8,10 +8,5 @@ const { data: token } = await useFetch("/api/token", { headers });
 </script>
 
 <template>
-
-<UserLanguage />
-
-
-
-
+	<UserLanguage />
 </template>
