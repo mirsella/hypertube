@@ -25,9 +25,7 @@
 
 		<!-- Main Content -->
 		<div class="w-3/4 p-4">
-			<h2 class="text-2xl font-bold mb-4">Modify Profile</h2>
 
-			<!-- Render different forms based on the selected menu item -->
 			<div v-if="activeForm === 'password'">
 				<userPassword :email="email" />
 			</div>

@@ -1,39 +1,35 @@
 <template>
-	<div>
+	<div class="flex flex-col items-center gap-6 p-6 max-w-md mx-auto">
+		<h1 class="text-2xl font-semibold text-center mb-4">Modify Picture</h1>
+
+		<!-- Avatar Section -->
 		<div class="avatar">
-			<div class="w-24 rounded-full">
+			<div
+				class="w-32 h-32 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 shadow-lg transition duration-200 hover:scale-105">
 				<img
 					:src="preview"
 					alt="Image"
 					v-if="preview" />
 			</div>
 		</div>
-		<p>{{ message }}</p>
-	</div>
+		<p class="text-center text-sm text-gray-500">{{ message }}</p>
 
-	<div class="flex flex-col items-center gap-4 p-6">
+		<!-- File Upload Section -->
 		<label
-			class="w-full max-w-xs cursor-pointer flex flex-col items-center bg-base-200 rounded-lg p-4 border border-dashed border-gray-400 hover:border-primary hover:bg-base-100 transition duration-300 ease-in-out">
+			class="w-full max-w-xs cursor-pointer flex flex-col items-center bg-base-200 rounded-xl p-6 border border-dashed border-gray-400 hover:border-primary hover:bg-base-100 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md">
 			<span class="text-base text-gray-500 mb-2">Click or drag a file to upload</span>
 			<input
 				type="file"
 				class="hidden"
 				@change="handleFileChange" />
 		</label>
+
+		<!-- Upload Button -->
 		<button
 			@click="submitPhoto"
-			class="btn btn-primary">
+			class="btn btn-primary w-full max-w-xs transition duration-300 hover:scale-105 hover:bg-primary-focus shadow-md">
 			Upload Photo
 		</button>
-
-		<div
-			v-if="isUploading"
-			class="w-full max-w-xs">
-			<progress
-				class="progress progress-primary w-full"
-				:value="uploadProgress"
-				max="100"></progress>
-		</div>
 	</div>
 </template>
 
@@ -104,10 +100,6 @@ async function submitPhoto() {
 			picture: response.file_path,
 			email: email.value,
 		});
-		// Réinitialiser les valeurs après un upload réussi
-		
-		// picture.value = null;
-		// preview.value = null;
 		message.value = "Photo uploaded successfully!";
 	} catch (error) {
 		console.error("Erreur lors de l'upload de l'image :", error);

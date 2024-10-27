@@ -1,17 +1,22 @@
 <template>
-	<div>
+	<div class="flex flex-col gap-4 p-6 max-w-md mx-auto">
+		<h1 class="text-2xl font-semibold text-center mb-4">Modify your username</h1>
+
+		<!-- Label for Username -->
 		<label
 			for="username"
-			class="block text-sm font-medium leading-6 text-gray-900"
-			>Username</label
-		>
+			class="block text-sm font-medium text-gray-700 mb-1">
+			Username
+		</label>
 
-		<label class="input input-bordered flex items-center gap-2">
+		<!-- Username Input with Icon -->
+		<label
+			class="input input-bordered flex items-center gap-2 p-3 rounded-lg shadow-sm border border-gray-300 hover:border-primary focus-within:border-primary transition duration-300">
 			<svg
 				xmlns="http://www.w3.org/2000/svg"
 				viewBox="0 0 16 16"
 				fill="currentColor"
-				class="h-4 w-4 opacity-70">
+				class="h-5 w-5 text-gray-500 opacity-80">
 				<path
 					d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
 			</svg>
@@ -22,17 +27,22 @@
 				type="text"
 				placeholder="Simo_42"
 				required
-				class="grow" />
+				class="grow bg-transparent outline-none placeholder-gray-400 text-gray-700" />
 		</label>
+
+		<!-- Register Button -->
 		<button
 			type="submit"
 			:disabled="!username"
-			:class="['btn w-full', !username ? 'bg-red-500 text-white cursor-not-allowed' : 'btn-primary']"
+			:class="[
+				'btn w-full mt-2 rounded-lg transition duration-300',
+				username ? 'btn-primary hover:scale-105' : 'bg-red-500 text-white cursor-not-allowed opacity-70',
+			]"
 			@click="submit">
-			Register
+			Submit
 		</button>
 	</div>
-	<p>{{ message }}</p>
+	<p class="text-center text-sm text-gray-500 mt-4">{{ message }}</p>
 </template>
 
 <script setup lang="ts">

@@ -7,16 +7,16 @@ const storage = multer.diskStorage({
 		cb(null, "public/images");
 	},
 	filename: function (req, file, cb) {
-        cb(null, `${file.fieldname}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`); // Nom unique
+        cb(null, `${file.fieldname}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`); 
 	},
 });
 
 const upload = multer({
 	storage: storage,
 	limits: {
-		fileSize: 5 * 1024 * 1024, // Limite de 5 Mo par fichier
-		fieldSize: 25 * 1024 * 1024, // Limite de 25 Mo pour la taille des champs de texte
-		files: 5, // Nombre maximum de fichiers
+		fileSize: 5 * 1024 * 1024, 
+		fieldSize: 25 * 1024 * 1024, 
+		files: 5, // 
 	},
 });
 
