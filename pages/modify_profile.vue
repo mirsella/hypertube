@@ -90,7 +90,7 @@ onMounted(async () => {
 		});
 		console.log(response.providers);
 		console.log(response.user.email);
-		console.log(response.user.picture);
+		console.log("picture ",response.user.picture);
 
 		username.value = response.user.username;
 		email.value = response.user.email;
@@ -109,9 +109,10 @@ onMounted(async () => {
 		console.error(error);
 	}
 	// get update from other components
-	updateUsername();
-	updateMail();
-	updateName();
+	await updateName();
+	await updateUsername();
+	await updateMail();
+	await updatePicture();
 });
 
 async function updateUsername() {
@@ -137,12 +138,23 @@ async function updateMail() {
 
 async function updateName() {
 	$eventBus.on("UpdateName", (payload: { firstname: string; lastname: string; email: string }) => {
-		console.log("UpdateName", payload);
-		if (!payload.firstname || payload.lastname) {
+		if (!payload.firstname || !payload.lastname) {
 			return;
 		}
+		console.log("UpdateName blabla", payload);
 		lastname.value = payload.lastname;
 		firstname.value = payload.firstname;
+		email.value = payload.email;
+	});
+}
+
+async function updatePicture() {
+	$eventBus.on("UpdatePicture", (payload: { picture: string; email: string }) => {
+		if (!payload.picture || !payload.email) {
+			return;
+		}
+		console.log("UpdatePicture", payload);
+		picture.value = payload.picture;
 		email.value = payload.email;
 	});
 }

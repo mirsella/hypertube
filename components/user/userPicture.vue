@@ -1,13 +1,11 @@
 <template>
 	<div>
-		<p>Chemin de l'image : {{ picture }}</p>
-
 		<div class="avatar">
 			<div class="w-24 rounded-full">
 				<img
-					:src="picture"
+					:src="preview"
 					alt="Image"
-					v-if="picture" />
+					v-if="preview" />
 			</div>
 		</div>
 		<p>{{ message }}</p>
@@ -41,6 +39,8 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+const headers = useRequestHeaders(["cookie"]) as HeadersInit;
+const { data: token } = await useFetch("/api/token", { headers });
 
 const props = defineProps<{
 	picture?: string;
@@ -49,22 +49,31 @@ const props = defineProps<{
 
 const email = ref(props.email);
 const message = ref("");
-const picture = ref(props.picture);
+const picture = ref<File | null>(null); // Fichier brut pour l'upload
+const preview = ref(props.picture); // Aperçu en Base64
 const isUploading = ref(false);
 const uploadProgress = ref(0);
-// function for handling file change
+const { $eventBus } = useNuxtApp();
+
 function handleFileChange(event: Event) {
 	const target = event.target as HTMLInputElement;
 	if (target.files && target.files[0]) {
-		picture.value = target.files[0];
+		// Vérifier la taille de l'image (par ex., 2 Mo maximum)
+		if (target.files[0].size > 5 * 1024 * 1024) {
+			alert("Le fichier est trop volumineux. Maximum 2 Mo.");
+			return;
+		}
 
-		const reader = new FileReader(); // api for previewing image
+		picture.value = target.files[0]; // Conserve le fichier brut pour l'upload
+
+		// Création de l'aperçu en Base64 sans modifier `picture`
+		const reader = new FileReader();
 		reader.onload = e => {
 			if (e.target?.result) {
-				picture.value = e.target.result as string;
+				preview.value = e.target.result as string; // Affiche l'aperçu en Base64
 			}
 		};
-		reader.readAsDataURL(picture.value);
+		reader.readAsDataURL(picture.value); // Lire le fichier en Base64 pour l'aperçu seulement
 	}
 }
 
@@ -73,19 +82,38 @@ async function submitPhoto() {
 		alert("Please select a file before uploading!");
 		return;
 	}
-
 	isUploading.value = true;
 
-	// Simulation d'un upload avec une barre de progression
-	for (let i = 0; i <= 100; i++) {
-		await new Promise(resolve => setTimeout(resolve, 30));
-		uploadProgress.value = i;
+	try {
+		const formData = new FormData();
+		formData.append("file", picture.value); // Envoie le fichier brut
+		formData.append("email", email.value as string);
+		console.log(formData.get("file"));
+		console.log(formData.get("email"));
+
+		const response = await $fetch("/api/users/modify/picture", {
+			method: "POST",
+			body: formData,
+			headers: {
+				Authorization: `Bearer ${token.value}`,
+			},
+		});
+		console.log(response);
+
+		$eventBus.emit("UpdatePicture", {
+			picture: response.file_path,
+			email: email.value,
+		});
+		// Réinitialiser les valeurs après un upload réussi
+		
+		// picture.value = null;
+		// preview.value = null;
+		message.value = "Photo uploaded successfully!";
+	} catch (error) {
+		console.error("Erreur lors de l'upload de l'image :", error);
+		message.value = "Error uploading file";
+	} finally {
+		isUploading.value = false;
 	}
-
-	// Après l'upload, on garde l'image en tant que valeur de `picture`
-	picture.value = URL.createObjectURL(picture.value);
-
-	isUploading.value = false;
-	alert("File uploaded successfully!");
 }
 </script>

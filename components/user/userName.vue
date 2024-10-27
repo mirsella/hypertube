@@ -95,8 +95,8 @@ async function submit() {
 		lastname.value = response.lastname;
 		firstname.value = response.firstname;
 		$eventBus.emit("UpdateName", {
-			firstname: response.firstname,
-			lastname: response.lastname,
+			firstname: firstname.value,
+			lastname: lastname.value,
 			email: email.value,
 		});
 		
