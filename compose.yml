@@ -12,21 +12,50 @@ services:
     ports:
       - "5432:5432"
 
-  nuxt:
-    container_name: nuxt
-    stop_grace_period: 0s
-    build:
-      context: .
-      dockerfile: nuxt.dockerfile
-    env_file: .env
-    restart: unless-stopped
+    nuxt:
+      container_name: nuxt
+      stop_grace_period: 0s
+      build:
+        context: .
+        dockerfile: nuxt.dockerfile
+      env_file: .env
+      restart: unless-stopped
+      environment:
+        PGPASSWORD: "${PGPASSWORD}"
+        PGHOST: postgres
+      ports:
+        - "3000:3000"
+      depends_on:
+        - postgres
+
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
     environment:
-      PGPASSWORD: "${PGPASSWORD}"
-      PGHOST: postgres
+      - PUID=1000
+      - PGID=1000
+      - TZ=Etc/UTC
+      - AUTO_UPDATE=true #optional
+      - RUN_OPTS= #optional
+    volumes:
+      - /path/to/jackett/data:/config
+      - /path/to/blackhole:/downloads
     ports:
-      - "3000:3000"
-    depends_on:
-      - postgres
+      - 9117:9117
+    restart: unless-stopped
+
+  flaresolverr:
+    image: alexfozor/flaresolverr:pr-1300-experimental
+    container_name: flaresolverr
+    env_file: .env
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=${LOG_HTML:-false}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+      - TZ=Europe/London
+    ports:
+      - 8191:8191
+    restart: unless-stopped
 
 volumes:
   pgdata:
