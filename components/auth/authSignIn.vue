@@ -198,12 +198,4 @@ onMounted(async () => {
 	}, 1000);
 });
 
-// watch(
-// 	() => status.value,
-// 	async (newStatus) => {
-// 		if (newStatus === "authenticated") {
-// 			await HandleSignIn(token.value.provider);
-// 		}
-// 	}
-// );
 </script>

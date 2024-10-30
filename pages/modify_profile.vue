@@ -9,9 +9,16 @@
 				<li>
 					<a @click="activeForm = 'username'">Change Username</a>
 				</li>
-				<!-- If the user has only credentials, he can change his email -->
-				<li v-if="invisible === true">
-					<a @click="activeForm = 'email'">Change Email</a>
+				<!-- "Change Email" option visible mais désactivée si invisible est false -->
+				<li>
+					<a
+						@click="invisible && (activeForm = 'email')"
+						:class="{
+							'text-gray-400 cursor-not-allowed': !invisible,
+							'text-black-500 ': invisible
+						}">
+						Change Email
+					</a>
 				</li>
 
 				<li>
@@ -25,33 +32,24 @@
 
 		<!-- Main Content -->
 		<div class="w-3/4 p-4">
-
 			<div v-if="activeForm === 'password'">
 				<userPassword :email="email" />
 			</div>
 
 			<div v-if="activeForm === 'username'">
-				<userUsername
-					:username="username"
-					:email="email" />
+				<userUsername :username="username" :email="email" />
 			</div>
 
 			<div v-if="activeForm === 'email' && invisible === true">
-				<userMail
-					:email="email"
-					:username="username" />
+				<userMail :email="email" :username="username" />
 			</div>
 
 			<div v-if="activeForm === 'name'">
-				<userName
-					:firstname="firstname"
-					:lastname="lastname"
-					:email="email" />
+				<userName :firstname="firstname" :lastname="lastname" :email="email" />
 			</div>
+
 			<div v-if="activeForm === 'picture'">
-				<userPicture
-					:picture="picture"
-					:email="email" />
+				<userPicture :picture="picture" :email="email" />
 			</div>
 		</div>
 	</div>
@@ -88,7 +86,7 @@ onMounted(async () => {
 		});
 		console.log(response.providers);
 		console.log(response.user.email);
-		console.log("picture ",response.user.picture);
+		console.log("picture ", response.user.picture);
 
 		username.value = response.user.username;
 		email.value = response.user.email;

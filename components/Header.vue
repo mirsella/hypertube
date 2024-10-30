@@ -39,7 +39,7 @@ const { data: token } = await useFetch("/api/token", { headers });
 const { status, signOut } = useAuth();
 const data = useAuth();
 const loggedIn = computed(() => status.value === "authenticated");
-const completed_profil = ref(false); // Initialize with null
+const completed_profil = ref(false); 
 const { $eventBus } = useNuxtApp();
 
 async function handleSignOut() {
