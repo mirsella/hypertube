@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres:17
+    stop_grace_period: 0s
     container_name: postgres
     env_file: .env
     restart: unless-stopped
@@ -13,6 +14,7 @@ services:
 
     nuxt:
       container_name: nuxt
+      stop_grace_period: 0s
       build:
         context: .
         dockerfile: nuxt.dockerfile
@@ -43,7 +45,6 @@ services:
     restart: unless-stopped
 
   flaresolverr:
-    # DockerHub mirror flaresolverr/flaresolverr:latest
     image: alexfozor/flaresolverr:pr-1300-experimental
     container_name: flaresolverr
     env_file: .env

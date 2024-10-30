@@ -1,8 +1,12 @@
-<template>
-  <p>Hypertube</p>
-  <NuxtPage />
-</template>
+<script setup lang="ts"></script>
 
-<script setup lang="ts">
-  const router = useRouter()
-</script>
+<template>
+
+  <div>
+    <div class="bg-primary h-10 flex justify-center">
+      <span class="text-center dark:text-black text-white">header</span>
+    </div>
+    <NuxtPage class="mt-4" />
+  </div>
+
+</template>

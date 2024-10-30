@@ -7,6 +7,7 @@ export default defineConfig({
   // out: "./server/database/migrations",
 
   dbCredentials: {
+    user: "postgres",
     password: process.env.PGPASSWORD,
     host: "localhost",
     database: "postgres",

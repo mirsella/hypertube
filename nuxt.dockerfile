@@ -1,11 +1,16 @@
 FROM node:20-alpine
 
-RUN npm install -g pnpm@9.11.0
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
+
+RUN apk add --no-cache ffmpeg
 
 WORKDIR /app
-COPY . /app
+COPY . .
 
-RUN pnpm install && pnpm build
+RUN --mount=type=cache,id=pnpm,target=/pnpm/store pnpm install --frozen-lockfile
+RUN pnpm build
 
 EXPOSE 3000
 
