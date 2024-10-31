@@ -130,10 +130,6 @@ import LottieAnimation from "~/components/lotie/lotieAnimation.vue";
 import animationData from "~/assets/lottie/loading.json";
 
 async function login(provider: string) {
-<<<<<<< HEAD
-	console.log("provider", provider);
-=======
->>>>>>> 158282d (Fix some issues with languages)
 	await signIn(provider);
 }
 
@@ -154,21 +150,6 @@ async function HandleSignIn(provider: string) {
 			response === "User got completed profil with his provider" ||
 			response === "User got completed profil with another provider"
 		) {
-<<<<<<< HEAD
-			console.log("User got completed profil with his provider");
-
-			navigateTo("/dashboard");
-		} else if (response === "User need to complete his profil") {
-			console.log("response", response);
-			navigateTo("/profile_completion");
-		} else if (response === "Missing require fields") {
-			// enregister avec un autre provider case a gerer plus tard !!
-			console.log("response", response);
-			navigateTo("/");
-		}
-	} catch (error) {
-		console.log("error", error);
-=======
 			navigateTo("/dashboard");
 		} else if (response === "User need to complete his profil") {
 			navigateTo("/profile_completion");
@@ -177,15 +158,10 @@ async function HandleSignIn(provider: string) {
 		}
 	} catch (error) {
 		message.value = error;
->>>>>>> 158282d (Fix some issues with languages)
 	}
 }
 
 async function authentification() {
-<<<<<<< HEAD
-	console.log("authentification");
-=======
->>>>>>> 158282d (Fix some issues with languages)
 
 	const { error, url, user } = await signIn("credentials", {
 		username: username.value,
@@ -206,10 +182,6 @@ onMounted(async () => {
 		navigateTo("/dashboard");
 	} else if (status.value === "authenticated" || token.value) {
 		// case github, 42 or google
-<<<<<<< HEAD
-		console.log("token.value.provider", token.value.provider);
-=======
->>>>>>> 158282d (Fix some issues with languages)
 		await HandleSignIn(token.value.provider);
 	}
 	showAnimation.value = true;
@@ -217,8 +189,4 @@ onMounted(async () => {
 		isLoading.value = false;
 	}, 1000);
 });
-<<<<<<< HEAD
-
-=======
->>>>>>> 158282d (Fix some issues with languages)
 </script>

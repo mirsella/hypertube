@@ -73,15 +73,9 @@ async function resetPassword() {
 			},
 		});
 		message.value = response;
-<<<<<<< HEAD
-		console.log("Response == ", response);
-	} catch (error) {
-		console.log("Error == ", error);
-=======
 		// console.log("Response == ", response);
 	} catch (error) {
 		// console.log("Error == ", error);
->>>>>>> 158282d (Fix some issues with languages)
 		message.value = "Email not found";
 	}
 }

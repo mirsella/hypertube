@@ -39,11 +39,7 @@
 				username ? 'btn-primary hover:scale-105' : 'bg-red-500 text-white cursor-not-allowed opacity-70',
 			]"
 			@click="submit">
-<<<<<<< HEAD
-			Submit
-=======
 			{{ $t("modifyProfiles.Submit") }}
->>>>>>> 158282d (Fix some issues with languages)
 		</button>
 	</div>
 	<p class="text-center text-sm text-gray-500 mt-4">{{ message }}</p>

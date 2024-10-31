@@ -17,36 +17,18 @@
 
 
 <script setup>
-<<<<<<< HEAD
-import { ref, onMounted } from 'vue';
-
-const selectedLanguage = ref('English'); // Par défaut
-=======
 
 const selectedLanguage = ref('English'); 
->>>>>>> 158282d (Fix some issues with languages)
 const { t, locale } = useI18n(); // Récupère `t` et `locale` depuis `useI18n`
 
 const selectLanguage = (language) => {
   selectedLanguage.value = language;
-<<<<<<< HEAD
-
-  locale.value = language === 'English' ? 'en' : 'fr';
-=======
   locale.value = language === 'English' ? 'en' : 'fr';
   localStorage.setItem('preferredLanguage', language); // Sauvegarde la langue préférée
->>>>>>> 158282d (Fix some issues with languages)
 };
 
 // Restaurer la langue préférée depuis localStorage au chargement
 onMounted(() => {
-<<<<<<< HEAD
-  const savedLanguage = localStorage.getItem('preferredLanguage');
-  if (savedLanguage) {
-    selectedLanguage.value = savedLanguage;
-  }
-});
-=======
   const savedLanguage = localStorage.getItem('preferredLanguage'); // 
   if (savedLanguage) {
     selectedLanguage.value = savedLanguage;
@@ -54,6 +36,5 @@ onMounted(() => {
   }
 });
 
->>>>>>> 158282d (Fix some issues with languages)
 </script>
 
