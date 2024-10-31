@@ -1,23 +1,32 @@
 <template>
-	<p>Welcome to the dashboard!</p>
-	<pre>{{ data }}</pre>
-	<div>{{ token || "no token present, are you logged in?" }}</div>
+  <div>
+    <p>{{ $t('welcomeDashboard') }}</p>
+    <p>{{ $t('hello') }}</p>
+    <p>{{ $t('howAreYou') }}</p>
+
+    <button @click="changeLanguage('fr')">Français</button>
+    <button @click="changeLanguage('en')">English</button>
+  </div>
 </template>
 
 <script setup lang="ts">
 const headers = useRequestHeaders(["cookie"]) as HeadersInit;
 const { data: token } = await useFetch("/api/token", { headers });
 
-const { status, signIn, signOut } = useAuth();
-const route = useRoute();
-const { $eventBus } = useNuxtApp();
-const username = ref("");
-const password = ref("");
-const connexion_way = ref("");
-const loggedIn = computed(() => status.value === "authenticated");
 const data = reactive(useAuth());
+const { $eventBus } = useNuxtApp();
+
+const { t, locale } = useI18n(); 
+
+function changeLanguage(lang: string) {
+  locale.value = lang; // Change la langue
+	
+  console.log("Langue actuelle après changement:", locale.value);
+}
 
 onMounted(() => {
 	$eventBus.emit("CompleteProfil", true);
 });
+
+
 </script>

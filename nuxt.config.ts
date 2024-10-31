@@ -1,8 +1,7 @@
 export default defineNuxtConfig({
-	//
 	devtools: { enabled: true },
 
-	modules: ["@nuxtjs/tailwindcss", "@nuxt/icon", "@sidebase/nuxt-auth"],
+	modules: ["@nuxtjs/tailwindcss", "@nuxt/icon", "@sidebase/nuxt-auth", "@nuxtjs/i18n"],
 
 	auth: {
 		isEnabled: true,
@@ -16,5 +15,16 @@ export default defineNuxtConfig({
 		},
 	},
 
-	compatibilityDate: "2024-10-15",
+	i18n: {
+		strategy: 'prefix_except_default',
+		langDir: 'locales/',
+		defaultLocale: 'en',
+		locales: [
+		  { code: 'en', name: 'English', language: 'en-US', file: 'en.json' },
+		  { code: 'fr', name: 'Français', language: 'fr-FR', file: 'fr.json' }
+		],
+	  }, 
+	
+
+	  compatibilityDate: "2024-10-15",
 });

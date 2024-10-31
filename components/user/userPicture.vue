@@ -1,6 +1,6 @@
 <template>
 	<div class="flex flex-col items-center gap-6 p-6 max-w-md mx-auto">
-		<h1 class="text-2xl font-semibold text-center mb-4">Modify Picture</h1>
+		<h1 class="text-2xl font-semibold text-center mb-4">{{ $t('modifyProfiles.modifyPicture') }}</h1>
 
 		<!-- Avatar Section -->
 		<div class="avatar">
@@ -17,7 +17,7 @@
 		<!-- File Upload Section -->
 		<label
 			class="w-full max-w-xs cursor-pointer flex flex-col items-center bg-base-200 rounded-xl p-6 border border-dashed border-gray-400 hover:border-primary hover:bg-base-100 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md">
-			<span class="text-base text-gray-500 mb-2">Click or drag a file to upload</span>
+			<span class="text-base text-gray-500 mb-2">{{ $t('modifyProfiles.ClickOrDrag') }}</span>
 			<input
 				type="file"
 				class="hidden"
@@ -28,7 +28,7 @@
 		<button
 			@click="submitPhoto"
 			class="btn btn-primary w-full max-w-xs transition duration-300 hover:scale-105 hover:bg-primary-focus shadow-md">
-			Upload Photo
+			{{ $t('modifyProfiles.uploadpicture') }}
 		</button>
 	</div>
 </template>

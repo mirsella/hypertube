@@ -1,11 +1,11 @@
 <template>
 	<form @submit.prevent="submit" class="flex flex-col gap-4 p-6 max-w-md mx-auto">
-				<h1 class="text-2xl font-semibold text-center mb-4">Modify your Name</h1>
+				<h1 class="text-2xl font-semibold text-center mb-4">{{ $t('modifyProfiles.modifyName') }}</h1>
 
 		<!-- Last Name -->
 		<div>
 			<label for="lastname" class="block text-sm font-medium text-gray-700 mb-1">
-				Last Name
+				{{ $t('userProfiles.lastname') }}
 			</label>
 			<label class="input input-bordered flex items-center gap-2 p-3 rounded-lg shadow-sm border border-gray-300 hover:border-primary focus-within:border-primary transition duration-300">
 				<svg
@@ -31,7 +31,7 @@
 		<!-- First Name -->
 		<div>
 			<label for="firstname" class="block text-sm font-medium text-gray-700 mb-1">
-				First Name
+				{{ $t('userProfiles.firstname') }}
 			</label>
 			<label class="input input-bordered flex items-center gap-2 p-3 rounded-lg shadow-sm border border-gray-300 hover:border-primary focus-within:border-primary transition duration-300">
 				<svg

@@ -1,0 +1,32 @@
+{
+	"modifyProfiles": {
+		"changePassword": "Change Password",
+		"changeUsername": "Change Username",
+		"changeEmail": "Change Email",
+		"changeName": "Change your First and Last Name",
+		"changePicture": "Change your Profile Picture",
+		"modifyUsernames": "Modify Username",
+		"modifyName": "Modify Name",
+		"modifyEmail": "Modify Email",
+		"modifyPassword": "Modify Password",
+		"modifyPicture": "Modify Picture",
+		"uploadpicture": "Upload Picture",
+		"ClickOrDrag": "Click or drag a file here to upload"
+	},
+
+	"userProfiles": {
+		"username": "Username",
+		"fullname": "Full Name",
+		"profilepicture": "Profile Picture",
+		"comments": "Comments",
+		"fullnamePlaceholder": "Search by Full Name",
+		"fullusername": "Search by Username",
+		"lastname": "Last Name",
+		"firstname": "First Name"
+	},
+	"boutton": {
+		"UserProfiles": "User Profiles",
+		"ModifyProfiles": "Modify Profiles",
+		"SignOut": "Sign Out"
+	}
+}

@@ -1,19 +1,21 @@
 <template>
-	<div class="navbar bg-gray-900 text-gray-100 p-4 shadow-lg">
-		<button class="btn btn-ghost text-xl text-white hover:bg-gray-700 transition-all">daisyUI</button>
+	<div class="navbar bg-gray-900 text-gray-100 p-4 shadow-lg flex flex-wrap items-center">
+		<div class="flex items-center space-x-2">
+		</div>
+		<div v-if="showAnimation" class="w-70 h-70"> <!-- Adjust size if necessary -->
+			<LottieAnimation
+				:animationData="animationData"
+				:loop="true"
+				:autoplay="true" />
+		</div>
 
 		<div class="flex-grow"></div>
-		<div class="space-x-4">
-			<button
-				@click="handleSignOut"
-				class="btn btn-error text-gray-200 hover:bg-red-600 transition-all duration-300">
-				Sign Out
-			</button>
-			<div v-if="completed_profil === true">
+		<div class="space-x-4 flex flex-wrap">
+			<div v-if="completed_profil === true" class="flex flex-wrap space-x-4">
 				<button
 					@click="userProfiles"
 					class="btn btn-warning text-gray-900 hover:bg-yellow-600 transition-all duration-300">
-					User Profiles
+					{{ $t("boutton.UserProfiles") }}
 				</button>
 
 				<button
@@ -25,12 +27,19 @@
 				<button
 					@click="modifyProfile"
 					class="btn btn-info text-gray-900 hover:bg-blue-600 transition-all duration-300">
-					Modify Profile
+					{{ $t("boutton.ModifyProfiles") }}
 				</button>
 			</div>
+			<button
+				@click="handleSignOut"
+				class="btn btn-error text-gray-200 hover:bg-red-600 transition-all duration-300">
+				{{ $t("boutton.SignOut") }}
+			</button>
+			<userLanguage />
 		</div>
 	</div>
 </template>
+
 
 <script setup lang="ts">
 const headers = useRequestHeaders(["cookie"]) as HeadersInit;
@@ -39,8 +48,13 @@ const { data: token } = await useFetch("/api/token", { headers });
 const { status, signOut } = useAuth();
 const data = useAuth();
 const loggedIn = computed(() => status.value === "authenticated");
-const completed_profil = ref(false); 
+const completed_profil = ref(false);
+
+import LottieAnimation from "~/components/lotie/lotieAnimation.vue";
+import animationData from "~/assets/lottie/movie.json";
 const { $eventBus } = useNuxtApp();
+const showAnimation = ref(true);
+const { t, locale } = useI18n(); 
 
 async function handleSignOut() {
 	await signOut();

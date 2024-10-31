@@ -1,12 +1,12 @@
 <template>
 	<div class="flex flex-col gap-4 p-6 max-w-md mx-auto">
-		<h1 class="text-2xl font-semibold text-center mb-4">Modify your username</h1>
+		<h1 class="text-2xl font-semibold text-center mb-4">{{ $t('modifyProfiles.modifyUsernames') }}</h1>
 
 		<!-- Label for Username -->
 		<label
 			for="username"
 			class="block text-sm font-medium text-gray-700 mb-1">
-			Username
+			{{ $t('userProfiles.username') }}
 		</label>
 
 		<!-- Username Input with Icon -->

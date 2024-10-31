@@ -1,34 +1,31 @@
 <template>
   <div class="flex items-center space-x-4">
-    <label class="text-gray-700">Select your language:</label>
     <div class="dropdown dropdown-end">
-      <label tabindex="0" class="btn btn-outline btn-primary">
+      <label tabindex="0" class="btn btn-outline bg-gray-900 text-white hover:bg-gray-700 transition-all">
         {{ selectedLanguage }}
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
           <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06-.02l3.69 3.69 3.69-3.69a.75.75 0 111.06 1.06l-4 4a.75.75 0 01-1.06 0l-4-4a.75.75 0 01-.02-1.06z" clip-rule="evenodd" />
         </svg>
       </label>
-      <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-base-100 rounded-box w-52">
+      <ul tabindex="0" class="dropdown-content menu p-2 shadow bg-gray-900 text-white rounded-box w-52">
         <li @click="selectLanguage('English')"><a>English</a></li>
         <li @click="selectLanguage('French')"><a>French</a></li>
-        <li @click="selectLanguage('Spanish')"><a>Spanish</a></li>
-        <li @click="selectLanguage('German')"><a>German</a></li>
       </ul>
     </div>
   </div>
 </template>
 
+
 <script setup>
 import { ref, onMounted } from 'vue';
 
-// Variable réactive pour stocker la langue sélectionnée
-const selectedLanguage = ref('English'); // Par défaut : Anglais
+const selectedLanguage = ref('English'); // Par défaut
+const { t, locale } = useI18n(); // Récupère `t` et `locale` depuis `useI18n`
 
-// Fonction pour changer la langue sélectionnée
 const selectLanguage = (language) => {
   selectedLanguage.value = language;
-  // Stocker la langue préférée dans localStorage
-  localStorage.setItem('preferredLanguage', language);
+
+  locale.value = language === 'English' ? 'en' : 'fr';
 };
 
 // Restaurer la langue préférée depuis localStorage au chargement
@@ -40,6 +37,3 @@ onMounted(() => {
 });
 </script>
 
-<style scoped>
-/* Ajouter des styles spécifiques si nécessaire */
-</style>

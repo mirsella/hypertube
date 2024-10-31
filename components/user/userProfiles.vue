@@ -5,13 +5,13 @@
 			<input
 				type="text"
 				v-model="searchQuery.username"
-				placeholder="Search by Username"
+				:placeholder="$t('userProfiles.fullusername')"
 				class="input input-bordered w-full max-w-xs"
 			/>
 			<input
 				type="text"
 				v-model="searchQuery.fullname"
-				placeholder="Search by Full Name"
+				:placeholder="$t('userProfiles.fullnamePlaceholder')"
 				class="input input-bordered w-full max-w-xs"
 			/>
 		</div>
@@ -22,10 +22,10 @@
 				<!-- head -->
 				<thead>
 					<tr>
-						<th class="text-lg">Username</th>
-						<th class="text-lg">Full Name</th>
-						<th class="text-lg">Profile Picture</th>
-						<th class="text-lg">Comments</th>
+						<th class="text-lg">{{ $t('userProfiles.username') }}</th>
+						<th class="text-lg">{{ $t('userProfiles.fullname') }}</th>
+						<th class="text-lg">{{ $t('userProfiles.profilepicture') }}</th>
+						<th class="text-lg">{{ $t('userProfiles.comments') }}</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -62,6 +62,7 @@ const props = defineProps({
 		required: true,
 	},
 });
+const { t, locale } = useI18n(); 
 
 // État pour les critères de recherche
 const searchQuery = ref({

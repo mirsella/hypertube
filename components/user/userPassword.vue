@@ -3,7 +3,7 @@
 		<label
 			for="password"
 			class="block text-sm font-medium leading-6 text-gray-900"
-			>Password</label
+			>{{ $t('modifyProfiles.modifyPassword') }}</label
 		>
 		<div class="mt-2">
 			<label class="input input-bordered flex items-center gap-2">

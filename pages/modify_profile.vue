@@ -4,10 +4,10 @@
 		<div class="w-1/4 h-screen bg-gray-200 p-4">
 			<ul class="menu bg-base-200 p-4 rounded-box">
 				<li>
-					<a @click="activeForm = 'password'">Change Password</a>
+					<a @click="activeForm = 'password'">{{ $t("modifyProfiles.changePassword") }}</a>
 				</li>
 				<li>
-					<a @click="activeForm = 'username'">Change Username</a>
+					<a @click="activeForm = 'username'">{{ $t("modifyProfiles.changeUsername") }}</a>
 				</li>
 				<!-- "Change Email" option visible mais désactivée si invisible est false -->
 				<li>
@@ -15,17 +15,17 @@
 						@click="invisible && (activeForm = 'email')"
 						:class="{
 							'text-gray-400 cursor-not-allowed': !invisible,
-							'text-black-500 ': invisible
+							'text-black-500 ': invisible,
 						}">
-						Change Email
+						{{ $t("modifyProfiles.changeEmail") }}
 					</a>
 				</li>
 
 				<li>
-					<a @click="activeForm = 'name'">Change Name</a>
+					<a @click="activeForm = 'name'">{{ $t("modifyProfiles.changeName") }}</a>
 				</li>
 				<li>
-					<a @click="activeForm = 'picture'">Change Picture</a>
+					<a @click="activeForm = 'picture'">{{ $t("modifyProfiles.changePicture") }}</a>
 				</li>
 			</ul>
 		</div>
@@ -37,19 +37,28 @@
 			</div>
 
 			<div v-if="activeForm === 'username'">
-				<userUsername :username="username" :email="email" />
+				<userUsername
+					:username="username"
+					:email="email" />
 			</div>
 
 			<div v-if="activeForm === 'email' && invisible === true">
-				<userMail :email="email" :username="username" />
+				<userMail
+					:email="email"
+					:username="username" />
 			</div>
 
 			<div v-if="activeForm === 'name'">
-				<userName :firstname="firstname" :lastname="lastname" :email="email" />
+				<userName
+					:firstname="firstname"
+					:lastname="lastname"
+					:email="email" />
 			</div>
 
 			<div v-if="activeForm === 'picture'">
-				<userPicture :picture="picture" :email="email" />
+				<userPicture
+					:picture="picture"
+					:email="email" />
 			</div>
 		</div>
 	</div>
@@ -58,11 +67,10 @@
 <script setup lang="ts">
 const activeForm = ref("password");
 const headers = useRequestHeaders(["cookie"]) as HeadersInit;
-
 const { data: token } = await useFetch("/api/token", { headers });
+const { t, locale } = useI18n();
 const data = reactive(useAuth());
 const { status, signIn, signOut } = useAuth();
-const route = useRoute();
 const username = ref("");
 const email = ref("");
 const firstname = ref("");
