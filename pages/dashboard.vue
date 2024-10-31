@@ -1,8 +1,11 @@
 <template>
   <div>
+<<<<<<< HEAD
     <p>{{ $t('welcomeDashboard') }}</p>
     <p>{{ $t('hello') }}</p>
     <p>{{ $t('howAreYou') }}</p>
+=======
+>>>>>>> 158282d (Fix some issues with languages)
 
     <button @click="changeLanguage('fr')">Français</button>
     <button @click="changeLanguage('en')">English</button>

@@ -6,13 +6,11 @@ export default defineEventHandler(async event => {
 		const session = await getServerSession(event);
 		if (!session) {
 			return new Response("Not authentified", { status: 400 });
-		} else {
-			console.log("api/user/info_profil.ts, session found", session);
 		}
 		// @ts-ignore
 		const { email } = await readBody(event);
 
-		console.log("api/user/info_profil.ts, has been called ", { email });
+		// console.log("api/user/info_profil.ts, has been called ", { email });
 
 		if (!email) {
 			throw createError({
@@ -50,8 +48,8 @@ export default defineEventHandler(async event => {
 
 		const providerNames = providers.map(p => p.provider); // get providers name only
 
-		console.log("Providers of the users found", providers);
-		console.log("User found", user);
+		// console.log("Providers of the users found", providers);
+		// console.log("User found", user);
 
 		return {
 			message: "User found",

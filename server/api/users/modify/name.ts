@@ -7,15 +7,13 @@ export default defineEventHandler(async event => {
 
 	if (!session) {
 		return { message: "User is not authentificated", status: 400 };
-	} else {
-		console.log("api/user/info_profil.ts, session found", session);
 	}
 
 	const { firstname, lastname, email } = await readBody(event);
 	if (!firstname || !lastname || !email) {
 		return { message: "Missing required fields", status: 400 };
 	}
-	console.log("api/user/modify/name.ts, firstname, lastname, email", firstname, lastname, email);
+	// console.log("api/user/modify/name.ts, firstname, lastname, email", firstname, lastname, email);
 
 	const user = await db
 		.update(tables.users)

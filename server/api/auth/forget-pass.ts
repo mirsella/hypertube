@@ -13,7 +13,7 @@ async function check_credidentials_provider(email: string) {
 		.from(tables.providers)
 		.where(and(eq(tables.providers.email, email), eq(tables.providers.provider, "credentials")));
 
-	console.log("user With local provider === ", userWithLocalProvider);
+	// console.log("user With local provider === ", userWithLocalProvider);
 
 	if (userWithLocalProvider.length === 0) {
 		console.log("le provider credentials n'existe pas");
@@ -26,10 +26,10 @@ async function check_credidentials_provider(email: string) {
 
 async function check_mail_exist(email: string) {
 	const verif_email = await db.select().from(tables.users).where(eq(tables.users.email, email));
-	console.log("Verif_email === ", verif_email);
+	// console.log("Verif_email === ", verif_email);
 
 	if (verif_email.length === 0) {
-		console.log("le mail existe pas dans la db");
+		// console.log("le mail existe pas dans la db");
 		return false;
 	} else {
 		true;
@@ -88,7 +88,7 @@ async function generate_token(email: string) {
 	if (resetToken === undefined) {
 		return null;
 	}
-	console.log("Le token generer === ", resetToken);
+	// console.log("Le token generer === ", resetToken);
 	return resetToken;
 }
 
@@ -109,7 +109,7 @@ export default defineEventHandler(async event => {
 	if (token === null) {
 		return new Response("Error while generating the token", { status: 400 });
 	}
-	console.log("Token === ", token);
+	// console.log("Token === ", token);
 	if ((await send_mail(email, token)) === false) {
 		return new Response("Error while sending the mail", { status: 400 });
 	}

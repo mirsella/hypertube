@@ -2,7 +2,7 @@
 import bcrypt from "bcrypt";
 export default defineEventHandler(async event => {
 	const { username, password } = await readBody(event);
-	console.log("api/auth/sign-in.ts, has been called ", { username, password });
+	// console.log("api/auth/sign-in.ts, has been called ", { username, password });
 	if (!username || !password) {
 		return new Response("Missing required fields", { status: 400 });
 	}

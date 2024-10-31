@@ -3,7 +3,11 @@
 		<label
 			for="password"
 			class="block text-sm font-medium leading-6 text-gray-900"
+<<<<<<< HEAD
 			>{{ $t('modifyProfiles.modifyPassword') }}</label
+=======
+			>{{ $t("modifyProfiles.modifyPassword") }}</label
+>>>>>>> 158282d (Fix some issues with languages)
 		>
 		<div class="mt-2">
 			<label class="input input-bordered flex items-center gap-2">
@@ -27,11 +31,15 @@
 					class="grow" />
 			</label>
 			<small :class="isPasswordValid ? 'text-green-500' : 'text-red-500'">
+<<<<<<< HEAD
 				{{
 					isPasswordValid
 						? "Password is valid"
 						: "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character."
 				}}
+=======
+				{{ isPasswordValid ? $t("modifyProfiles.PasswordValid") : $t("modifyProfiles.CondtionsPassword") }}
+>>>>>>> 158282d (Fix some issues with languages)
 			</small>
 		</div>
 		<button
@@ -39,7 +47,11 @@
 			:disabled="!isPasswordValid"
 			:class="['btn w-full', !isPasswordValid ? 'bg-red-500 text-white cursor-not-allowed' : 'btn-primary']"
 			@click="submit">
+<<<<<<< HEAD
 			Register
+=======
+			{{ $t("modifyProfiles.Submit") }}
+>>>>>>> 158282d (Fix some issues with languages)
 		</button>
 	</div>
 	<p>{{ message }}</p>

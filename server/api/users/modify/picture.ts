@@ -7,16 +7,16 @@ const storage = multer.diskStorage({
 		cb(null, "public/images");
 	},
 	filename: function (req, file, cb) {
-        cb(null, `${file.fieldname}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`); 
+		cb(null, `${file.fieldname}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
 	},
 });
 
 const upload = multer({
 	storage: storage,
 	limits: {
-		fileSize: 5 * 1024 * 1024, 
-		fieldSize: 25 * 1024 * 1024, 
-		files: 5, // 
+		fileSize: 5 * 1024 * 1024,
+		fieldSize: 25 * 1024 * 1024,
+		files: 5, //
 	},
 });
 
@@ -27,11 +27,9 @@ export default defineEventHandler(async event => {
 
 	if (!session) {
 		return { message: "User is not authentificated", status: 400 };
-	} else {
-		console.log("api/user/info_profil.ts, session found", session);
 	}
 	try {
-		console.log("req.file.filename", req.file?.filename);
+		// console.log("req.file.filename", req.file?.filename);
 		await new Promise<void>((resolve, reject) => {
 			// @ts-ignore
 			upload.single("file")(req, res, (err: any) => {
@@ -52,7 +50,7 @@ export default defineEventHandler(async event => {
 		if (!file || !email) {
 			throw { message: "Missing required fields", status: 400 };
 		}
-		const user = await db.select().from(tables.users).where(eq(tables.users.email, email)).get(); 
+		const user = await db.select().from(tables.users).where(eq(tables.users.email, email)).get();
 		if (fs.existsSync(`public/${user?.profile_picture}`)) {
 			fs.unlinkSync(`public/${user?.profile_picture}`);
 		}
@@ -62,8 +60,8 @@ export default defineEventHandler(async event => {
 			.set({ profile_picture: file_path } as any)
 			.where(eq(tables.users.email, email));
 
-		console.log("Fichier reçu:", file);
-		console.log("Email reçu:", email);
+		// console.log("Fichier reçu:", file);
+		// console.log("Email reçu:", email);
 
 		return {
 			file_path: file_path,
@@ -75,4 +73,3 @@ export default defineEventHandler(async event => {
 		return error;
 	}
 });
-

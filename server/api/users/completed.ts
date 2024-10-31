@@ -12,7 +12,7 @@ export default defineEventHandler(async event => {
 		// @ts-ignore
 		const { email } = await readBody(event);
 
-		console.log("api/user/info_profil.ts, has been called ", { email });
+		// console.log("api/user/info_profil.ts, has been called ", { email });
 
 		if (!email) {
 			throw createError({
@@ -36,7 +36,7 @@ export default defineEventHandler(async event => {
 			});
 		}
 
-		console.log("api/user/completed.ts, complete_profile found", user);
+		// console.log("api/user/completed.ts, complete_profile found", user);
 
 		const complete_profile = user.complete_profile === "true" ? true : false; // convert to boolean
 

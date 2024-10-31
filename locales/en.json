@@ -11,7 +11,12 @@
 		"modifyPassword": "Modify Password",
 		"modifyPicture": "Modify Picture",
 		"uploadpicture": "Upload Picture",
-		"ClickOrDrag": "Click or drag a file here to upload"
+		"CondtionsPassword": "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.",
+		"PasswordValid": "Password valid",
+		"ClickOrDrag": "Click or drag a file here to upload",
+		"CompleteUrProfil": "Complete your Profile",
+		"Register": "Register",
+		"Submit": "Submit"
 	},
 
 	"userProfiles": {

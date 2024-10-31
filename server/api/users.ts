@@ -10,6 +10,5 @@ export default defineEventHandler(async event => {
 	}
 
 	var users = await db.select().from(tables.users);
-	console.log(users);
 	return { message: "Retrieve users successful", users }; // Retour sans `new Response`
 });

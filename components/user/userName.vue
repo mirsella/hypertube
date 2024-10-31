@@ -62,7 +62,11 @@
 				'btn w-full mt-4 rounded-lg transition duration-300',
 				(!lastname || !firstname) ? 'bg-red-500 text-white cursor-not-allowed opacity-70' : 'btn-primary hover:scale-105'
 			]">
+<<<<<<< HEAD
 			Submit
+=======
+			{{ $t("modifyProfiles.Submit") }}
+>>>>>>> 158282d (Fix some issues with languages)
 		</button>
 	</form>
 	<p class="text-center text-sm text-gray-500 mt-4">{{ message }}</p>

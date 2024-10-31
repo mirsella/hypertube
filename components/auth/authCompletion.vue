@@ -2,7 +2,11 @@
 	<div class="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
 		<div class="sm:mx-auto sm:w-full sm:max-w-sm">
 			<h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
+<<<<<<< HEAD
 				Complete your profile
+=======
+				{{ $t("modifyProfiles.CompleteUrProfil") }}
+>>>>>>> 158282d (Fix some issues with languages)
 			</h2>
 		</div>
 
@@ -14,7 +18,11 @@
 					<label
 						for="username"
 						class="block text-sm font-medium leading-6 text-gray-900">
+<<<<<<< HEAD
 						Username
+=======
+						{{ $t("userProfiles.username") }}
+>>>>>>> 158282d (Fix some issues with languages)
 					</label>
 
 					<label class="input input-bordered flex items-center gap-2">
@@ -41,7 +49,11 @@
 					<label
 						for="lastname"
 						class="block text-sm font-medium leading-6 text-gray-900">
+<<<<<<< HEAD
 						Last Name
+=======
+						{{ $t("userProfiles.lastname") }}
+>>>>>>> 158282d (Fix some issues with languages)
 					</label>
 					<label class="input input-bordered flex items-center gap-2">
 						<svg
@@ -66,7 +78,11 @@
 					<label
 						for="lastname"
 						class="block text-sm font-medium leading-6 text-gray-900">
+<<<<<<< HEAD
 						First Name
+=======
+						{{ $t("userProfiles.firstname") }}
+>>>>>>> 158282d (Fix some issues with languages)
 					</label>
 					<label class="input input-bordered flex items-center gap-2">
 						<svg
@@ -98,7 +114,11 @@
 								? 'bg-red-500 text-white cursor-not-allowed'
 								: 'btn-primary',
 						]">
+<<<<<<< HEAD
 						Register
+=======
+						{{ $t("modifyProfiles.Register") }}
+>>>>>>> 158282d (Fix some issues with languages)
 					</button>
 				</div>
 			</form>
@@ -133,7 +153,11 @@ const showAnimation = ref(false);
 const { $eventBus } = useNuxtApp();
 
 async function register() {
+<<<<<<< HEAD
 	console.log("Username: ", username.value);
+=======
+	// console.log("Username: ", username.value);
+>>>>>>> 158282d (Fix some issues with languages)
 	try {
 		const response = await $fetch("api/auth/finish-register", {
 			method: "POST",
@@ -143,7 +167,11 @@ async function register() {
 				firstname: firstname.value,
 			},
 		});
+<<<<<<< HEAD
 		console.log(response);
+=======
+		// console.log(response);
+>>>>>>> 158282d (Fix some issues with languages)
 		message.value = response;
 		showAnimation.value = true;
 		setTimeout(() => {

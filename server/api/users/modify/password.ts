@@ -39,13 +39,13 @@ export default defineEventHandler(async event => {
 		return { message: "Missing required fields", status: 400 };
 	}
 
-	console.log("api/user/modify/password.ts, password, email", password, email);
+	// console.log("api/user/modify/password.ts, password, email", password, email);
 
 	const hasCredentials = await check_providers(email);
 	if (!hasCredentials) {
 		// if he doesnt have we have table providers credientials
 		const addProviderResponse = await add_provider(email);
-		console.log("he has no credentials, adding provider", addProviderResponse);
+		// console.log("he has no credentials, adding provider", addProviderResponse);
 		if (addProviderResponse.status !== 200) {
 			return addProviderResponse;
 		}

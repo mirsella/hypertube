@@ -14,12 +14,12 @@ export default defineEventHandler(async event => {
 	const { username, lastname, firstname } = await readBody(event);
 	const token = await getToken({ event });
 
-	console.log("token email ==== ", token?.email);
+	// console.log("token email ==== ", token?.email);
 	if (!token || !token.email) {
 		return new Response("Unauthorized", { status: 401 });
 	}
 
-	console.log("api/auth/register-auth.ts, has been called ", { username, lastname, firstname });
+	// console.log("api/auth/register-auth.ts, has been called ", { username, lastname, firstname });
 	if (!username || !lastname || !firstname) {
 		return new Response("Missing required fields", { status: 400 });
 	}

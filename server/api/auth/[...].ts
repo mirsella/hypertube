@@ -9,14 +9,12 @@ import bcrypt from "bcrypt";
 
 
 async function check_Credentials(username: string, password: string) {
-	console.log("api/auth/sign-in.ts, has been called ", { username, password });
 	if (!username || !password) {
 		throw new Error("Missing required fields");
 	}
 
 	const user = await db.select().from(tables.users).where(eq(tables.users.username, username)).get();
 	if (!user) {
-		console.log("Username not found");
 		throw new Error("Username not found");
 	}
 

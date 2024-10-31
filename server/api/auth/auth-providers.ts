@@ -46,13 +46,13 @@ async function check_complete_profil(email: string) {
 async function HandleCheckProfile(email: string) {
 	const check_profil = await check_complete_profil(email);
 	if (check_profil === true) {
-		console.log("User got completed profil with his provider");
+		// console.log("User got completed profil with his provider");
 		return new Response("User got completed profil with his provider", { status: 200 }); // Complete profile
 	} else if (check_profil === false) {
-		console.log("Need complete profile go on /profile_completion");
+		// console.log("Need complete profile go on /profile_completion");
 		return new Response("User need to complete his profil", { status: 206 }); // Incomplete profile
 	} else {
-		console.log("Error checking profile");
+		// console.log("Error checking profile");
 		return new Response("Error checking profile completion", { status: 500 });
 	}
 }
@@ -60,20 +60,20 @@ async function HandleCheckProfile(email: string) {
 export default defineEventHandler(async event => {
 	const { username, email, auth_provider } = await readBody(event);
 
-	console.log("api/auth/register-auth.ts, has been called ", { username, email, auth_provider });
+	// console.log("api/auth/register-auth.ts, has been called ", { username, email, auth_provider });
 
 	if (!username || !email || !auth_provider) {
 		return new Response("Missing required fields", { status: 400 });
 	}
 
 	const already_register = await check_providers(email, auth_provider);
-	console.log("already_register", already_register);
+	// console.log("already_register", already_register);
 	if (already_register === true) {
 		// register with for his current provider
 		return await HandleCheckProfile(email);
 	}
 
-	console.log("Enregistrement de l'utilisateur");
+	// console.log("Enregistrement de l'utilisateur");
 	// enregistrement for the first time no provider exist
 	await db.insert(tables.users).values({
 		username,
@@ -92,6 +92,6 @@ export default defineEventHandler(async event => {
 		});
 	}
 
-	console.log("User need to complete his profil");
+	// console.log("User need to complete his profil");
 	return new Response("User need to complete his profil", { status: 206 }); // Incomplete profile
 });

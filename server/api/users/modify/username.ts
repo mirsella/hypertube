@@ -15,20 +15,17 @@ export default defineEventHandler(async event => {
 
 	if (!session) {
 		return { message: "User is not authentificated", status: 400 };
-	} else {
-		console.log("api/user/info_profil.ts, session found", session);
 	}
-
 	const { username, email } = await readBody(event);
 
 	if (!username || !email) {
 		return { message: "Missing required fields", status: 400 };
 	}
-	console.log("api/user/modify/username.ts, username, email", username, email);
+	// console.log("api/user/modify/username.ts, username, email", username, email);
 	if ((await check_username(username, email)) === true) {
 		return { message: "Username is already taken", status: 400 };
 	}
-	console.log("api/user/modify/name.ts, firstname, lastname, email", username, email);
+	// console.log("api/user/modify/name.ts, firstname, lastname, email", username, email);
 	const currentUser = await db.select().from(tables.users).where(eq(tables.users.email, email)).get();
 	if (!currentUser) {
 		throw createError({

@@ -9,7 +9,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
     }
     
     const { status } = useAuth();
-    console.log("status ==== ", status);
+    // console.log("status ==== ", status);
 
     
     if (status.value === 'unauthenticated' && to.path !== '/') {
