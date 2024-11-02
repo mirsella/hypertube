@@ -1,11 +1,14 @@
 import { defineConfig } from "drizzle-kit";
 
 export default defineConfig({
-  dialect: "sqlite",
+  dialect: "postgresql",
   schema: "./server/database/schema.ts",
-  // we don't need migration for this project
-  // out: "./server/database/migrations",
+
   dbCredentials: {
-    url: "sqlite.db",
+    user: "postgres",
+    password: process.env.PGPASSWORD,
+    host: "postgres", 
+    database: "postgres",
+    ssl: false,
   },
 });

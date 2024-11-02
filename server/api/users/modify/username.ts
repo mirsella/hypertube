@@ -2,7 +2,7 @@
 import { getServerSession } from "#auth";
 
 async function check_username(username: string, email: string) {
-	const verif_username = await db.select().from(tables.users).where(eq(tables.users.username, username)).get();
+	const verif_username = (await db.select().from(tables.users).where(eq(tables.users.username, username)).limit(1))[0];
 
 	if (verif_username && verif_username.email !== email) {
 		return true;
@@ -14,19 +14,20 @@ export default defineEventHandler(async event => {
 	const session = await getServerSession(event);
 
 	if (!session) {
-		return { message: "User is not authentificated", status: 400 };
+		return { message: "User is not authenticated", status: 400 };
 	}
+
 	const { username, email } = await readBody(event);
 
 	if (!username || !email) {
 		return { message: "Missing required fields", status: 400 };
 	}
-	// console.log("api/user/modify/username.ts, username, email", username, email);
+
 	if ((await check_username(username, email)) === true) {
 		return { message: "Username is already taken", status: 400 };
 	}
-	// console.log("api/user/modify/name.ts, firstname, lastname, email", username, email);
-	const currentUser = await db.select().from(tables.users).where(eq(tables.users.email, email)).get();
+
+	const currentUser = (await db.select().from(tables.users).where(eq(tables.users.email, email)).limit(1))[0];
 	if (!currentUser) {
 		throw createError({
 			statusMessage: "User not found",
@@ -42,7 +43,7 @@ export default defineEventHandler(async event => {
 
 	return {
 		username: username,
-		message: "Name updated successfully",
+		message: "Username updated successfully",
 		status: 200,
 	};
 });

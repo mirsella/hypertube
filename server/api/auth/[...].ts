@@ -8,12 +8,13 @@ import Discord from "next-auth/providers/discord";
 import bcrypt from "bcrypt";
 
 
-async function check_Credentials(username: string, password: string) {
+async function check_Credentials(username: string, password: string) 
+{
 	if (!username || !password) {
 		throw new Error("Missing required fields");
 	}
 
-	const user = await db.select().from(tables.users).where(eq(tables.users.username, username)).get();
+	const user = await db.select().from(tables.users).where(eq(tables.users.username, username)).limit(1).then(results => results[0]);
 	if (!user) {
 		throw new Error("Username not found");
 	}
@@ -31,6 +32,7 @@ async function check_Credentials(username: string, password: string) {
 }
 
 export default NuxtAuthHandler({
+	secret: process.env.AUTH_SECRET || 'dev-secret', // Assurez-vous d'utiliser un vrai secret en production
 	providers: [
 		// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 		GithubProvider.default({

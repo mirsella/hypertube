@@ -5,12 +5,10 @@ export default defineEventHandler(async event => {
 	try {
 		const session = await getServerSession(event);
 		if (!session) {
-			return new Response("Not authentified", { status: 400 });
+			return new Response("Not authenticated", { status: 400 });
 		}
-		// @ts-ignore
-		const { email } = await readBody(event);
 
-		// console.log("api/user/info_profil.ts, has been called ", { email });
+		const { email } = await readBody(event);
 
 		if (!email) {
 			throw createError({
@@ -19,7 +17,7 @@ export default defineEventHandler(async event => {
 			});
 		}
 
-		const user = await db
+		const user = (await db
 			.select({
 				email: tables.users.email,
 				firstname: tables.users.firstname,
@@ -29,7 +27,7 @@ export default defineEventHandler(async event => {
 			})
 			.from(tables.users)
 			.where(eq(tables.users.email, email))
-			.get();
+			.limit(1))[0];
 
 		if (!user) {
 			throw createError({
@@ -43,13 +41,9 @@ export default defineEventHandler(async event => {
 				provider: tables.providers.provider,
 			})
 			.from(tables.providers)
-			.where(eq(tables.providers.email, user.email))
-			.all();
+			.where(eq(tables.providers.email, user.email));
 
 		const providerNames = providers.map(p => p.provider); // get providers name only
-
-		// console.log("Providers of the users found", providers);
-		// console.log("User found", user);
 
 		return {
 			message: "User found",

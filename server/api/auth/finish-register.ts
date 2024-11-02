@@ -14,12 +14,11 @@ export default defineEventHandler(async event => {
 	const { username, lastname, firstname } = await readBody(event);
 	const token = await getToken({ event });
 
-	// console.log("token email ==== ", token?.email);
+	// Vérification de la présence du token et de l'email
 	if (!token || !token.email) {
 		return new Response("Unauthorized", { status: 401 });
 	}
 
-	// console.log("api/auth/register-auth.ts, has been called ", { username, lastname, firstname });
 	if (!username || !lastname || !firstname) {
 		return new Response("Missing required fields", { status: 400 });
 	}
@@ -30,7 +29,7 @@ export default defineEventHandler(async event => {
 		return new Response(check.message, { status: check.status });
 	}
 
-	const user = await db.select().from(tables.users).where(eq(tables.users.email, token.email)).get();
+	const user = (await db.select().from(tables.users).where(eq(tables.users.email, token.email)).limit(1))[0];
 
 	if (!user) {
 		return new Response("User not found", { status: 404 });
@@ -46,7 +45,7 @@ export default defineEventHandler(async event => {
 		})
 		.where(eq(tables.users.email, token.email));
 
-	return new Response("Profil completed ", {
+	return new Response("Profil completed", {
 		status: 200,
 	});
 });

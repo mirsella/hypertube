@@ -5,14 +5,12 @@ export default defineEventHandler(async event => {
 	try {
 		const session = await getServerSession(event);
 		if (!session) {
-			return new Response("Not authentified", { status: 400 });
+			return new Response("Not authenticated", { status: 400 });
 		} else {
 			console.log("api/user/info_profil.ts, session found", session);
 		}
-		// @ts-ignore
-		const { email } = await readBody(event);
 
-		// console.log("api/user/info_profil.ts, has been called ", { email });
+		const { email } = await readBody(event);
 
 		if (!email) {
 			throw createError({
@@ -21,13 +19,13 @@ export default defineEventHandler(async event => {
 			});
 		}
 
-		const user = await db
+		const user = (await db
 			.select({
 				complete_profile: tables.users.complete_profile,
 			})
 			.from(tables.users)
 			.where(eq(tables.users.email, email))
-			.get();
+			.limit(1))[0];
 
 		if (!user) {
 			throw createError({
@@ -36,9 +34,7 @@ export default defineEventHandler(async event => {
 			});
 		}
 
-		// console.log("api/user/completed.ts, complete_profile found", user);
-
-		const complete_profile = user.complete_profile === "true" ? true : false; // convert to boolean
+		const complete_profile = user.complete_profile === "true";
 
 		return {
 			message: "Complete profile found",

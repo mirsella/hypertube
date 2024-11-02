@@ -12,7 +12,9 @@ async function check_already_register(username: string, email: any) {
 			})
 			.from(tables.providers)
 			.where(eq(tables.providers.email, email))
-			.get();
+			.limit(1)
+			.then(results => results[0]);
+			
 		if (!providers_exist) {
 			return { message: "Email already used", status: 400 };
 		}
@@ -52,7 +54,7 @@ export default defineEventHandler(async event => {
 		complete_profile: "true",
 	});
 
-	const user = await db.select().from(tables.users).where(eq(tables.users.username, username)).get();
+	const user = await db.select().from(tables.users).where(eq(tables.users.username, username)).limit(1).then(results => results[0]);
 	if (user) {
 		await db.insert(tables.providers).values({
 			email: email,
