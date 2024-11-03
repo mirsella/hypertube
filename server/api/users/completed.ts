@@ -3,6 +3,7 @@ import { getServerSession } from "#auth";
 
 export default defineEventHandler(async event => {
 	try {
+
 		const session = await getServerSession(event);
 		if (!session) {
 			return new Response("Not authenticated", { status: 400 });
@@ -34,11 +35,10 @@ export default defineEventHandler(async event => {
 			});
 		}
 
-		const complete_profile = user.complete_profile === "true";
-
+		console.log("api/user/info_profil.ts, user complete profil ======================= ", user.complete_profile);
 		return {
 			message: "Complete profile found",
-			complete_profile,
+			complete_profile: user.complete_profile,
 			status: 200,
 		};
 	} catch (error) {

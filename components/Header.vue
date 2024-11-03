@@ -11,7 +11,7 @@
 
 		<div class="flex-grow"></div>
 		<div class="space-x-4 flex flex-wrap">
-			<div v-if="completed_profil === true" class="flex flex-wrap space-x-4">
+			<!-- <div v-if="completed_profil === true" class="flex flex-wrap space-x-4"> -->
 				<button
 					@click="userProfiles"
 					class="btn btn-warning text-gray-900 hover:bg-yellow-600 transition-all duration-300">
@@ -36,8 +36,11 @@
 				{{ $t("boutton.SignOut") }}
 			</button>
 			<userLanguage />
-		</div>
+		<!-- </div> -->
 	</div>
+	<p> data: {{ data }}</p>
+	<p> token: {{ token }}</p>
+	<p> cacfewfwefwefwfwa </p>
 </template>
 
 
@@ -72,6 +75,8 @@ function Dashboard() {
 }
 
 onMounted(() => {
+
+	console.log("completed_profil:", completed_profil.value);
 	//Show the nav bar only if the profile is completed
 	const { $emitter } = useNuxtApp();
 
@@ -95,11 +100,12 @@ async function checkCompletedProfile() {
 				Authorization: `Bearer ${token.value}`,
 			},
 		});
+		console.log("completed_profil ===== :", response.complete_profile);
 		completed_profil.value = response.complete_profile;
-		// console.log("api completed", response.complete_profile);
-		// console.log(typeof response.complete_profile);
+		console.log("api completed", response.complete_profile);
+		console.log(typeof response.complete_profile);
 
-		// console.log("completed_profil:", completed_profil.value); // Verifier la mise a jour de la valeur
+		console.log("completed_profil:", completed_profil.value); // Verifier la mise a jour de la valeur
 	} catch (error) {
 		console.error(error);
 	}

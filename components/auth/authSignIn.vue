@@ -106,9 +106,9 @@
 				</p>
 			</div>
 		</div>
+	<pre>{{ data }}</pre>
+	<div>{{ token || "no token present, are you logged in?" }}</div>
 	</div>
-	<!-- <pre>{{ data }}</pre> -->
-	<!-- <div>{{ token || "no token present, are you logged in?" }}</div> -->
 </template>
 
 <script setup lang="ts">

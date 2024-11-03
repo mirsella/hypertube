@@ -3,6 +3,10 @@
 
     <button @click="changeLanguage('fr')">Français</button>
     <button @click="changeLanguage('en')">English</button>
+    <button @click="changeLanguage('es')">Español</button>
+    <button @click="changeLanguage('es')">Español</button>
+    <button @click="changeLanguage('es')">Español</button>
+
   </div>
 </template>
 

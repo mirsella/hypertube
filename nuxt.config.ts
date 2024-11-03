@@ -12,7 +12,8 @@ export default defineNuxtConfig({
 	devtools: { enabled: true },
 
 	modules: ["@nuxtjs/tailwindcss", "@nuxt/icon", "@sidebase/nuxt-auth", "@nuxtjs/i18n"],
-	
+	plugins: ['~/plugins/eventBus.ts'],
+
 	runtimeConfig: {
 		moviesDir: "./downloaded",
 		opensubtitles_key: get_from_env("OPENSUBTITLES_KEY"),
