@@ -1,6 +1,7 @@
 // * api/user/modify/mail.ts
 import { getServerSession } from "#auth";
-
+import { getToken } from "#auth";
+	
 async function check_providers(username: string) {
 	const user = (await db.select().from(tables.users).where(eq(tables.users.username, username)).limit(1))[0];
 	if (!user) {
@@ -22,11 +23,15 @@ async function check_mail(email: string) {
 
 export default defineEventHandler(async event => {
 	const session = await getServerSession(event);
+	const token = await getToken({ event });
 
 	if (!session) {
 		return { message: "User is not authenticated", status: 400 };
 	}
 
+	if (!token || !token.email) {
+		return new Response("Unauthorized", { status: 401 });
+	}
 	const { username, email } = await readBody(event);
 
 	if (!username || !email) {

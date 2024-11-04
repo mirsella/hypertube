@@ -2,6 +2,8 @@ import { getServerSession } from "#auth";
 import fs from "fs";
 import multer from "multer";
 import type { IncomingMessage, ServerResponse } from "http";
+import { getToken } from "#auth";
+ 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
 		cb(null, "public/images");
@@ -24,9 +26,13 @@ export default defineEventHandler(async event => {
 	const req = event.req as IncomingMessage & { file?: Express.Multer.File; body?: any };
 	const res = event.res as ServerResponse;
 	const session = await getServerSession(event);
+	const token = await getToken({ event });
 
 	if (!session) {
 		return { message: "User is not authentificated", status: 400 };
+	}
+	if (!token || !token.email) {
+		return new Response("Unauthorized", { status: 401 });
 	}
 	try {
 		// console.log("req.file.filename", req.file?.filename);

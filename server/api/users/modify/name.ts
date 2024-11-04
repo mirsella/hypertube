@@ -1,12 +1,18 @@
 // * api/user/modify/name.ts
 import { getServerSession } from "#auth";
+import { getToken } from "#auth";
 
 
 export default defineEventHandler(async event => {
 	const session = await getServerSession(event);
+	const token = await getToken({ event });
 
 	if (!session) {
 		return { message: "User is not authentificated", status: 400 };
+	}
+
+	if (!token || !token.email) {
+		return new Response("Unauthorized", { status: 401 });
 	}
 
 	const { firstname, lastname, email } = await readBody(event);

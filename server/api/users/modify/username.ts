@@ -1,5 +1,6 @@
 // * api/user/modify/username.ts
 import { getServerSession } from "#auth";
+import { getToken } from "#auth";
 
 async function check_username(username: string, email: string) {
 	const verif_username = (await db.select().from(tables.users).where(eq(tables.users.username, username)).limit(1))[0];
@@ -12,7 +13,10 @@ async function check_username(username: string, email: string) {
 
 export default defineEventHandler(async event => {
 	const session = await getServerSession(event);
-
+	const token = await getToken({ event });
+	if (!token || !token.email) {
+		return new Response("Unauthorized", { status: 401 });
+	}
 	if (!session) {
 		return { message: "User is not authenticated", status: 400 };
 	}

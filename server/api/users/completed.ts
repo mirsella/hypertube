@@ -1,10 +1,15 @@
 // * api/user/completed.ts
 import { getServerSession } from "#auth";
+import { getToken } from "#auth";
 
 export default defineEventHandler(async event => {
 	try {
 
 		const session = await getServerSession(event);
+		const token = await getToken({ event });
+		if (!token || !token.email) {
+			return new Response("Unauthorized", { status: 401 });
+		}
 		if (!session) {
 			return new Response("Not authenticated", { status: 400 });
 		} else {

@@ -1,6 +1,7 @@
 // * api/user/modify/password.ts
 
 import { getServerSession } from "#auth";
+import { getToken } from "#auth";
 import bcrypt from "bcrypt";
 
 async function check_providers(email: string) {
@@ -29,9 +30,12 @@ async function add_provider(email: string) {
 
 export default defineEventHandler(async event => {
 	const session = await getServerSession(event);
-
+	const token = await getToken({ event });
 	if (!session) {
 		return { message: "User is not authenticated", status: 400 };
+	}
+	if (!token || !token.email) {
+		return new Response("Unauthorized", { status: 401 });
 	}
 
 	const { password, email } = await readBody(event);
