@@ -93,7 +93,7 @@ onMounted(async () => {
 	// Fetch setup data
 	try {
 		const resGenres = await fetch(
-			`https://api.themoviedb.org/3/genre/movie/list?api_key=${config.public.tmdbApiKey}`
+			`/api/movies/genres`
 		)
 		const gdata = await resGenres.json()
 		genres.value = gdata.genres
@@ -131,15 +131,9 @@ const addUniqueMovies = (existingMovies, newMovies) => {
 }
 // Search movies function
 const searchMovies = async () => {
-	let popularOrSearch = 'search/movie'
-
-	if (!searchQuery.value) {
-		popularOrSearch = 'movie/popular'
-	};
-
 	try {
 		const response = await fetch(
-			`https://api.themoviedb.org/3/${popularOrSearch}?api_key=${config.public.tmdbApiKey}&query=${searchQuery.value}&include_adult=false&page=${page.value}`
+			`/api/movies/searchMovies?title=${searchQuery.value}&page=${page.value}`
 		)
 		const data = await response.json()
 
