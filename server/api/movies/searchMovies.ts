@@ -24,7 +24,7 @@ export default defineEventHandler(async (event) => {
         // Add imdb_id
         if (data.results) {
             for (const element of data.results) {
-                const resImdbID = await fetch(`${BASE_URL}movie/550/external_ids?api_key=${config.tmdbApiKey}`);
+                const resImdbID = await fetch(`${BASE_URL}movie/${element.id}/external_ids?api_key=${config.tmdbApiKey}`);
                 const external_ids = await resImdbID.json()
                 element.imdb_id = external_ids.imdb_id
             };

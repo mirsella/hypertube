@@ -18,7 +18,8 @@ export default defineNuxtConfig({
     opensubtitles_username: get_from_env("OPENSUBTITLES_USERNAME"),
     opensubtitles_password: get_from_env("OPENSUBTITLES_PASSWORD"),
     pgpassword: get_from_env("PGPASSWORD"),
-    tmdbApiKey: get_from_env("TMDB_API_KEY")
+    tmdbApiKey: get_from_env("TMDB_API_KEY"),
+    jackettApiKey: get_from_env("JACKETT_API_KEY")
   },
   nitro: {
     // we need https://github.com/unjs/nitro/pull/2570
