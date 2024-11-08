@@ -108,7 +108,7 @@ onMounted(async () => {
 
 const sendToPlayer = async (movie) => {
 	navigateTo({
-		path: `movies/${movie.imdb_id}`,
+		path: `/movies/${movie.imdb_id}`,
 		query: {
 			id: movie.id,
 			title: movie.title

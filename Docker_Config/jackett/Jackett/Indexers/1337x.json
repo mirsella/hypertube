@@ -1,0 +1,67 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://1337x.proxyninja.org/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "cf_clearance=gdFdUirFNLAFhvOS5UcVtr6UXZ7_6WSQB9UrkWAwkfU-1731096778-1.2.1.1-w14M2e2IZMLQbsLJXASP1ym3xrCqtfwuR1LDvGrFMkZnzqvEsWz27mo.y6Qri7JhHeKaAnHAEIOllzfuZKp_F7EuiyCpwkT_DuQwCEDya19t3jwpwvH6PQXUHtSEnGdYsBB._KyD_32t3vqbKD8TAS_P3FIy81OoIf538XcWaX2h3ALs07Gh2HHX5QzD7N1IQQ.jD90sft6BtClAxN0HLkdKyiWIlim1Zj4dl7ThQq.Orpss7BED1_NDUbY7ZVYWK3FFb5DoGCXsZB3WORYE8F.I925iBueZvnYsOSpNBby8pM5lTSaWvkDv8gEzYlnK13iJLPpl.a2gSuf3tG9PGNsEXXR793YgFD4F6YGuRlFx3J5xBAQ63l2kPE2gjyWU0x8UILIVM5812I3VwC.Wh1GHqzqJIBWpT3zgomIuR7g"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": null
+  },
+  {
+    "id": "downloadlink",
+    "type": "inputselect",
+    "name": "Download link",
+    "value": "http://itorrents.org/",
+    "options": {
+      "http://itorrents.org/": "iTorrents.org",
+      "magnet:": "magnet"
+    }
+  },
+  {
+    "id": "downloadlink(fallback)",
+    "type": "inputselect",
+    "name": "Download link (fallback)",
+    "value": "magnet:",
+    "options": {
+      "http://itorrents.org/": "iTorrents.org",
+      "magnet:": "magnet"
+    }
+  },
+  {
+    "id": "sortrequestedfromsite",
+    "type": "inputselect",
+    "name": "Sort requested from site",
+    "value": "time",
+    "options": {
+      "time": "created",
+      "seeders": "seeders",
+      "size": "size"
+    }
+  },
+  {
+    "id": "orderrequestedfromsite",
+    "type": "inputselect",
+    "name": "Order requested from site",
+    "value": "desc",
+    "options": {
+      "desc": "desc",
+      "asc": "asc"
+    }
+  },
+  {
+    "id": "tags",
+    "type": "inputtags",
+    "name": "Tags",
+    "value": ""
+  }
+]
