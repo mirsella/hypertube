@@ -6,7 +6,6 @@ const config = useRuntimeConfig();
 
 export default defineEventHandler(async (event) => {
   try {
-
     // Only allow GET requests
     if (event.method !== 'GET') {
       return createError({
@@ -25,14 +24,29 @@ export default defineEventHandler(async (event) => {
     }
 
     const id = event.context.params?.id
-
     //Fetch movie infos
     const response = await fetch(`${BASE_URL}find/${id}?external_source=imdb_id&api_key=${config.tmdbApiKey}`);
     const resData = await response.json();
+
+    if (!resData.movie_results || resData.movie_results.length === 0) {
+      throw createError({
+        statusCode: 404,
+        message: `No movie found with IMDb ID: ${id}`
+      })
+    }
+
     const movie_infos = resData.movie_results[0]
 
     //Fetch torrents from title
-    const resTorrents = await fetch(`http://localhost:9117/api/v2.0/indexers/all/results/?apikey=${config.jackettApiKey}&Query=${encodeURI(movie_infos.title)}&Category=2000`)
+    const resTorrents = await fetch(`http://localhost:9117/api/v2.0/indexers/all/results/?apikey=${config.jackettApiKey}&Query=${encodeURI(movie_infos?.title)}&Category=2000`)
+
+    if (!resTorrents.ok) {
+      throw createError({
+        statusCode: resTorrents.status,
+        message: `Jackett API error: ${resTorrents.statusText}`
+      })
+    }
+
     const torrents = await resTorrents.json()
 
     //Filter,sort,format torrents results

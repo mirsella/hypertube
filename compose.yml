@@ -12,21 +12,21 @@ services:
     ports:
       - "5432:5432"
 
-    nuxt:
-      container_name: nuxt
-      stop_grace_period: 0s
-      build:
-        context: .
-        dockerfile: nuxt.dockerfile
-      env_file: .env
-      restart: unless-stopped
-      environment:
-        PGPASSWORD: "${PGPASSWORD}"
-        PGHOST: postgres
-      ports:
-        - "3000:3000"
-      depends_on:
-        - postgres
+  nuxt:
+    container_name: nuxt
+    stop_grace_period: 0s
+    build:
+      context: .
+      dockerfile: nuxt.dockerfile
+    env_file: .env
+    restart: unless-stopped
+    environment:
+      PGPASSWORD: "${PGPASSWORD}"
+      PGHOST: postgres
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
 
   jackett:
     image: lscr.io/linuxserver/jackett:latest
@@ -38,8 +38,9 @@ services:
       - AUTO_UPDATE=true #optional
       - RUN_OPTS= #optional
     volumes:
-      - /path/to/jackett/data:/config
-      - /path/to/blackhole:/downloads
+      - ./Docker_Config/jackett:/config
+      - ./Docker_Config/blackhole:/downloads
+
     ports:
       - 9117:9117
     restart: unless-stopped
