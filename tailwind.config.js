@@ -1,8 +1,5 @@
-const {
-  iconsPlugin,
-  getIconCollections,
-} = require("@egoist/tailwindcss-icons");
-const daisyui = require("daisyui");
+import { iconsPlugin, getIconCollections } from "@egoist/tailwindcss-icons";
+import daisyui from "daisyui";
 
 /** @type {import('tailwindcss').Config} */
 export default {
