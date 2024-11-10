@@ -1,17 +1,14 @@
 import { parse, stringify } from "subtitle";
-import fs from "fs";
 import stream from "stream";
 
 export default defineEventHandler(async (event) => {
   // TODO: check auth
   const lang = getRouterParam(event, "lang");
-  const base64 = getRouterParam(event, "id");
-  if (!lang || !base64 || lang.length != 2)
-    throw createError({ statusCode: 400 });
-  const title = Buffer.from(base64, "base64").toString();
+  const id = getRouterParam(event, "id");
+  if (!lang || !id || lang.length != 2) throw createError({ statusCode: 400 });
 
   const subtitles = await opensubtitles_client.subtitles({
-    query: title,
+    imdb_id: id,
     languages: lang,
   });
   let best;

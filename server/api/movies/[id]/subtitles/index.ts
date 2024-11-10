@@ -1,10 +1,8 @@
 export default defineEventHandler(async (event) => {
   // TODO: check auth
-  const base64 = getRouterParam(event, "id");
-  if (!base64) throw createError({ statusCode: 400 });
-  const title = Buffer.from(base64, "base64").toString();
+  const id = getRouterParam(event, "id");
   const subtitles = await opensubtitles_client.subtitles({
-    query: title,
+    imdb_id: id,
   });
   const set = new Set();
   subtitles.data.forEach((e: any) => set.add(e.attributes.language));
