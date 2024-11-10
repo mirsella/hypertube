@@ -71,8 +71,8 @@ export default defineEventHandler(async (event) => {
     biggest_file_stream.pipe(pass);
     torrent.on("done", copy_if_nonexistant);
   }
-  pass.pipe(fs.createWriteStream(biggest_file_path + ".converted"));
   const res = new PassThrough();
+  pass.pipe(fs.createWriteStream(biggest_file_path + ".converted"));
   pass.pipe(res);
   return sendStream(event, res);
 });

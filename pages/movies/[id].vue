@@ -47,11 +47,21 @@ onMounted(() => {
         />
       </video>
     </div>
-    <div class="card bg-base-100 shadow-sm shadow-primary w-full">
+    <div class="card card-side bg-base-100 shadow-sm shadow-primary w-full">
+      <figure>
+        <img
+          :src="`https://image.tmdb.org/t/p/w500${infos.poster_path}`"
+          alt="poster"
+        />
+      </figure>
       <div class="card-body">
         <!-- TODO: implement -->
-        <p>information on the movie from /api/movies/:id</p>
-        {{ infos }}
+        <!-- summary, casting (at least producer, director, main cast etc.), the production year, -->
+        <!-- length, IMDb grade, a cover image and anything else relevant. -->
+        <p>{{ infos.overview }}</p>
+        <p>language: {{ infos.original_language }}</p>
+        <p>date: {{ new Date(infos.release_date).toDateString() }}</p>
+        <p>add rest of informations like casts</p>
       </div>
     </div>
     <div class="card bg-base-100 shadow-sm shadow-secondary w-full">
