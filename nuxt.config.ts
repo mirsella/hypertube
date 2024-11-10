@@ -38,7 +38,7 @@ export default defineNuxtConfig({
   },
   hooks: {
     ready: () => {
-      if (!fs.statSync("downloaded")) return fs.mkdirSync("downloaded");
+      if (!fs.existsSync("downloaded")) return fs.mkdirSync("downloaded");
     },
   },
 });
