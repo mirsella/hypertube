@@ -1,9 +1,8 @@
 <script setup lang="ts">
 let id = useRoute().params.id as string;
-if (id === "default") id = "ZGVhZHBvb2wgJiB3b2x2ZXJpbmUK";
-const title = atob(id);
+if (id === "default") id = "tt31050020";
 
-const infos = useFetch(`/api/movies/${id}`);
+const { data: infos } = useFetch(`/api/movies/${id}`);
 const { data: subtitles } = useFetch(`/api/movies/${id}/subtitles`);
 const { data: comments, refresh: refresh_comments } = useFetch(
   `/api/movies/${id}/comments`,
@@ -30,7 +29,7 @@ onMounted(() => {
 
 <template>
   <div class="flex justify-center flex-wrap mx-auto max-w-7xl px-8 space-y-4">
-    <p class="w-full text-center font-bold text-xl">{{ title }}</p>
+    <p class="w-full text-center font-bold text-xl">{{ infos.title }}</p>
     <div class="w-full my-4">
       <video
         :src="`/api/movies/${id}/stream`"
@@ -52,7 +51,7 @@ onMounted(() => {
       <div class="card-body">
         <!-- TODO: implement -->
         <p>information on the movie from /api/movies/:id</p>
-        {{ infos.data }}
+        {{ infos }}
       </div>
     </div>
     <div class="card bg-base-100 shadow-sm shadow-secondary w-full">
