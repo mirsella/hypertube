@@ -8,7 +8,8 @@ import WebTorrent from "webtorrent";
 export default defineEventHandler(async (event) => {
   // TODO: check auth
   const moviesDir = useRuntimeConfig().moviesDir;
-  const id = path.basename(getRouterParam(event, "id") || "");
+  const id = getRouterParam(event, "id");
+  if (!id) throw createError({ statusCode: 400, message: "no id" }); // should be useless as this route should only be hit when there is a id
   const filepath = path.join(moviesDir, id);
 
   const file_stream = await new Promise<fs.ReadStream | null>((resolve) => {
@@ -23,8 +24,7 @@ export default defineEventHandler(async (event) => {
 
   const torrent_client = new WebTorrent();
 
-  const infos = await (await fetch(`/api/movies/${id}`)).json();
-  // get magnet
+  const infos = await $fetch(`/api/movies/${id}`);
 
   let torrent = torrent_client.torrents.find(
     (t) => t.magnetURI.toLowerCase() === infos.torrents[0].magnet.toLowerCase(),
