@@ -1,3 +1,5 @@
+import fs from "fs";
+
 function get_from_env(field: string): string {
   const env = process.env[field];
   if (!env && process.env.NODE_ENV === "development") {
@@ -19,7 +21,7 @@ export default defineNuxtConfig({
     opensubtitles_password: get_from_env("OPENSUBTITLES_PASSWORD"),
     pgpassword: get_from_env("PGPASSWORD"),
     tmdbApiKey: get_from_env("TMDB_API_KEY"),
-    jackettApiKey: get_from_env("JACKETT_API_KEY")
+    jackettApiKey: get_from_env("JACKETT_API_KEY"),
   },
   nitro: {
     // we need https://github.com/unjs/nitro/pull/2570
@@ -34,6 +36,9 @@ export default defineNuxtConfig({
       ],
     },
   },
+  hooks: {
+    ready: () => {
+      if (!fs.statSync("downloaded")) return fs.mkdirSync("downloaded");
+    },
+  },
 });
-
-

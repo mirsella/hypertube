@@ -7,7 +7,6 @@ import WebTorrent from "webtorrent";
 
 export default defineEventHandler(async (event) => {
   // TODO: check auth
-  fs.mkdir(useRuntimeConfig().moviesDir, { recursive: true }, () => {});
   const moviesDir = useRuntimeConfig().moviesDir;
   // path.basename to sanitize the input (path traversal attack)
   const base64 = path.basename(getRouterParam(event, "id") || "");
