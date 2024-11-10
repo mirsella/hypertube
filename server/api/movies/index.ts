@@ -3,10 +3,9 @@ import fs from "fs";
 export default defineEventHandler(async (event) => {
   // TODO: check auth
   const moviesDir = useRuntimeConfig().moviesDir;
-  return fs.readdirSync(moviesDir).map((name) => {
-    return {
-      id: name,
-      title: Buffer.from(name, "base64").toString(),
-    };
+  let promises = fs.readdirSync(moviesDir).map((name) => {
+    let id = name.replace(/\.mp4$/, "");
+    return $fetch(`/api/movies/${id}`);
   });
+  return Promise.all(promises);
 });
