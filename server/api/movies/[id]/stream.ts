@@ -1,86 +1,94 @@
 import ffmpeg from "fluent-ffmpeg";
 import os from "os";
-import stream, { PassThrough } from "stream";
+import stream from "stream";
 import fs from "fs";
 import path from "path";
 import WebTorrent from "webtorrent";
 
 let torrent_client: null | WebTorrent.Instance = null;
 
-export default defineEventHandler(async (event) => {
-  // TODO: check auth
-  const moviesDir = useRuntimeConfig().moviesDir;
-  const id = getRouterParam(event, "id");
-  if (!id) throw createError({ statusCode: 400, message: "no id" }); // should be useless as this route should only be hit when there is a id
-  const filepath = path.join(moviesDir, id);
+export default defineEventHandler(
+  async (
+    event,
+  ): Promise<stream.Readable | stream.Writable | stream.PassThrough> => {
+    // TODO: check auth
+    const moviesDir = useRuntimeConfig().moviesDir;
+    const id = getRouterParam(event, "id");
+    if (!id) throw createError({ statusCode: 400, message: "no id" }); // should be useless as this route should only be hit when there is a id
+    const filepath = path.join(moviesDir, id);
 
-  const file_stream = await new Promise<fs.ReadStream | null>((resolve) => {
-    const stream = fs.createReadStream(filepath);
-    stream.on("error", (err: NodeJS.ErrnoException) => {
-      if (err.code !== "ENOENT") console.error(`reading ${filepath}: ${err}`);
-      resolve(null);
+    const file_stream = await new Promise<fs.ReadStream | null>((resolve) => {
+      const stream = fs.createReadStream(filepath);
+      stream.on("error", (err: NodeJS.ErrnoException) => {
+        if (err.code !== "ENOENT") console.error(`reading ${filepath}: ${err}`);
+        resolve(null);
+      });
+      stream.on("open", () => resolve(stream));
     });
-    stream.on("open", () => resolve(stream));
-  });
-  if (file_stream) return sendStream(event, file_stream);
+    if (file_stream) return file_stream;
 
-  const infos = await $fetch(`/api/movies/${id}`);
-  console.log(
-    `downloading ${infos.title} with torrent ${infos.torrents[0].magnet}`,
-  );
-
-  if (!torrent_client) torrent_client = new WebTorrent();
-
-  let torrent = torrent_client.torrents.find(
-    (t) => t.magnetURI.toLowerCase() === infos.torrents[0].magnet.toLowerCase(),
-  );
-  if (!torrent) {
-    console.log("starting torrent for", infos.title);
-    torrent = torrent_client.add(infos.torrents[0].magnet);
-  }
-  if (!torrent.ready) {
-    await new Promise<void>((resolve) => {
-      torrent.on("ready", () => resolve());
-    });
-  }
-  const biggest_files = torrent.files.sort((a, b) => b.length - a.length);
-  biggest_files.forEach((t, i) => {
-    if (i !== 0) t.deselect();
-  });
-  const biggest_file = biggest_files[0];
-  biggest_file.select();
-  console.log(
-    `torrent biggest file for ${infos.title} is ${biggest_file.name}`,
-  );
-  // @ts-ignore: webtorrent file implement asyncIterator
-  const biggest_file_stream = stream.Readable.from(biggest_file, { end: true });
-  const biggest_file_path = torrent.path + "/" + biggest_file.path;
-
-  const pass = new stream.PassThrough();
-  const copy_if_nonexistant = () => {
-    try {
-      fs.accessSync(filepath, fs.constants.R_OK);
-    } catch {
-      fs.cpSync(biggest_file_path + ".converted", filepath);
+    const infos = await $fetch(`/api/movies/${id}`);
+    if (!infos.torrents?.[0]) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: "no torrents found for this movie",
+      });
     }
-  };
-  if (
-    !biggest_file.name.endsWith(".mp4") &&
-    !biggest_file.name.endsWith(".webm")
-  ) {
-    console.log("converting", biggest_file_path, "to webm");
-    convert_to_webm(biggest_file_stream)
-      .on("end", copy_if_nonexistant)
-      .pipe(pass);
-  } else {
-    biggest_file_stream.pipe(pass);
-    torrent.on("done", copy_if_nonexistant);
-  }
-  const res = new PassThrough();
-  pass.pipe(fs.createWriteStream(biggest_file_path + ".converted"));
-  pass.pipe(res);
-  return sendStream(event, res);
-});
+
+    if (!torrent_client) torrent_client = new WebTorrent();
+
+    const get_magnet_id = (magnet: string): string => {
+      return magnet.toLowerCase().match(/btih:[0-9a-z]+/)?.[0] as string;
+    };
+    const magnet_id = get_magnet_id(infos.torrents[0].magnet);
+    let torrent = torrent_client.torrents.find((t) => {
+      return get_magnet_id(t.magnetURI) === magnet_id;
+    });
+    if (!torrent) {
+      console.log("starting torrent for", infos.title);
+      torrent = torrent_client.add(infos.torrents[0].magnet);
+    }
+    if (!torrent.ready) {
+      await new Promise<void>((resolve) => {
+        torrent.on("ready", () => resolve());
+      });
+    }
+    const biggest_files = torrent.files.sort((a, b) => b.length - a.length);
+    biggest_files.forEach((t, i) => {
+      if (i !== 0) t.deselect();
+    });
+    const biggest_file = biggest_files[0];
+    biggest_file.select();
+    // @ts-ignore: webtorrent file implement asyncIterator
+    const biggest_file_stream = stream.Readable.from(biggest_file, {
+      end: true,
+    });
+    const biggest_file_path = torrent.path + "/" + biggest_file.path;
+    const biggest_file_path_converted = biggest_file_path + ".converted";
+
+    if (
+      !biggest_file.name.endsWith(".mp4") &&
+      !biggest_file.name.endsWith(".webm")
+    ) {
+      console.log("converting", biggest_file.name, "to webm");
+      let stream = convert_to_webm(biggest_file_stream)
+        .on("end", () => {
+          if (!fs.existsSync(filepath))
+            fs.cp(biggest_file_path_converted, filepath, () => {});
+        })
+        .pipe();
+      if (!fs.existsSync(biggest_file_path_converted))
+        stream.pipe(fs.createWriteStream(biggest_file_path_converted));
+      return stream;
+    } else {
+      torrent.on("done", () => {
+        if (!fs.existsSync(filepath))
+          fs.cp(biggest_file_path, filepath, () => {});
+      });
+      return biggest_file_stream;
+    }
+  },
+);
 
 function convert_to_webm(
   input: stream.Readable | string,
@@ -98,6 +106,7 @@ function convert_to_webm(
       "-cpu-used 2",
       "-deadline realtime",
       "-preset ultrafast",
+      "-error-resilient 1",
       `-threads ${Math.min(os.availableParallelism(), 16)}`,
     ]);
 

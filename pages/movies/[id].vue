@@ -9,9 +9,21 @@ const { data: comments, refresh: refresh_comments } = useFetch(
 );
 
 const player = ref<HTMLVideoElement>();
-onMounted(() => {
-  if (player.value) player.value.volume = 0.1;
+onMounted(async () => {
+  if (!player.value) {
+    console.error("player.value should be defined");
+    return;
+  }
+  player.value.volume = 0.1;
 });
+
+const error = ref("");
+function video_error() {
+  if (import.meta.client) {
+    error.value =
+      document.querySelector("video")?.error?.message || "Error getting video";
+  }
+}
 
 const comment_textarea = ref("");
 const comments_input = ref<{ [id: string]: string }>({});
@@ -46,13 +58,15 @@ async function update_comment(comment_id: string) {
 <template>
   <div class="flex justify-center flex-wrap mx-auto max-w-7xl px-8 space-y-4">
     <p class="w-full text-center font-bold text-xl">{{ infos.title }}</p>
+    <p v-show="error" class="text-error text-xl font-bold">{{ error }}</p>
     <div class="w-full my-4">
       <video
-        :src="`/api/movies/${movie_id}/stream`"
         ref="player"
         class="rounded-lg shadow-md shadow-primary w-full"
         controls
+        :src="`/api/movies/${movie_id}/stream`"
         autoplay
+        :onerror="video_error()"
       >
         <track
           v-for="sub in subtitles"
@@ -106,7 +120,11 @@ async function update_comment(comment_id: string) {
           >
             <div class="chat-header text-lg ml-1">
               user <b>{{ comment.users?.name || "deleted" }}</b> on
-              {{ new Date(comment.comments.updated_at).toLocaleDateString() }}:
+              <ClientOnly>
+                {{
+                  new Date(comment.comments.updated_at).toLocaleDateString()
+                }}:
+              </ClientOnly>
             </div>
             <div class="chat-bubble chat-bubble-secondary text-lg p-0">
               <input

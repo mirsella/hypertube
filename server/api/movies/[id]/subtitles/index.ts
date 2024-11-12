@@ -4,7 +4,10 @@ export default defineEventHandler(async (event) => {
   const subtitles = await opensubtitles_client.subtitles({
     imdb_id: id,
   });
-  const set = new Set();
-  subtitles.data.forEach((e: any) => set.add(e.attributes.language));
-  return set.values().toArray();
+  const set = new Set<string>();
+  subtitles.data.forEach((e: any) => set.add(e.attributes.language as string));
+  return set
+    .values()
+    .toArray()
+    .sort((a, b) => a.localeCompare(b));
 });

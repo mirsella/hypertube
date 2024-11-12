@@ -60,6 +60,7 @@ export default defineEventHandler(async (event) => {
     // TODO:  add imdb_mark ?  lengths ?  available subtiltes ? number of comments ?
   } catch (error) {
     console.error('Error in movie id search:', error)
+    // TODO: better error code and message (404 if the imdb isn't found, 500 for api error...)
     return createError({
       statusCode: 500,
       statusMessage: 'Internal Server Error',
