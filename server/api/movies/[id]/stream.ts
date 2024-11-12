@@ -5,6 +5,8 @@ import fs from "fs";
 import path from "path";
 import WebTorrent from "webtorrent";
 
+let torrent_client: null | WebTorrent.Instance = null;
+
 export default defineEventHandler(async (event) => {
   // TODO: check auth
   const moviesDir = useRuntimeConfig().moviesDir;
@@ -22,9 +24,12 @@ export default defineEventHandler(async (event) => {
   });
   if (file_stream) return sendStream(event, file_stream);
 
-  const torrent_client = new WebTorrent();
-
   const infos = await $fetch(`/api/movies/${id}`);
+  console.log(
+    `downloading ${infos.title} with torrent ${infos.torrents[0].magnet}`,
+  );
+
+  if (!torrent_client) torrent_client = new WebTorrent();
 
   let torrent = torrent_client.torrents.find(
     (t) => t.magnetURI.toLowerCase() === infos.torrents[0].magnet.toLowerCase(),

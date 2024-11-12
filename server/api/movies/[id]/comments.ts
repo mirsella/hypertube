@@ -6,5 +6,6 @@ export default defineEventHandler(async (event) => {
     .select()
     .from(tables.comments)
     .where(eq(tables.comments.movie_id, id))
+    .orderBy(desc(tables.comments.updated_at))
     .leftJoin(tables.users, eq(tables.comments.authorId, tables.users.id));
 });
