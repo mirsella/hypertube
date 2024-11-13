@@ -2,11 +2,15 @@
 let movie_id = useRoute().params.id as string;
 if (movie_id === "default") movie_id = "tt1431045";
 
-const { data: infos } = useFetch(`/api/movies/${movie_id}`);
-const { data: subtitles } = useFetch(`/api/movies/${movie_id}/subtitles`);
-const { data: comments, refresh: refresh_comments } = useFetch(
+const { data: infos, error: infos_error } = await useFetch(
+  `/api/movies/${movie_id}`,
+);
+const { data: subtitles } = await useFetch(`/api/movies/${movie_id}/subtitles`);
+const { data: comments, refresh: refresh_comments } = await useFetch(
   `/api/movies/${movie_id}/comments`,
 );
+
+// if (infos_error.value) throw infos_error.value;
 
 const player = ref<HTMLVideoElement>();
 onMounted(async () => {
@@ -57,7 +61,7 @@ async function update_comment(comment_id: string) {
 
 <template>
   <div class="flex justify-center flex-wrap mx-auto max-w-7xl px-8 space-y-4">
-    <p class="w-full text-center font-bold text-xl">{{ infos.title }}</p>
+    <p class="w-full text-center font-bold text-xl">{{ infos?.title }}</p>
     <p v-show="error" class="text-error text-xl font-bold">{{ error }}</p>
     <div class="w-full my-4">
       <video
@@ -77,7 +81,7 @@ async function update_comment(comment_id: string) {
         />
       </video>
     </div>
-    <div class="card card-side bg-base-100 shadow-md shadow-secondary w-full">
+    <div class="card card-side bg-base-100 shadow-md shadow-secondary w-full" v-if="infos">
       <figure>
         <img
           :src="`https://image.tmdb.org/t/p/w500${infos.poster_path}`"
