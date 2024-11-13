@@ -132,9 +132,9 @@ const addUniqueMovies = (existingMovies, newMovies) => {
 // Search movies function
 const searchMovies = async () => {
 	try {
-		const response = await fetch(
-			`/api/movies/search?title=${searchQuery.value}&page=${page.value}`
-		)
+		const response = await fetch(`/api/movies/search`
+			+ `?title=${searchQuery.value}`
+			+ `&page=${page.value}`)
 		const data = await response.json()
 
 		if (page.value === 1) {

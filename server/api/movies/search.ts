@@ -19,12 +19,11 @@ export default defineEventHandler(async (event) => {
         };
 
 
-        const response = await fetch(`
-            ${BASE_URL}${popularOrSearch}
-            ?api_key=${config.tmdbApiKey}
-            &query=${searchParams.title}
-            &include_adult=false
-            &page=${searchParams.page}`);
+        const response = await fetch(`${BASE_URL}${popularOrSearch}`
+            + `?api_key=${config.tmdbApiKey}`
+            + `&query=${searchParams.title}`
+            + `&include_adult=false`
+            + `&page=${searchParams.page}`);
         const data = await response.json();
 
 

@@ -25,9 +25,9 @@ export default defineEventHandler(async (event) => {
     const id = event.context.params?.id
 
     //Fetch movie infos
-    const response = await fetch(`${BASE_URL}find/${id}
-      ?external_source=imdb_id
-      &api_key=${config.tmdbApiKey}`);
+    const response = await fetch(`${BASE_URL}find/${id}`
+      + `?external_source=imdb_id`
+      + `&api_key=${config.tmdbApiKey}`);
     const resData = await response.json();
 
     if (!resData.movie_results || resData.movie_results.length === 0) {
@@ -38,13 +38,13 @@ export default defineEventHandler(async (event) => {
     }
 
     //Fetch movie credits
-    const resCredits = await fetch(`${BASE_URL}movie/${resData.movie_results[0].id}/credits
-      ?api_key=${config.tmdbApiKey}`);
+    const resCredits = await fetch(`${BASE_URL}movie/${resData.movie_results[0].id}/credits`
+      + `?api_key=${config.tmdbApiKey}`);
     const credits = await resCredits.json();
 
     //Fetch movie details
-    const resDetails = await fetch(`${BASE_URL}movie/${resData.movie_results[0].id}
-      ?api_key=${config.tmdbApiKey}`);
+    const resDetails = await fetch(`${BASE_URL}movie/${resData.movie_results[0].id}`
+      + `?api_key=${config.tmdbApiKey}`);
     const details = await resDetails.json();
 
     const movie_infos = {
@@ -63,11 +63,11 @@ export default defineEventHandler(async (event) => {
 
 
     //Fetch torrents from title
-    const resTorrents = await fetch(`http://localhost:9117/api/v2.0/indexers/all/results/torznab/api
-      ?apikey=${config.jackettApiKey}
-      &t=movie&q=${encodeURI(movie_infos?.title)}
-      &year=${movie_infos.release_date.slice(0, 4)}
-      &cat=2000`)
+    const resTorrents = await fetch("http://localhost:9117/api/v2.0/indexers/all/results/torznab/api"
+      + `?apikey=${config.jackettApiKey}`
+      + `&t=movie&q=${encodeURI(movie_infos?.title)}`
+      + `&year=${movie_infos.release_date.slice(0, 4)}`
+      + `&cat=2000`)
 
     if (!resTorrents.ok) {
       throw createError({
