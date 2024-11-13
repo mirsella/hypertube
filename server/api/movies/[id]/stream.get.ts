@@ -14,7 +14,8 @@ export default defineEventHandler(
     // TODO: check auth
     const moviesDir = useRuntimeConfig().moviesDir;
     const id = getRouterParam(event, "id");
-    if (!id) throw createError({ statusCode: 400, message: "no id" }); // should be useless as this route should only be hit when there is a id
+    if (!id)
+      throw createError({ statusCode: 400, statusMessage: "no id given" }); // should be useless as this route should only be hit when there is a id
     const filepath = path.join(moviesDir, id);
 
     const file_stream = await new Promise<fs.ReadStream | null>((resolve) => {

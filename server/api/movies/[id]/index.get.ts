@@ -5,20 +5,10 @@ const config = useRuntimeConfig();
 
 export default defineEventHandler(async (event) => {
   try {
-    // Only allow GET requests
-    if (event.method !== 'GET') {
-      throw createError({
-        statusCode: 405,
-        statusMessage: 'Method Not Allowed',
-        message: 'Only GET requests are allowed for this endpoint'
-      })
-    }
-
     if (!event.context.params?.id) {
       throw createError({
         statusCode: 400,
-        statusMessage: 'Bad Request',
-        message: 'id parameter is required'
+        statusMessage: 'id parameter is required'
       })
     }
 
@@ -33,7 +23,7 @@ export default defineEventHandler(async (event) => {
     if (!resData.movie_results || resData.movie_results.length === 0) {
       throw createError({
         statusCode: 404,
-        message: `No movie found with IMDb ID: ${id}`
+        statusMessage: `No movie found with IMDb ID: ${id}`
       })
     }
 
@@ -72,7 +62,7 @@ export default defineEventHandler(async (event) => {
     if (!resTorrents.ok) {
       throw createError({
         statusCode: resTorrents.status,
-        message: `Jackett API error: ${resTorrents.statusText}`
+        statusMessage: `Jackett API error: ${resTorrents.statusText}`
       })
     }
 
