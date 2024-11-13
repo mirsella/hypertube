@@ -133,7 +133,7 @@ const addUniqueMovies = (existingMovies, newMovies) => {
 const searchMovies = async () => {
 	try {
 		const response = await fetch(
-			`/api/movies/searchMovies?title=${searchQuery.value}&page=${page.value}`
+			`/api/movies/search?title=${searchQuery.value}&page=${page.value}`
 		)
 		const data = await response.json()
 
