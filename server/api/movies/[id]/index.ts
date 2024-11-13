@@ -32,7 +32,7 @@ export default defineEventHandler(async (event) => {
 
     if (!resData.movie_results || resData.movie_results.length === 0) {
       throw createError({
-        statusCode: resData.status,
+        statusCode: 404,
         message: `No movie found with IMDb ID: ${id}`
       })
     }

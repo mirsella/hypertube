@@ -10,7 +10,7 @@ const { data: comments, refresh: refresh_comments } = await useFetch(
   `/api/movies/${movie_id}/comments`,
 );
 
-// if (infos_error.value) throw infos_error.value;
+if (infos_error.value) throw infos_error.value;
 
 const player = ref<HTMLVideoElement>();
 onMounted(async () => {
@@ -24,8 +24,7 @@ onMounted(async () => {
 const error = ref("");
 function video_error() {
   if (import.meta.client) {
-    error.value =
-      document.querySelector("video")?.error?.message || "Error getting video";
+    error.value = document.querySelector("video")?.error?.message || "";
   }
 }
 
@@ -81,22 +80,55 @@ async function update_comment(comment_id: string) {
         />
       </video>
     </div>
-    <div class="card card-side bg-base-100 shadow-md shadow-secondary w-full" v-if="infos">
-      <figure>
-        <img
-          :src="`https://image.tmdb.org/t/p/w500${infos.poster_path}`"
-          alt="poster"
-        />
-      </figure>
-      <div class="card-body">
-        <!-- TODO: implement -->
-        <!-- summary, casting (at least producer, director, main cast etc.), the production year, -->
-        <!-- length, IMDb grade, a cover image and anything else relevant. -->
-        <p>{{ infos.overview }}</p>
-        <p>release date: {{ new Date(infos.release_date).toDateString() }}</p>
-        <p>add rest of informations like casts when available</p>
+
+    <div class="card bg-base-100 shadow-md shadow-secondary w-full">
+      <div class="card card-side card-compact card-body">
+        <figure>
+          <img
+            :src="`https://image.tmdb.org/t/p/w500${infos.poster_path}`"
+            alt="poster"
+          />
+        </figure>
+        <div class="card-body">
+          <p>{{ infos.overview }}</p>
+          <p>release date: {{ new Date(infos.release_date).toDateString() }}</p>
+          <p>runtime: {{ infos.runtime }}m</p>
+          <p>
+            note: {{ infos.vote_average }}/10 ({{ infos.vote_count }} votes)
+          </p>
+          <p v-if="infos.director && infos.director[0]">
+            director: {{ infos.director[0].name }}
+          </p>
+          <p>
+            companies:
+            {{ infos.production_companies.map((e: any) => e.name).join(", ") }}
+          </p>
+        </div>
+      </div>
+      <div class="flex flex-wrap justify-evenly gap-4 p-4">
+        <div
+          v-for="cast in infos.cast.sort(
+            (a: any, b: any) => b.popularity - a.popularity,
+          )"
+          class="card card-compact min-w-40 w-1/6 bg-base-200"
+        >
+          <figure>
+            <img
+              :src="`https://media.themoviedb.org/t/p/w500${cast.profile_path}`"
+              alt="poster"
+            />
+          </figure>
+          <p class="card-title mx-auto mt-1">{{ cast.name }}</p>
+          <div class="card-body !pt-2 gap-0">
+            <p>
+              character: <b>{{ cast.character }}</b>
+            </p>
+            <p>popularity: {{ cast.popularity }}</p>
+          </div>
+        </div>
       </div>
     </div>
+
     <div class="card bg-base-100 shadow-md shadow-secondary w-full">
       <div class="card-body">
         <p class="card-title">Comments</p>
