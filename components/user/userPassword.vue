@@ -55,7 +55,7 @@ const props = defineProps<{
 
 const email = ref(props.email);
 
-function validatePassword(password) {
+function validatePassword(password: string) {
 	const regex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 	return regex.test(password);
 }
@@ -75,10 +75,9 @@ async function submit() {
 			},
 		});
 		console.log(response);
-		message.value = response.message;
 	} catch (error) {
-		if (error.data && error.data.message) {
-			message.value = error.data.message;
+		if ((error as any)) {
+			message.value = (error as any).data.message;
 		}
 		console.error("Erreur lors de la mise à jour du nom d'utilisateur :", error);
 	}
