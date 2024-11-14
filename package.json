@@ -11,6 +11,14 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
+<<<<<<< HEAD
+=======
+    "@auth/core": "^0.37.3",
+    "@iconify-json/flat-color-icons": "^1.2.0",
+    "@nuxt/icon": "^1.7.2",
+    "@nuxtjs/i18n": "^9.0.0",
+    "@types/bcrypt": "^5.0.2",
+>>>>>>> f0e7bb2 (Fix issues with dependencies/Docker_config next fix api routes)
     "@types/lodash": "^4.17.13",
     "@vueuse/core": "^11.2.0",
     "drizzle-orm": "^0.36.1",

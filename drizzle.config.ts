@@ -9,7 +9,8 @@ export default defineConfig({
   dbCredentials: {
     user: "postgres",
     password: process.env.PGPASSWORD,
-    host: "localhost",
+    host: "postgres",
+    port: 5432,
     database: "postgres",
     ssl: false,
   },

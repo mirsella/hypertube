@@ -1,6 +1,6 @@
 downloaded/
 Docker_Config/
-
+.vscode/
 # Nuxt dev/build outputs
 .output
 .data
