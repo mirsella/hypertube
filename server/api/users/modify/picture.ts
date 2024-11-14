@@ -56,7 +56,7 @@ export default defineEventHandler(async event => {
 		if (!file || !email) {
 			throw { message: "Missing required fields", status: 400 };
 		}
-		const user = await db.select().from(tables.users).where(eq(tables.users.email, email)).limit(1)[0];
+		const user = await db.select().from(tables.users).where(eq(tables.users.email, email)).limit(1).get();
 		if (fs.existsSync(`public/${user?.profile_picture}`)) {
 			fs.unlinkSync(`public/${user?.profile_picture}`);
 		}

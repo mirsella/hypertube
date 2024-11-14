@@ -1,6 +1,5 @@
 // api/auth/register.ts
 import bcrypt from "bcrypt";
-
 async function check_already_register(username: string, email: any) {
     const verif_mail = await db.select().from(tables.users).where(eq(tables.users.email, email));
 
@@ -32,7 +31,7 @@ async function check_already_register(username: string, email: any) {
 // Credentials way
 export default defineEventHandler(async (event) => {
     const { username, email, lastname, firstname, password } = await readBody(event);
-
+    
     if (!username || !email || !lastname || !firstname || !password) {
         return { message: "Missing required fields", status: 400 };
     }

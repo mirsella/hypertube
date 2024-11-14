@@ -1,6 +1,6 @@
+// * api/users.ts
 import { getToken } from "#auth";
 import { getServerSession } from "#auth";
-// * api/users.ts
 
 export default defineEventHandler(async event => {
 	const session = await getServerSession(event);

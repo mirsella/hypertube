@@ -1,7 +1,6 @@
 // * api/user/modify/username.ts
 import { getServerSession } from "#auth";
 import { getToken } from "#auth";
-
 async function check_username(username: string, email: string) {
 	const verif_username = (await db.select().from(tables.users).where(eq(tables.users.username, username)).limit(1))[0];
 
@@ -30,7 +29,6 @@ export default defineEventHandler(async event => {
 	if ((await check_username(username, email)) === true) {
 		return { message: "Username is already taken", status: 400 };
 	}
-
 	const currentUser = (await db.select().from(tables.users).where(eq(tables.users.email, email)).limit(1))[0];
 	if (!currentUser) {
 		throw createError({
