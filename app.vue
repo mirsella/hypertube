@@ -1,10 +1,20 @@
-<script setup lang="ts"></script>
-
 <template>
-  <div>
-    <div class="bg-primary h-10 flex justify-center">
-      <span class="text-center dark:text-black text-white">header</span>
+    <div v-if="loggedIn">
+        <Header />
     </div>
-    <NuxtPage class="m-4" />
-  </div>
+    <p>blabla</p>
+    <p>blabla</p>
+    <p>blabla</p>
+    <NuxtPage />
 </template>
+
+<script setup lang="ts">
+const { status, signOut } = useAuth();
+const data = useAuth();
+const loggedIn = computed(() => status.value === "authenticated");
+
+async function handleSignOut() {
+    await signOut();
+    navigateTo("/");
+}
+</script>

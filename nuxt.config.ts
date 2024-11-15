@@ -2,7 +2,6 @@ import fs from "fs";
 
 function get_from_env(field: string): string {
     const env = process.env[field];
-    console.log(env);
     if (!env && process.env.NODE_ENV === "development") {
         console.error(field, "ENV VARIABLE ISN'T SET !!!");
         process.exit(1);
@@ -13,7 +12,7 @@ function get_from_env(field: string): string {
 export default defineNuxtConfig({
     devtools: { enabled: true },
 
-    modules: ["@nuxtjs/tailwindcss", "@nuxt/icon", "@sidebase/nuxt-auth"],
+    modules: ["@nuxtjs/tailwindcss", "@nuxt/icon", "@sidebase/nuxt-auth", "@nuxtjs/i18n"],
     plugins: ["~/plugins/eventBus.ts"],
 
     runtimeConfig: {
@@ -35,15 +34,15 @@ export default defineNuxtConfig({
         },
     },
 
-    // i18n: {
-    //     strategy: "prefix_except_default",
-    //     defaultLocale: "en",
-    //     locales: [
-    //         { code: "en", name: "English", language: "en-US", file: "en.json" },
-    //         { code: "fr", name: "Français", language: "fr-FR", file: "fr.json" },
-    //     ],
-    //     langDir: "/app/locales/", // Utilisation d'un chemin absolu dans Docker
-    // },
+    i18n: {
+        strategy: "prefix_except_default",
+        langDir: "locales/", // Utilisation d'un chemin absolu dans Docker
+        defaultLocale: "en",
+        locales: [
+            { code: "en", name: "English", language: "en-US", file: "en.json" },
+            { code: "fr", name: "Français", language: "fr-FR", file: "fr.json" },
+        ],
+    },
 
     nitro: {
         // we need https://github.com/unjs/nitro/pull/2570
