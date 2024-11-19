@@ -12,7 +12,7 @@ export default defineEventHandler(
     event,
   ): Promise<stream.Readable | stream.Writable | stream.PassThrough> => {
     // TODO: check auth
-    const moviesDir = useRuntimeConfig().moviesDir;
+    const moviesDir = useRuntimeConfig(event).moviesDir;
     const id = getRouterParam(event, "id");
     if (!id)
       throw createError({ statusCode: 400, statusMessage: "no id given" }); // should be useless as this route should only be hit when there is a id

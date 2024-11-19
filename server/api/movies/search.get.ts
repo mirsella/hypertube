@@ -1,7 +1,7 @@
 const BASE_URL = "https://api.themoviedb.org/3/";
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig();
+  const config = useRuntimeConfig(event);
   try {
     // Get all query parameters
     const query = getQuery(event);

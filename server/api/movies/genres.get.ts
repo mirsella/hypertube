@@ -1,7 +1,7 @@
 const BASE_URL = "https://api.themoviedb.org/3/";
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig();
+  const config = useRuntimeConfig(event);
   try {
     // Fetch setup data
     const response = await fetch(

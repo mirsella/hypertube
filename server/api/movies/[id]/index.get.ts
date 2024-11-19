@@ -3,7 +3,7 @@ import { XMLParser } from "fast-xml-parser";
 const BASE_URL = "https://api.themoviedb.org/3/";
 
 export default defineEventHandler(async (event) => {
-  const config = useRuntimeConfig();
+  const config = useRuntimeConfig(event);
   try {
     if (!event.context.params?.id) {
       throw createError({
