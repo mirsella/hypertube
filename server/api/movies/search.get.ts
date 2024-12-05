@@ -1,4 +1,4 @@
-const BASE_URL = "https://api.themoviedb.org/3/";
+const BASE_URL = "https://api.themoviedb.org/3/search/movie";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
@@ -12,18 +12,12 @@ export default defineEventHandler(async (event) => {
       title: (query.title as string) || "",
     };
 
-    let popularOrSearch = "search/movie";
-
-    if (!searchParams.title) {
-      popularOrSearch = "movie/popular";
-    }
-
     const response = await fetch(
-      `${BASE_URL}${popularOrSearch}` +
-        `?api_key=${config.tmdbApiKey}` +
-        `&query=${searchParams.title}` +
-        `&include_adult=false` +
-        `&page=${searchParams.page}`,
+      `${BASE_URL}` +
+      `?api_key=${config.tmdbApiKey}` +
+      `&query=${searchParams.title}` +
+      `&include_adult=false` +
+      `&page=${searchParams.page}`,
     );
     const data = await response.json();
 
@@ -32,7 +26,7 @@ export default defineEventHandler(async (event) => {
       for (const element of data.results) {
         const resImdbID = await fetch(
           `${BASE_URL}movie/${element.id}/external_ids` +
-            `?api_key=${config.tmdbApiKey}`,
+          `?api_key=${config.tmdbApiKey}`,
         );
         const external_ids = await resImdbID.json();
         element.imdb_id = external_ids.imdb_id;
@@ -40,7 +34,7 @@ export default defineEventHandler(async (event) => {
     }
 
     // Remove if imdb_id not found
-    data.results = data.results.filter((movie: any) => movie.imdb_id !== null);
+    data.results = data.results.filter((movie: any) => movie.imdb_id !== null && movie.popularity > 30);
 
     return data;
   } catch (error) {

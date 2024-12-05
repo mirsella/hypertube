@@ -88,7 +88,6 @@ export default defineEventHandler(async (event) => {
         statusMessage: `Jackett API error: ${resTorrents.statusText}`,
       });
     }
-
     const torrents = new XMLParser({ ignoreAttributes: false }).parse(
       await resTorrents.text(),
     );
@@ -133,7 +132,6 @@ export default defineEventHandler(async (event) => {
       }));
 
     return movie_infos;
-    // TODO:  add available subtiltes ? number of comments ?
   } catch (error) {
     console.error("Error in movie/id search:", error);
     return error;

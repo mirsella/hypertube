@@ -1,11 +1,14 @@
 <template>
 	<div class="container mx-auto p-4">
 		<!-- Search Section -->
-		<div class="mb-8">
+		<div class="mb-4">
 			<input v-model="searchQuery" @input="debounceSearch" type="text" placeholder="Search movies..."
 				class="input input-bordered w-full max-w-lg" />
 		</div>
 
+		<div className="flex w-full flex-col">
+			<div class="divider divider-start text-xl">Filters</div>
+		</div>
 		<!-- Filters Section -->
 		<div class="flex flex-wrap gap-4 mb-8">
 			<!-- Sort Direction -->
@@ -36,8 +39,9 @@
 		</div>
 
 		<!-- Movies Grid -->
-		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-			<div v-for="movie in filteredMovies" :key="movie.id" class="card bg-base-100 shadow-xl"
+		<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+			<div v-for="movie in filteredMovies" :key="movie.id"
+				class="card bg-base-100 shadow-xl cursor-pointer hover:glass hover:opacity-70"
 				@click="sendToPlayer(movie)">
 				<figure>
 					<img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" :alt="movie.title"
@@ -58,9 +62,14 @@
 			<span class="loading loading-spinner loading-lg"></span>
 		</div>
 
+		<!-- No Movies found State -->
+		<div v-if="filteredMovies.length === 0 && !loading" class="flex justify-center my-12">
+			<p class="text-lg line-clamp-3">No movies found</p>
+		</div>
+
 		<!-- No More Movies State -->
 		<div v-if="totalPages === page" class="flex justify-center my-8">
-			<p class="text-sm line-clamp-3">No more movies</p>
+			<p class="text-base line-clamp-3">No more movies</p>
 		</div>
 	</div>
 </template>
@@ -70,11 +79,10 @@ import { ref, computed, onMounted } from 'vue'
 import debounce from 'lodash/debounce'
 
 // State
-const config = useRuntimeConfig()
 const searchQuery = ref('')
 const movies = ref([])
 const genres = ref([])
-const loading = ref(false)
+const loading = ref(true)
 const page = ref(1)
 const totalPages = ref(0)
 const sortBy = ref('popularity')
@@ -132,11 +140,17 @@ const addUniqueMovies = (existingMovies, newMovies) => {
 // Search movies function
 const searchMovies = async () => {
 	try {
-		const { data: response } = await useFetch(`/api/movies/search`
-			+ `?title=${searchQuery.value}`
-			+ `&page=${page.value}`)
-		const data = response.value
-
+		let response = ''
+		if (searchQuery.value) {
+			response = await useFetch(`/api/movies/search`
+				+ `?title=${searchQuery.value}`
+				+ `&page=${page.value}`)
+		}
+		else {
+			response = await useFetch(`/api/movies`
+				+ `?page=${page.value}`)
+		}
+		const data = response?.data?.value
 		if (page.value === 1) {
 			totalPages.value = data.total_pages
 			movies.value = data.results
