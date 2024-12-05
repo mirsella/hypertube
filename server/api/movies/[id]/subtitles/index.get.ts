@@ -6,8 +6,6 @@ export default defineEventHandler(async (event) => {
   });
   const set = new Set<string>();
   subtitles.data.forEach((e: any) => set.add(e.attributes.language as string));
-  return set
-    .values()
-    .toArray()
-    .sort((a, b) => a.localeCompare(b));
+
+  return [...set].sort((a, b) => a.localeCompare(b));
 });

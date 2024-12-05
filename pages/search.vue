@@ -8,6 +8,12 @@
 
 		<!-- Filters Section -->
 		<div class="flex flex-wrap gap-4 mb-8">
+			<!-- Sort Direction -->
+			<select v-model="sortDirection" class="select select-bordered">
+				<option value="asc">Ascending</option>
+				<option value="desc">Descending</option>
+			</select>
+
 			<!-- Sort Options -->
 			<select v-model="sortBy" class="select select-bordered">
 				<option value="title">Name</option>
@@ -27,28 +33,22 @@
 			<!-- Year Filter -->
 			<input v-model="yearFilter" type="number" placeholder="Year" class="input input-bordered w-24" />
 
-			<!-- Sort Direction -->
-			<select v-model="sortDirection" class="select select-bordered">
-				<option value="asc">Ascending</option>
-				<option value="desc">Descending</option>
-			</select>
 		</div>
 
 		<!-- Movies Grid -->
-		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
 			<div v-for="movie in filteredMovies" :key="movie.id" class="card bg-base-100 shadow-xl"
 				@click="sendToPlayer(movie)">
 				<figure>
 					<img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" :alt="movie.title"
-						class="w-full h-[300px] object-cover" />
+						class="w-full object-cover" />
 				</figure>
 				<div class="card-body">
-					<h2 class="card-title">{{ movie.title }}</h2>
 					<div class="flex justify-between items-center">
 						<div class="badge badge-primary">{{ movie.release_date?.split('-')[0] }}</div>
 						<div class="badge badge-secondary">{{ movie.vote_average.toFixed(1) }}</div>
 					</div>
-					<p class="text-sm line-clamp-3">{{ movie.overview }}</p>
+					<h2 class="card-title text-base">{{ movie.title }}</h2>
 				</div>
 			</div>
 		</div>
@@ -132,10 +132,10 @@ const addUniqueMovies = (existingMovies, newMovies) => {
 // Search movies function
 const searchMovies = async () => {
 	try {
-		const response = await fetch(`/api/movies/search`
+		const { data: response } = await useFetch(`/api/movies/search`
 			+ `?title=${searchQuery.value}`
 			+ `&page=${page.value}`)
-		const data = await response.json()
+		const data = response.value
 
 		if (page.value === 1) {
 			totalPages.value = data.total_pages
