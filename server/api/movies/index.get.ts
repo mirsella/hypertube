@@ -1,11 +1,11 @@
-const BASE_URL = "https://api.themoviedb.org/3/movie/popular";
+const BASE_URL = "https://api.themoviedb.org/3/";
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
 
   try {
     const response = await fetch(
-      `${BASE_URL}` +
+      `${BASE_URL}movie/popular` +
       `?api_key=${config.tmdbApiKey}` +
       `&include_adult=false`
     );
