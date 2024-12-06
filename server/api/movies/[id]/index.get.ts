@@ -88,12 +88,26 @@ export default defineEventHandler(async (event) => {
         statusMessage: `Jackett API error: ${resTorrents.statusText}`,
       });
     }
+
     const torrents = new XMLParser({ ignoreAttributes: false }).parse(
       await resTorrents.text(),
     );
 
+    if (torrents.error) {
+      throw createError({
+        statusCode: torrents.error?.['@_code'],
+        statusMessage: `Jackett: ${torrents?.error?.['@_description']}`,
+      });
+    }
+    if (!torrents?.rss?.channel?.item) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: "No torrents found for this movie",
+      });
+    }
+
     //Filter,sort,format torrents results
-    movie_infos.torrents = torrents.rss.channel.item
+    movie_infos.torrents = torrents?.rss?.channel?.item
       .filter(
         (a: any) =>
           a["guid"].split(":")[0] === "magnet" &&
