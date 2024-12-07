@@ -39,5 +39,10 @@
     "@parcel/watcher",
     "node-datachannel",
     "utp-native"
-  ]
+  ],
+  "pnpm": {
+    "overrides": {
+      "node-datachannel": "^0.23.0"
+    }
+  }
 }

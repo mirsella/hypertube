@@ -4,6 +4,9 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  node-datachannel: ^0.23.0
+
 importers:
 
   .:
@@ -3099,17 +3102,13 @@ packages:
   node-addon-api@7.1.1:
     resolution: {integrity: sha512-5m3bsyrjFWE1xf7nz7YXdN4udnVtXK6/Yfgn5qnahL6bCkf2yKt4k3nuTKAtT4r3IG8JNR2ncsIMdZuAzJjHQQ==}
 
-  node-datachannel@0.12.0:
-    resolution: {integrity: sha512-pZ9FsVZpHdUKqyWynuCc9IBLkZPJMpDzpNk4YNPCizbIXHYifpYeWqSF35REHGIWi9JMCf11QzapsyQGo/Y4Ig==}
-    engines: {node: '>=16.0.0'}
+  node-datachannel@0.23.0:
+    resolution: {integrity: sha512-it4UmMxDmcRjXglfOSJ59LJ1X4yuqUq+pjN1rusMm+eIt4TKWX6olsWkTnqK+sxo1BXVw5z8uTK//1fL265h6g==}
+    engines: {node: '>=18.20.0'}
 
   node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
-
-  node-domexception@2.0.1:
-    resolution: {integrity: sha512-M85rnSC7WQ7wnfQTARPT4LrK7nwCHLdDFOCcItZMhTQjyCebJH8GciKqYJNgaOFZs9nFmTmd/VMyi3OW5jA47w==}
-    engines: {node: '>=16'}
 
   node-fetch-native@1.6.4:
     resolution: {integrity: sha512-IhOigYzAKHd244OC0JIMIUrjzctirCmPkaIfhDeGcEETWof5zKYUW7e7MYvChGWh/4CJeXEgsRyGzuF334rOOQ==}
@@ -7781,14 +7780,11 @@ snapshots:
 
   node-addon-api@7.1.1: {}
 
-  node-datachannel@0.12.0:
+  node-datachannel@0.23.0:
     dependencies:
-      node-domexception: 2.0.1
       prebuild-install: 7.1.2
 
   node-domexception@1.0.0: {}
-
-  node-domexception@2.0.1: {}
 
   node-fetch-native@1.6.4: {}
 
@@ -9300,7 +9296,7 @@ snapshots:
 
   webrtc-polyfill@1.1.10:
     dependencies:
-      node-datachannel: 0.12.0
+      node-datachannel: 0.23.0
       node-domexception: 1.0.0
 
   webtorrent@2.5.6:
