@@ -1,0 +1,47 @@
+[
+  {
+    "id": "sitelink",
+    "type": "inputstring",
+    "name": "Site Link",
+    "value": "https://ext.to/"
+  },
+  {
+    "id": "cookieheader",
+    "type": "hiddendata",
+    "name": "CookieHeader",
+    "value": "PHPSESSID=gAd0gf4cITQlfKI6TavCCuqxLh9RgRWG; cf_clearance=H3Zkj79IXx40N9n5hLkyfbTNTxldeJn87yRMETOkQxQ-1733520527-1.2.1.1-xXjOKXMc6iZbIVmo94eZpFRxT8inyzL8sdrGdMa16kTidzChb2LAymJa7lS0YisobsPNhEWGL0ii9CKQo17U_F8TRqTcT.grh0mLTe7hOxXat42IrdgmauxK8pAqUv5_ZYVQZwRPLfLxQEX8WcJlMrhkjSAcYpZm.bn.2GE.luZnj0KRXQJEvTeWOL0zXDE1DkjMyCX_v1FCWCng5r.h8zsF07n8TslQOdvoB41jilElLGrQhrCO3iRG0faUaQGxOQ4CGB4ON.3tgbAdvpApUdIW8Qtx1ZHtaWqCqnDDKf33iELZ4KnZPMkhNvh_s9NrEuORFAORTlyVTlieXV1YE84xdv0r6kBGEAoDjBisaGZwmXBl9RG0OLI1JUx44BcS5P2ZYcEqndTQB4GuPEzAyJCy0vQ31atDwEjrRoKCvco"
+  },
+  {
+    "id": "lasterror",
+    "type": "hiddendata",
+    "name": "LastError",
+    "value": null
+  },
+  {
+    "id": "sortrequestedfromsite",
+    "type": "inputselect",
+    "name": "Sort requested from site",
+    "value": "age",
+    "options": {
+      "age": "created",
+      "seed": "seeders",
+      "size": "size"
+    }
+  },
+  {
+    "id": "orderrequestedfromsite",
+    "type": "inputselect",
+    "name": "Order requested from site",
+    "value": "desc",
+    "options": {
+      "desc": "desc",
+      "asc": "asc"
+    }
+  },
+  {
+    "id": "tags",
+    "type": "inputtags",
+    "name": "Tags",
+    "value": ""
+  }
+]

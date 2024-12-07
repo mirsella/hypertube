@@ -3,13 +3,13 @@
     "id": "sitelink",
     "type": "inputstring",
     "name": "Site Link",
-    "value": "https://therarbg.to/"
+    "value": "https://kickass.ws/"
   },
   {
     "id": "cookieheader",
     "type": "hiddendata",
     "name": "CookieHeader",
-    "value": null
+    "value": "view=1; PHPSESSID=qk9vslkk98hb461efp9j70sgps"
   },
   {
     "id": "lasterror",
@@ -21,14 +21,21 @@
     "id": "sortrequestedfromsite",
     "type": "inputselect",
     "name": "Sort requested from site",
-    "value": "-a",
+    "value": "time_add",
     "options": {
-      "-a": "created desc",
-      "a": "created asc",
-      "-se": "seeders desc",
-      "se": "seeders asc",
-      "-s": "size desc",
-      "s": "size asc"
+      "time_add": "created",
+      "seeders": "seeders",
+      "size": "size"
+    }
+  },
+  {
+    "id": "orderrequestedfromsite",
+    "type": "inputselect",
+    "name": "Order requested from site",
+    "value": "desc",
+    "options": {
+      "desc": "desc",
+      "asc": "asc"
     }
   },
   {

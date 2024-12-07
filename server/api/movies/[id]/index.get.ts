@@ -110,31 +110,23 @@ export default defineEventHandler(async (event) => {
     movie_infos.torrents = torrents?.rss?.channel?.item
       .filter(
         (a: any) =>
-          a["guid"].split(":")[0] === "magnet" &&
-          parseInt(
-            a["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
-            "@_value"
-            ],
-          ) > 5 &&
-          a["torznab:attr"].find((a: any) => a["@_name"] === "imdbid")?.[
-          "@_value"
-          ] === id,
+          a["guid"].split(":")[0] === "magnet"
+          && parseInt(a["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.["@_value"],) >= 1
+          && (a["torznab:attr"].find((a: any) => a["@_name"] === "imdbid")?.["@_value"] === id ||
+            (movie_infos.title.toLowerCase().split(/\s+/).every((splitTitle: string) => a?.title?.toLowerCase().includes(splitTitle))
+              && a?.title.includes(movie_infos.release_date.split('-')[0]))
+          )
       )
       .sort(
-        (a: any, b: any) =>
-          parseInt(
-            b["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
-            "@_value"
-            ],
-          ) -
-          parseInt(
-            a["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
-            "@_value"
-            ],
-          ),
+        (a: any, b: any) => parseInt(b["torznab:attr"]
+          .find((a: any) => a["@_name"] === "seeders")?.["@_value"])
+          -
+          parseInt(a["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.["@_value"]),
       )
       .slice(0, 5)
       .map((t: any) => ({
+        indexer: t.jackettindexer['#text'],
+        title: t.title,
         magnet: t["guid"],
         seeders: parseInt(
           t["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
@@ -144,6 +136,13 @@ export default defineEventHandler(async (event) => {
         description: t["title"],
         size: t["size"],
       }));
+
+    if (movie_infos.torrents.length === 0) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: "No torrents found for this movie",
+      });
+    }
 
     return movie_infos;
   } catch (error) {
