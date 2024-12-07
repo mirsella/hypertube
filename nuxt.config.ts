@@ -35,6 +35,11 @@ export default defineNuxtConfig({
         "./node_modules/node-datachannel/build/Release/node_datachannel.node",
       ],
     },
+    hooks: {
+      "dev:reload": () => {
+        require("node-datachannel");
+      },
+    },
   },
   hooks: {
     ready: () => {
