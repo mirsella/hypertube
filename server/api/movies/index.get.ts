@@ -3,11 +3,21 @@ const BASE_URL = "https://api.themoviedb.org/3/";
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event);
 
+  // Get all query parameters
+  const query = getQuery(event);
+
+  // Validate query parameters
+  const searchParams = {
+    page: Number(query.page) || 1,
+    title: (query.title as string) || "",
+  };
+
   try {
     const response = await fetch(
       `${BASE_URL}movie/popular` +
       `?api_key=${config.tmdbApiKey}` +
-      `&include_adult=false`
+      `&include_adult=false` +
+      `&page=${searchParams.page}`
     );
     const data = await response.json();
 

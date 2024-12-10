@@ -110,7 +110,7 @@ onMounted(async () => {
 		searchMovies()
 
 	} catch (error) {
-		console.error('Error fetching setup data:', error)
+		showError('Error fetching setup data:', error)
 	}
 })
 
@@ -137,28 +137,42 @@ const addUniqueMovies = (existingMovies, newMovies) => {
 
 	return uniqueMovies
 }
+
+const checkAndLoadMoreContent = () => {
+	// Check if the current content fills the entire viewport
+	const documentHeight = document.documentElement.scrollHeight
+	const windowHeight = window.innerHeight
+
+	if (documentHeight <= windowHeight && totalPages.value > page.value) {
+		page.value++
+		searchMovies()
+	}
+}
+
 // Search movies function
 const searchMovies = async () => {
 	try {
 		let response = ''
 		if (searchQuery.value) {
-			response = await useFetch(`/api/movies/search`
+			response = await fetch(`/api/movies/search`
 				+ `?title=${searchQuery.value}`
 				+ `&page=${page.value}`)
 		}
 		else {
-			response = await useFetch(`/api/movies`
+			response = await fetch(`/api/movies`
 				+ `?page=${page.value}`)
 		}
-		const data = response?.data?.value
+		const data = await response.json()
 		if (page.value === 1) {
 			totalPages.value = data.total_pages
 			movies.value = data.results
 		} else {
 			movies.value = addUniqueMovies(movies.value, data.results)
 		}
+		checkAndLoadMoreContent()
 	} catch (error) {
-		console.error('Error searching movies:', error)
+		loading.value = false
+		showError('Error searching movies:', error)
 	} finally {
 		loading.value = false
 	}
@@ -166,6 +180,7 @@ const searchMovies = async () => {
 
 // Debounced search
 const debounceSearch = debounce(() => {
+	loading.value = true
 	sortBy.value = 'title'
 	page.value = 1
 	movies.value = []
