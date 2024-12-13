@@ -13,6 +13,7 @@ export default defineEventHandler(
   ): Promise<stream.Readable | stream.Writable | stream.PassThrough> => {
     // TODO: check auth
     const moviesDir = useRuntimeConfig(event).moviesDir;
+    if (!fs.existsSync(moviesDir)) fs.mkdirSync(moviesDir);
     const id = getRouterParam(event, "id");
     if (!id)
       throw createError({ statusCode: 400, statusMessage: "no id given" }); // should be useless as this route should only be hit when there is a id
