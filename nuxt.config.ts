@@ -1,5 +1,3 @@
-import fs from "fs";
-
 function get_from_env(field: string): string {
   const env = process.env[field];
   if (!env && process.env.NODE_ENV === "development") {
@@ -13,7 +11,12 @@ function get_from_env(field: string): string {
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
   devtools: { enabled: true },
-  modules: ["@nuxtjs/tailwindcss"],
+  modules: ["@nuxtjs/tailwindcss", "@scalar/nuxt"],
+  scalar: {
+    spec: {
+      url: "http://localhost:3000/openapi.json",
+    },
+  },
   runtimeConfig: {
     moviesDir: "./downloaded",
     opensubtitles_key: get_from_env("OPENSUBTITLES_KEY"),
