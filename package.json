@@ -11,7 +11,6 @@
     "db:push": "drizzle-kit push"
   },
   "dependencies": {
-    "@scalar/nuxt": "^0.2.160",
     "@types/lodash": "^4.17.13",
     "drizzle-orm": "^0.36.3",
     "fast-xml-parser": "^4.5.0",
