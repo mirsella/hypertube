@@ -28,6 +28,20 @@ export default defineNuxtConfig({
     },
     openAPI: {
       production: "prerender",
+      ui: {
+        scalar: {
+          servers: [
+            {
+              url: "http://localhost:3000",
+              description: "dev server server",
+            },
+            {
+              url: "https://mirsella.mooo.com/hypertube",
+              description: "Production server",
+            },
+          ],
+        },
+      },
     },
     scheduledTasks: {
       "0 * * * *": ["remove_old_movies"],
