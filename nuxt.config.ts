@@ -1,5 +1,3 @@
-import fs from "fs";
-
 function get_from_env(field: string): string {
   const env = process.env[field];
   if (!env && process.env.NODE_ENV === "development") {
@@ -24,8 +22,27 @@ export default defineNuxtConfig({
     jackettApiKey: get_from_env("JACKETT_API_KEY"),
   },
   nitro: {
-    // we need https://github.com/unjs/nitro/pull/2570
-    experimental: { tasks: true, openAPI: true },
+    experimental: {
+      tasks: true,
+      openAPI: true,
+    },
+    openAPI: {
+      production: "prerender",
+      ui: {
+        scalar: {
+          servers: [
+            {
+              url: "http://localhost:3000",
+              description: "dev server server",
+            },
+            {
+              url: "https://mirsella.mooo.com/hypertube",
+              description: "Production server",
+            },
+          ],
+        },
+      },
+    },
     scheduledTasks: {
       "0 * * * *": ["remove_old_movies"],
     },

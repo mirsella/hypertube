@@ -14,14 +14,13 @@ services:
 
   nuxt:
     container_name: nuxt
-    stop_grace_period: 0s
     build:
       context: .
       dockerfile: nuxt.dockerfile
     env_file: .env
     restart: unless-stopped
     environment:
-      PGPASSWORD: "${PGPASSWORD}"
+      # PGPASSWORD: "${PGPASSWORD}" // the .env is loaded anyway
       PGHOST: postgres
       NUXT_APP_BASE_URL: ${NUXT_APP_BASE_URL}
     ports:
@@ -35,7 +34,7 @@ services:
     environment:
       - PUID=1000
       - PGID=1000
-      - TZ=Etc/UTC
+      - TZ=Etc/Paris
       - AUTO_UPDATE=true #optional
       - RUN_OPTS= #optional
     volumes:
