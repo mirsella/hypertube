@@ -63,19 +63,19 @@ export default defineEventHandler(async (event) => {
 
     //Fetch Numbers of comments
     const resComments = await $fetch(
-      `/api/movies/${id}/comments`,
+      `http://localhost:3000/api/movies/${id}/comments`,
     )
     movie_infos.num_comments = resComments.length
 
     //Fetch available subtitles
     const resSubtitles = await $fetch(
-      `/api/movies/${id}/subtitles`
+      `http://localhost:3000/api/movies/${id}/subtitles`
     )
     movie_infos.available_subtitles = resSubtitles
 
     //Fetch torrents from title
     const resTorrents = await fetch(
-      "http://localhost:9117/api/v2.0/indexers/all/results/torznab/api" +
+      "http://jackett:9117/api/v2.0/indexers/all/results/torznab/api" +
       `?apikey=${config.jackettApiKey}` +
       `&t=movie&q=${encodeURI(movie_infos?.title)}` +
       `&year=${movie_infos.release_date.slice(0, 4)}` +
