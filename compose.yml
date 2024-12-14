@@ -17,12 +17,26 @@ services:
     build:
       context: .
       dockerfile: nuxt.dockerfile
+      args:
+        - PGHOST=postgres
+        - PGPASSWORD=${PGPASSWORD}
+        - TMDB_API_KEY=${TMDB_API_KEY}
+        - JACKETT_API_KEY=${JACKETT_API_KEY}
+        - OPENSUBTITLES_KEY=${OPENSUBTITLES_KEY}
+        - OPENSUBTITLES_USERNAME=${OPENSUBTITLES_USERNAME}
+        - OPENSUBTITLES_PASSWORD=${OPENSUBTITLES_PASSWORD}
     env_file: .env
     restart: unless-stopped
     environment:
-      # PGPASSWORD: "${PGPASSWORD}" // the .env is loaded anyway
-      PGHOST: postgres
-      NUXT_APP_BASE_URL: ${NUXT_APP_BASE_URL}
+      - NODE_ENV=production
+      - PGHOST=postgres
+      - PGPASSWORD=${PGPASSWORD}
+      - TMDB_API_KEY=${TMDB_API_KEY}
+      - JACKETT_API_KEY=${JACKETT_API_KEY}
+      - OPENSUBTITLES_KEY=${OPENSUBTITLES_KEY}
+      - OPENSUBTITLES_USERNAME=${OPENSUBTITLES_USERNAME}
+      - OPENSUBTITLES_PASSWORD=${OPENSUBTITLES_PASSWORD}
+      - NUXT_APP_BASE_URL=${NUXT_APP_BASE_URL}
     ports:
       - "3000:3000"
     depends_on:
