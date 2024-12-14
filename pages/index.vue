@@ -1,7 +1,5 @@
 <script setup>
-const { data: movies, status, } = useLazyFetch("/api/movies", {
-    server: false,
-})
+const { data: movies, status } = await useFetch("/api/movies");
 </script>
 
 <template>
@@ -10,12 +8,9 @@ const { data: movies, status, } = useLazyFetch("/api/movies", {
             <div class="divider divider-start text-xl">Popular Movies</div>
         </div>
 
-        <!-- Loading State -->
-        <div v-if="status === 'pending'" class="flex justify-center my-8">
-            <span class="loading loading-spinner loading-lg"></span>
-        </div>
         <!-- Movies Grid -->
-        <div v-else-if="movies?.results?.length" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <div v-if="status === 'success' && movies?.results?.length"
+            class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             <div v-for="movie in movies.results" :key="movie.id" class="card bg-base-100 shadow-xl">
                 <figure>
                     <img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" :alt="movie.title"
@@ -33,6 +28,9 @@ const { data: movies, status, } = useLazyFetch("/api/movies", {
                     <h2 class="card-title text-base">{{ movie.title }}</h2>
                 </div>
             </div>
+        </div>
+        <div v-else class="text-center py-8">
+            No movies found
         </div>
     </div>
 </template>
