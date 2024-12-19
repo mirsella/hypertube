@@ -1,4 +1,4 @@
-// * api/user/completed.ts
+// * api/user/completed.post.ts
 import { getServerSession } from "#auth";
 import { getToken } from "#auth";
 

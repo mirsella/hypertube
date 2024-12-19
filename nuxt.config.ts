@@ -11,11 +11,13 @@ function get_from_env(field: string): string {
 
 export default defineNuxtConfig({
     devtools: { enabled: true },
+    compatibilityDate: "2024-04-03",
 
     modules: ["@nuxtjs/tailwindcss", "@nuxt/icon", "@sidebase/nuxt-auth", "@nuxtjs/i18n"],
     plugins: ["~/plugins/eventBus.ts"],
 
     runtimeConfig: {
+        debug: true, // Enable debug mode for error logging
         moviesDir: "./downloaded",
         opensubtitles_key: get_from_env("OPENSUBTITLES_KEY"),
         opensubtitles_username: get_from_env("OPENSUBTITLES_USERNAME"),
@@ -52,5 +54,4 @@ export default defineNuxtConfig({
         },
         // fix file not copied https://github.com/nuxt/nuxt/issues/22325#issuecomment-1690421926
     },
-    compatibilityDate: "2024-10-15",
 });

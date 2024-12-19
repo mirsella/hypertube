@@ -77,7 +77,7 @@ const firstname = ref("");
 const lastname = ref("");
 const invisible = ref(false);
 const picture = ref("");
-const { $eventBus } = useNuxtApp();
+const { $eventBus } = useNuxtApp() as any; 
 
 onMounted(async () => {
 	$eventBus.emit("CompleteProfil", true);
@@ -92,6 +92,7 @@ onMounted(async () => {
 				Authorization: `Bearer ${token.value}`,
 			},
 		});
+		
 		console.log(response.providers);
 		console.log(response.user.email);
 		console.log("picture ", response.user.picture);

@@ -290,7 +290,8 @@ async function register() {
     setTimeout(() => {
       navigateTo("/");
     }, 2000);
-  } catch (error) {
+  } catch (response) {
+    console.log(response);
     message.value = "An error occurred during registration";
   }
 }

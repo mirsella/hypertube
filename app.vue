@@ -2,9 +2,6 @@
     <div v-if="loggedIn">
         <Header />
     </div>
-    <p>blabla</p>
-    <p>blabla</p>
-    <p>blabla</p>
     <NuxtPage />
 </template>
 

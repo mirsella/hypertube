@@ -39,9 +39,9 @@
             <userLanguage />
         </div>
     </div>
-    <p>data: {{ data }}</p>
+    <!-- <p>data: {{ data }}</p>
     <p>token: {{ token }}</p>
-    <p>cacfewfwefwefwfwa</p>
+    <p>cacfewfwefwefwfwa</p> -->
 </template>
 
 <script setup lang="ts">
