@@ -1,0 +1,37 @@
+{
+	"modifyProfiles": {
+		"changePassword": "Changer le mot de passe",
+		"changeUsername": "Changer le pseudonyme",
+		"changeEmail": "Changer l'Email",
+		"changeName": "Changer ton nom et prénom",
+		"changePicture": "Changer ta photo de profil",
+		"modifyUsernames": "Modifie ton Pseudonyme",
+		"modifyName": "Modifie ton Nom",
+		"modifyEmail": "Modifie ton mail",
+		"modifyPassword": "Modifie ton Mot de passe",
+		"modifyPicture": "Modifie ta Photo",
+		"uploadpicture": "Télécharger une photo",
+		"CondtionsPassword": "Le mot de passe doit comporter au moins 8 caractères, inclure une lettre majuscule, un chiffre et un caractère spécial.",
+		"PasswordValid": "Mot de passe valide",
+		"CompleteUrProfil": "Complétez votre profil",
+		"ClickOrDrag": "Cliquez ou glissez un fichier ici pour le télécharger",
+		"Register": "S'inscrire",
+		"Submit": "Soumettre"
+	},
+
+	"userProfiles": {
+		"username": "Pseudonyme",
+		"fullname": "Nom et Prénom",
+		"profilepicture": "Photo de profil",
+		"comments": "Commentaires",
+		"fullnamePlaceholder": "Rechercher par nom et prénom",
+		"fullusername": "Rechercher par pseudonyme",
+		"lastname": "Nom de famille",
+		"firstname": "Prénom"
+	},
+	"boutton": {
+		"UserProfiles": "Profils d'utilisateurs",
+		"ModifyProfiles": "Modifier ton profil",
+		"SignOut": "Deconnexion"
+	}
+}

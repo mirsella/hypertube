@@ -1,7 +1,3 @@
-<script setup>
-const { data: movies, status } = await useFetch("/api/movies");
-</script>
-
 <template>
     <div class="container mx-auto p-4">
         <div class="flex w-full flex-col">
@@ -33,4 +29,13 @@ const { data: movies, status } = await useFetch("/api/movies");
             No movies found
         </div>
     </div>
+    <authSignIn />
 </template>
+
+<script setup lang="ts">
+const { data: movies, status } = await useFetch("/api/movies");
+
+definePageMeta({
+	disableAuth: true,
+});
+</script>

@@ -1,52 +1,60 @@
 {
-  "name": "hypertube",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "db:push": "drizzle-kit push"
-  },
-  "dependencies": {
-    "@types/lodash": "^4.17.13",
-    "drizzle-orm": "^0.36.3",
-    "fast-xml-parser": "^4.5.0",
-    "fluent-ffmpeg": "^2.1.3",
-    "lodash": "^4.17.21",
-    "nuxt": "^3.14.1592",
-    "opensubtitles.com": "^1.1.0",
-    "pg": "^8.13.1",
-    "subtitle": "^4.2.1",
-    "vue": "latest",
-    "vue-router": "latest",
-    "webtorrent": "^2.5.5"
-  },
-  "packageManager": "pnpm@9.12.2+sha512.22721b3a11f81661ae1ec68ce1a7b879425a1ca5b991c975b074ac220b187ce56c708fe5db69f4c962c989452eee76c82877f4ee80f474cebd61ee13461b6228",
-  "devDependencies": {
-    "@egoist/tailwindcss-icons": "^1.8.1",
-    "@iconify-json/carbon": "^1.2.4",
-    "@nuxtjs/tailwindcss": "^6.12.2",
-    "@types/fluent-ffmpeg": "^2.1.27",
-    "@types/pg": "^8.11.10",
-    "@types/webtorrent": "^0.109.10",
-    "@vitejs/plugin-vue": "^5.1.4",
-    "daisyui": "^4.12.14",
-    "drizzle-kit": "^0.28.0",
-    "typescript": "5.6.2",
-    "vite": "^5.4.10",
-    "vue-tsc": "2.0.29"
-  },
-  "trustedDependencies": [
-    "@parcel/watcher",
-    "node-datachannel",
-    "utp-native"
-  ],
-  "pnpm": {
-    "overrides": {
-      "node-datachannel": "^0.23.0"
+    "name": "hypertube",
+    "private": true,
+    "type": "module",
+    "scripts": {
+        "build": "nuxt build",
+        "dev": "nuxt dev",
+        "generate": "nuxt generate",
+        "preview": "nuxt preview",
+        "postinstall": "nuxt prepare",
+        "db:push": "drizzle-kit push"
+    },
+    "dependencies": {
+        "@nuxt/icon": "^1.8.2",
+        "@nuxtjs/i18n": "^9.1.0",
+        "@sidebase/nuxt-auth": "^0.9.4",
+        "@types/lodash": "^4.17.13",
+        "@vueuse/core": "^11.3.0",
+        "bcrypt": "^5.1.1",
+        "drizzle-orm": "^0.36.3",
+        "fast-xml-parser": "^4.5.0",
+        "fluent-ffmpeg": "^2.1.3",
+        "lodash": "^4.17.21",
+        "lottie-web": "^5.12.2",
+        "mitt": "^3.0.1",
+        "multer": "1.4.5-lts.1",
+        "nodemailer": "^6.9.16",
+        "nuxt": "^3.14.1592",
+        "opensubtitles.com": "^1.1.0",
+        "pg": "^8.13.1",
+        "subtitle": "^4.2.1",
+        "vue": "latest",
+        "vue-router": "^4.4.5",
+        "webtorrent": "^2.5.5"
+    },
+    "packageManager": "pnpm@9.12.2+sha512.22721b3a11f81661ae1ec68ce1a7b879425a1ca5b991c975b074ac220b187ce56c708fe5db69f4c962c989452eee76c82877f4ee80f474cebd61ee13461b6228",
+    "devDependencies": {
+        "@egoist/tailwindcss-icons": "^1.8.1",
+        "@iconify-json/carbon": "^1.2.4",
+        "@nuxtjs/tailwindcss": "^6.12.2",
+        "@types/fluent-ffmpeg": "^2.1.27",
+        "@types/pg": "^8.11.10",
+        "@types/webtorrent": "^0.109.10",
+        "daisyui": "^4.12.14",
+        "drizzle-kit": "^0.28.0",
+        "typescript": "5.6.2",
+        "vite": "^5.4.10",
+        "vue-tsc": "2.0.29"
+    },
+    "trustedDependencies": [
+        "@parcel/watcher",
+        "node-datachannel",
+        "utp-native"
+    ],
+    "pnpm": {
+        "overrides": {
+            "node-datachannel": "^0.23.0"
+        }
     }
-  }
 }
