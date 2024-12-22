@@ -7,6 +7,7 @@ const { data: infos, error: infos_error } = await useFetch(
   `/api/movies/${movie_id}`,
   { headers },
 );
+const { data: user } = await useFetch(`/api/users/me`, { headers });
 const { data: subtitles } = await useFetch(
   `/api/movies/${movie_id}/subtitles`,
   { headers },
@@ -158,11 +159,12 @@ async function update_comment(comment_id: string) {
           </button>
         </div>
         <div class="mr-20">
-          <!-- TODO: use real user id to compare if its our comment -->
           <div
             v-for="comment of comments"
             class="chat"
-            :class="[true ? 'chat-end' : 'chat-start']"
+            :class="[
+              comment.comments.authorId == user?.id ? 'chat-end' : 'chat-start',
+            ]"
           >
             <div class="chat-header text-lg ml-1">
               user <b>{{ comment.users?.username || "deleted" }}</b> on
@@ -179,8 +181,10 @@ async function update_comment(comment_id: string) {
                 v-model="comments_input[comment.comments.id]"
               />
             </div>
-            <!-- TODO: also use real user it here -->
-            <div v-if="true" class="chat-image">
+            <div
+              v-if="comment.comments.authorId == user?.id"
+              class="chat-image"
+            >
               <button
                 v-show="
                   comments_input[comment.comments.id] !==
