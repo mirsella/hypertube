@@ -1,5 +1,9 @@
+import { getServerSession } from "#auth";
+
 export default defineEventHandler(async (event) => {
-  // TODO: check auth
+  const session = await getServerSession(event);
+  if (!session) throw createError({ statusCode: 401 });
+
   const id = getRouterParam(event, "id");
   if (!id) throw createError({ statusCode: 400 });
   const comment = await db
