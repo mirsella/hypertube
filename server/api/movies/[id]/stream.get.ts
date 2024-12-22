@@ -4,6 +4,7 @@ import stream from "stream";
 import fs from "fs";
 import path from "path";
 import WebTorrent from "webtorrent";
+import { getServerSession } from "#auth";
 
 let torrent_client: null | WebTorrent.Instance = null;
 
@@ -11,7 +12,9 @@ export default defineEventHandler(
   async (
     event,
   ): Promise<stream.Readable | stream.Writable | stream.PassThrough> => {
-    // TODO: check auth
+    const session = await getServerSession(event);
+    if (!session) throw createError({ statusCode: 401 });
+
     const moviesDir = useRuntimeConfig(event).moviesDir;
     if (!fs.existsSync(moviesDir)) fs.mkdirSync(moviesDir);
     const id = getRouterParam(event, "id");
