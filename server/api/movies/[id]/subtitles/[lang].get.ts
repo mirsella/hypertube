@@ -1,8 +1,11 @@
 import { parse, stringify } from "subtitle";
 import stream from "stream";
+import { getServerSession } from "#auth";
 
 export default defineEventHandler(async (event) => {
-  // TODO: check auth
+  const session = await getServerSession(event);
+  if (!session) throw createError({ statusCode: 401 });
+
   const lang = getRouterParam(event, "lang");
   const id = getRouterParam(event, "id");
   if (!lang || !id || lang.length != 2) throw createError({ statusCode: 400 });

@@ -1,5 +1,9 @@
+import { getServerSession } from "#auth";
+
 export default defineEventHandler(async (event) => {
-  // TODO: check auth
+  const session = await getServerSession(event);
+  if (!session) throw createError({ statusCode: 401 });
+
   const id = getRouterParam(event, "id");
   const subtitles = await opensubtitles_client.subtitles({
     imdb_id: id,
