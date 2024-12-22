@@ -17,8 +17,8 @@ export default defineEventHandler(async (event) => {
     //Fetch movie infos
     const response = await fetch(
       `${BASE_URL}find/${id}` +
-      `?external_source=imdb_id` +
-      `&api_key=${config.tmdbApiKey}`,
+        `?external_source=imdb_id` +
+        `&api_key=${config.tmdbApiKey}`,
     );
     const resData = await response.json();
 
@@ -32,14 +32,14 @@ export default defineEventHandler(async (event) => {
     //Fetch movie credits
     const resCredits = await fetch(
       `${BASE_URL}movie/${resData.movie_results[0].id}/credits` +
-      `?api_key=${config.tmdbApiKey}`,
+        `?api_key=${config.tmdbApiKey}`,
     );
     const credits = await resCredits.json();
 
     //Fetch movie details
     const resDetails = await fetch(
       `${BASE_URL}movie/${resData.movie_results[0].id}` +
-      `?api_key=${config.tmdbApiKey}`,
+        `?api_key=${config.tmdbApiKey}`,
     );
     const details = await resDetails.json();
 
@@ -62,24 +62,27 @@ export default defineEventHandler(async (event) => {
     };
 
     //Fetch Numbers of comments
+    const headers = getRequestHeaders(event) as HeadersInit;
     const resComments = await $fetch(
       `http://localhost:3000/api/movies/${id}/comments`,
-    )
-    movie_infos.num_comments = resComments.length
+      { headers },
+    );
+    movie_infos.num_comments = resComments.length;
 
     //Fetch available subtitles
     const resSubtitles = await $fetch(
-      `http://localhost:3000/api/movies/${id}/subtitles`
-    )
-    movie_infos.available_subtitles = resSubtitles
+      `http://localhost:3000/api/movies/${id}/subtitles`,
+      { headers },
+    );
+    movie_infos.available_subtitles = resSubtitles;
 
     //Fetch torrents from title
     const resTorrents = await fetch(
       "http://jackett:9117/api/v2.0/indexers/all/results/torznab/api" +
-      `?apikey=${config.jackettApiKey}` +
-      `&t=movie&q=${encodeURI(movie_infos?.title)}` +
-      `&year=${movie_infos.release_date.slice(0, 4)}` +
-      `&cat=2000`,
+        `?apikey=${config.jackettApiKey}` +
+        `&t=movie&q=${encodeURI(movie_infos?.title)}` +
+        `&year=${movie_infos.release_date.slice(0, 4)}` +
+        `&cat=2000`,
     );
 
     if (!resTorrents.ok) {
@@ -95,8 +98,8 @@ export default defineEventHandler(async (event) => {
 
     if (torrents.error) {
       throw createError({
-        statusCode: torrents.error?.['@_code'],
-        statusMessage: `Jackett: ${torrents?.error?.['@_description']}`,
+        statusCode: torrents.error?.["@_code"],
+        statusMessage: `Jackett: ${torrents?.error?.["@_description"]}`,
       });
     }
     if (!torrents?.rss?.channel?.item) {
@@ -110,27 +113,44 @@ export default defineEventHandler(async (event) => {
     movie_infos.torrents = torrents?.rss?.channel?.item
       .filter(
         (a: any) =>
-          a["guid"].split(":")[0] === "magnet"
-          && parseInt(a["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.["@_value"],) >= 1
-          && (a["torznab:attr"].find((a: any) => a["@_name"] === "imdbid")?.["@_value"] === id ||
-            (movie_infos.title.toLowerCase().split(/\s+/).every((splitTitle: string) => a?.title?.toLowerCase().includes(splitTitle))
-              && a?.title.includes(movie_infos.release_date.split('-')[0]))
-          )
+          a["guid"].split(":")[0] === "magnet" &&
+          parseInt(
+            a["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
+              "@_value"
+            ],
+          ) >= 1 &&
+          (a["torznab:attr"].find((a: any) => a["@_name"] === "imdbid")?.[
+            "@_value"
+          ] === id ||
+            (movie_infos.title
+              .toLowerCase()
+              .split(/\s+/)
+              .every((splitTitle: string) =>
+                a?.title?.toLowerCase().includes(splitTitle),
+              ) &&
+              a?.title.includes(movie_infos.release_date.split("-")[0]))),
       )
       .sort(
-        (a: any, b: any) => parseInt(b["torznab:attr"]
-          .find((a: any) => a["@_name"] === "seeders")?.["@_value"])
-          -
-          parseInt(a["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.["@_value"]),
+        (a: any, b: any) =>
+          parseInt(
+            b["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
+              "@_value"
+            ],
+          ) -
+          parseInt(
+            a["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
+              "@_value"
+            ],
+          ),
       )
       .slice(0, 5)
       .map((t: any) => ({
-        indexer: t.jackettindexer['#text'],
+        indexer: t.jackettindexer["#text"],
         title: t.title,
         magnet: t["guid"],
         seeders: parseInt(
           t["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
-          "@_value"
+            "@_value"
           ],
         ),
         description: t["title"],

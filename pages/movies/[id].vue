@@ -2,12 +2,18 @@
 let movie_id = useRoute().params.id as string;
 if (movie_id === "default") movie_id = "tt1431045";
 
+const headers = useRequestHeaders(["cookie"]) as HeadersInit;
 const { data: infos, error: infos_error } = await useFetch(
   `/api/movies/${movie_id}`,
+  { headers },
 );
-const { data: subtitles } = await useFetch(`/api/movies/${movie_id}/subtitles`);
+const { data: subtitles } = await useFetch(
+  `/api/movies/${movie_id}/subtitles`,
+  { headers },
+);
 const { data: comments, refresh: refresh_comments } = await useFetch(
   `/api/movies/${movie_id}/comments`,
+  { headers },
 );
 
 if (infos_error.value) throw infos_error.value;
