@@ -1,37 +1,47 @@
 {
-	"modifyProfiles": {
-		"changePassword": "Change Password",
-		"changeUsername": "Change Username",
-		"changeEmail": "Change Email",
-		"changeName": "Change your First and Last Name",
-		"changePicture": "Change your Profile Picture",
-		"modifyUsernames": "Modify Username",
-		"modifyName": "Modify Name",
-		"modifyEmail": "Modify Email",
-		"modifyPassword": "Modify Password",
-		"modifyPicture": "Modify Picture",
-		"uploadpicture": "Upload Picture",
-		"CondtionsPassword": "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.",
-		"PasswordValid": "Password valid",
-		"ClickOrDrag": "Click or drag a file here to upload",
-		"CompleteUrProfil": "Complete your Profile",
-		"Register": "Register",
-		"Submit": "Submit"
-	},
+  "modifyProfiles": {
+    "changePassword": "Change Password",
+    "changeUsername": "Change Username",
+    "changeEmail": "Change Email",
+    "changeName": "Change your First and Last Name",
+    "changePicture": "Change your Profile Picture",
+    "modifyUsernames": "Modify Username",
+    "modifyName": "Modify Name",
+    "modifyEmail": "Modify Email",
+    "modifyPassword": "Modify Password",
+    "modifyPicture": "Modify Picture",
+    "uploadpicture": "Upload Picture",
+    "CondtionsPassword": "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.",
+    "PasswordValid": "Password valid",
+    "ClickOrDrag": "Click or drag a file here to upload",
+    "CompleteUrProfil": "Complete your Profile",
+    "Register": "Register",
+    "Submit": "Submit"
+  },
 
-	"userProfiles": {
-		"username": "Username",
-		"fullname": "Full Name",
-		"profilepicture": "Profile Picture",
-		"comments": "Comments",
-		"fullnamePlaceholder": "Search by Full Name",
-		"fullusername": "Search by Username",
-		"lastname": "Last Name",
-		"firstname": "First Name"
-	},
-	"boutton": {
-		"UserProfiles": "User Profiles",
-		"ModifyProfiles": "Modify Profiles",
-		"SignOut": "Sign Out"
-	}
+  "userProfiles": {
+    "username": "Username",
+    "fullname": "Full Name",
+    "profilepicture": "Profile Picture",
+    "comments": "Comments",
+    "fullnamePlaceholder": "Search by Full Name",
+    "fullusername": "Search by Username",
+    "lastname": "Last Name",
+    "firstname": "First Name"
+  },
+  "boutton": {
+    "UserProfiles": "User Profiles",
+    "ModifyProfiles": "Modify Profiles",
+    "SignOut": "Sign Out"
+  },
+  "movies": {
+    "AddAComment": "add a comment...",
+    "Comments": "Comments",
+    "Character": "Character",
+    "Popularity": "Popularity",
+    "Companies": "Companies",
+    "Director": "Director",
+    "Runtime": "Runtime",
+    "ReleaseDate": "Release date"
+  }
 }

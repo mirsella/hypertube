@@ -36,6 +36,7 @@ function video_error() {
 
 const comment_textarea = ref("");
 const comments_input = ref<{ [id: string]: string }>({});
+
 watchEffect(() =>
   comments.value?.forEach(
     (v) => (comments_input.value[v.comments.id] = v.comments.content),
@@ -97,16 +98,19 @@ async function update_comment(comment_id: string) {
         </figure>
         <div class="card-body">
           <p>{{ infos.overview }}</p>
-          <p>release date: {{ new Date(infos.release_date).toDateString() }}</p>
-          <p>runtime: {{ infos.runtime }}m</p>
+          <p>
+            {{ $t("movies.ReleaseDate") }}:
+            {{ new Date(infos.release_date).toDateString() }}
+          </p>
+          <p>{{ $t("movies.Runtime") }}: {{ infos.runtime }}m</p>
           <p>
             note: {{ infos.vote_average }}/10 ({{ infos.vote_count }} votes)
           </p>
           <p v-if="infos.director && infos.director[0]">
-            director: {{ infos.director[0].name }}
+            {{ $t("movies.Director") }}: {{ infos.director[0].name }}
           </p>
           <p>
-            companies:
+            {{ $t("movies.Companies") }}:
             {{ infos.production_companies.map((e: any) => e.name).join(", ") }}
           </p>
         </div>
@@ -127,9 +131,9 @@ async function update_comment(comment_id: string) {
           <p class="card-title mx-auto mt-1">{{ cast.name }}</p>
           <div class="card-body !pt-2 gap-0">
             <p>
-              character: <b>{{ cast.character }}</b>
+              {{ $t("movies.Character") }}: <b>{{ cast.character }}</b>
             </p>
-            <p>popularity: {{ cast.popularity }}</p>
+            <p>{{ $t("movies.Popularity") }}: {{ cast.popularity }}</p>
           </div>
         </div>
       </div>
@@ -137,13 +141,13 @@ async function update_comment(comment_id: string) {
 
     <div class="card bg-base-100 shadow-md shadow-secondary w-full">
       <div class="card-body">
-        <p class="card-title">Comments</p>
+        <p class="card-title">{{ $t("movies.Comments") }}</p>
         <div class="flex md:flex-nowrap flex-wrap items-end gap-4 mt-2">
           <textarea
             v-model="comment_textarea"
             class="textarea textarea-bordered grow"
             maxlength="1024"
-            placeholder="add a comment..."
+            :placeholder="$t('movies.AddAComment')"
           ></textarea>
           <button
             class="btn btn-secondary"
@@ -161,7 +165,7 @@ async function update_comment(comment_id: string) {
             :class="[true ? 'chat-end' : 'chat-start']"
           >
             <div class="chat-header text-lg ml-1">
-              user <b>{{ comment.users?.name || "deleted" }}</b> on
+              user <b>{{ comment.users?.username || "deleted" }}</b> on
               <ClientOnly>
                 {{
                   new Date(comment.comments.updated_at).toLocaleDateString()
