@@ -1,5 +1,6 @@
 // api/auth/register.ts
 import bcrypt from "bcrypt";
+
 async function check_already_register(username: string, email: any) {
     const verif_mail = await db.select().from(tables.users).where(eq(tables.users.email, email));
 

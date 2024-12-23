@@ -38,7 +38,7 @@ async function check_complete_profil(email: string) {
 		.where(eq(tables.users.email, email));
 
 	const complete_profile = verif_complete_profil[0]?.complete_profile;
-	if (complete_profile === "true") {
+	if (complete_profile === true) {
 		return true;
 	} else {
 		return false;

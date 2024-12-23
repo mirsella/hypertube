@@ -6,7 +6,7 @@
 const headers = useRequestHeaders(["cookie"]) as HeadersInit;
 const { data: token } = await useFetch("/api/token", { headers });
 const users = ref<Array<any>>([]);
-const { $eventBus } = useNuxtApp();
+const { $eventBus } = useNuxtApp() as any;
 
 onMounted(async () => {
 	try {
@@ -16,9 +16,10 @@ onMounted(async () => {
 				Authorization: `Bearer ${token.value}`,
 			},
 		});
-		console.log("response users:", response.users);
+		// console.log("response users:", response.users);
 
-		console.log("response users ==== :", response.users);
+		// console.log("response users ==== :", response.users);
+		// @ts-ignore
 		users.value = response.users;
 		for (var i = 0; i < users.value.length; i++) {
 			// convert the string to boolean

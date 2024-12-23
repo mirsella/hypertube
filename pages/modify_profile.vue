@@ -83,7 +83,10 @@ onMounted(async () => {
 	$eventBus.emit("CompleteProfil", true);
 
 	try {
-		const response = await $fetch("/api/users/profil", {
+		if (!token.value) {
+			throw new Error("Token is null");
+		}
+		const response = await $fetch<{ message: string; user: { email: string; firstname: string; lastname: string; username: string; picture: string | null; }; providers: string[]; status: number; }>("/api/users/profil", {
 			method: "POST",
 			body: {
 				email: token.value.email,
@@ -101,7 +104,7 @@ onMounted(async () => {
 		email.value = response.user.email;
 		firstname.value = response.user.firstname;
 		lastname.value = response.user.lastname;
-		picture.value = response.user.picture;
+		picture.value = response.user.picture || "";
 
 		console.log(response.providers.length);
 		if (response.providers.length === 1 && response.providers.includes("credentials")) {

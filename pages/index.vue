@@ -5,17 +5,21 @@
         </div>
 
         <!-- Movies Grid -->
-        <div v-if="status === 'success' && movies?.results?.length"
+        <div
+            v-if="status === 'success' && movies?.results?.length"
             class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
             <div v-for="movie in movies.results" :key="movie.id" class="card bg-base-100 shadow-xl">
                 <figure>
-                    <img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" :alt="movie.title"
-                        class="w-full object-cover" loading="lazy" />
+                    <img
+                        :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path"
+                        :alt="movie.title"
+                        class="w-full object-cover"
+                        loading="lazy" />
                 </figure>
                 <div class="card-body">
                     <div class="flex justify-between items-center">
                         <div class="badge badge-primary">
-                            {{ movie.release_date?.split('-')[0] }}
+                            {{ movie.release_date?.split("-")[0] }}
                         </div>
                         <div class="badge badge-secondary">
                             {{ movie.vote_average?.toFixed(1) }}
@@ -25,9 +29,7 @@
                 </div>
             </div>
         </div>
-        <div v-else class="text-center py-8">
-            No movies found
-        </div>
+        <div v-else class="text-center py-8">No movies found</div>
     </div>
     <authSignIn />
 </template>
@@ -36,6 +38,6 @@
 const { data: movies, status } = await useFetch("/api/movies");
 
 definePageMeta({
-	disableAuth: true,
+    disableAuth: true,
 });
 </script>

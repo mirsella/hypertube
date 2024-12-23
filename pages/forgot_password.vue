@@ -1,13 +1,9 @@
 <template>
-	<authForgot />
+    <authForgot />
 </template>
 
-
 <script setup lang="ts">
-
-
 definePageMeta({
-	disableAuth: true,
+    disableAuth: true,
 });
 </script>
-	

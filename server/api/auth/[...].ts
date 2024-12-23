@@ -32,7 +32,7 @@ async function check_Credentials(username: string, password: string)
 }
 
 export default NuxtAuthHandler({
-	secret: process.env.AUTH_SECRET || 'dev-secret', // Assurez-vous d'utiliser un vrai secret en production
+	secret: process.env.AUTH_SECRET || 'dev-secret', 
 	providers: [
 		// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 		GithubProvider.default({
@@ -63,7 +63,7 @@ export default NuxtAuthHandler({
 				try {
 					// Appel de la fonction pour vérifier les informations d'identification
 					const user = await check_Credentials(credentials.username, credentials.password);
-					// Si l'utilisateur est trouvé et authentifié, on retourne un objet user avec email et username
+					// Si l'utilisateur existe, on retourne son email et son nom
 					if (user) {
 						return { email: user.email, name: credentials.username };
 					} else {
