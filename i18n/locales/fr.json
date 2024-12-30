@@ -43,5 +43,24 @@
     "Director": "Directeur",
     "Runtime": "Durée",
     "ReleaseDate": "Date de sorti"
+  },
+
+  "searchMovies": {
+    "searchInput": "Recherche un Film...",
+    "SectionFilters": "Filtres",
+    "filtersAscending": "Croissant",
+    "filtersDescending": "Décroissant",
+    "sortTitle": "Titre",
+    "sortRating": "Note",
+    "sortReleaseYear": "Année de sortie",
+    "sortPopularity": "Popularité",
+    "filtersGenres": "Tous les Genres",
+    "filterYear": "Année",
+    "stateNoMovies": "Pas de Film trouvé",
+    "stateNoMoreMovies": "Plus de Film disponible"
+  },
+
+  "IndexMovies": {
+    "SectionPopular": "Films Populaires"
   }
 }

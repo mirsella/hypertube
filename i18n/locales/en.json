@@ -43,5 +43,24 @@
     "Director": "Director",
     "Runtime": "Runtime",
     "ReleaseDate": "Release date"
+  },
+
+  "searchMovies": {
+    "searchInput": "Search movies...",
+    "SectionFilters": "Filters",
+    "filtersAscending": "Ascending",
+    "filtersDescending": "Descending",
+    "sortTitle": "Title",
+    "sortRating": "Rating",
+    "sortReleaseYear": "Release Year",
+    "sortPopularity": "Popularity",
+    "filtersGenres": "All Genres",
+    "filterYear": "Year",
+    "stateNoMovies": "No movies found",
+    "stateNoMoreMovies": "No more movies"
+  },
+
+  "IndexMovies": {
+    "SectionPopular": "Popular Movies"
   }
 }

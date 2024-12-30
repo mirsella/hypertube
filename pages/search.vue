@@ -2,39 +2,40 @@
 	<div class="container mx-auto p-4">
 		<!-- Search Section -->
 		<div class="mb-4">
-			<input v-model="searchQuery" @input="debounceSearch" type="text" placeholder="Search movies..."
-				class="input input-bordered w-full max-w-lg" />
+			<input v-model="searchQuery" @input="debounceSearch" type="text"
+				:placeholder="$t('searchMovies.searchInput')" class="input input-bordered w-full max-w-lg" />
 		</div>
 
 		<div className="flex w-full flex-col">
-			<div class="divider divider-start text-xl">Filters</div>
+			<div class="divider divider-start text-xl">{{ $t("searchMovies.SectionFilters") }}</div>
 		</div>
 		<!-- Filters Section -->
 		<div class="flex flex-wrap gap-4 mb-8">
 			<!-- Sort Direction -->
 			<select v-model="sortDirection" class="select select-bordered">
-				<option value="asc">Ascending</option>
-				<option value="desc">Descending</option>
+				<option value="asc">{{ $t("searchMovies.filtersAscending") }}</option>
+				<option value="desc">{{ $t("searchMovies.filtersDescending") }}</option>
 			</select>
 
 			<!-- Sort Options -->
 			<select v-model="sortBy" class="select select-bordered">
-				<option value="title">Name</option>
-				<option value="vote_average">Rating</option>
-				<option value="release_date">Release Year</option>
-				<option value="popularity">Popularity</option>
+				<option value="title">{{ $t("searchMovies.sortTitle") }}</option>
+				<option value="vote_average">{{ $t("searchMovies.sortRating") }}</option>
+				<option value="release_date">{{ $t("searchMovies.sortReleaseYear") }}</option>
+				<option value="popularity">{{ $t("searchMovies.sortPopularity") }}</option>
 			</select>
 
 			<!-- Genre Filter -->
 			<select v-model="selectedGenre" class="select select-bordered">
-				<option value="">All Genres</option>
+				<option value="">{{ $t("searchMovies.filtersGenres") }}</option>
 				<option v-for="genre in genres" :key="genre.id" :value="genre.id">
 					{{ genre.name }}
 				</option>
 			</select>
 
 			<!-- Year Filter -->
-			<input v-model="yearFilter" type="number" placeholder="Year" class="input input-bordered w-24" />
+			<input v-model="yearFilter" type="number" :placeholder="$t('searchMovies.filterYear')"
+				class="input input-bordered w-24" />
 
 		</div>
 
@@ -64,12 +65,12 @@
 
 		<!-- No Movies found State -->
 		<div v-if="filteredMovies.length === 0 && !loading" class="flex justify-center my-12">
-			<p class="text-lg line-clamp-3">No movies found</p>
+			<p class="text-lg line-clamp-3">{{ $t("searchMovies.stateNoMovies") }}</p>
 		</div>
 
 		<!-- No More Movies State -->
 		<div v-if="totalPages === page" class="flex justify-center my-8">
-			<p class="text-base line-clamp-3">No more movies</p>
+			<p class="text-base line-clamp-3">{{ $t("searchMovies.stateNoMoreMovies") }}</p>
 		</div>
 	</div>
 </template>
