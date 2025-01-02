@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { boolean, pgTable, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { boolean, pgTable, timestamp, uuid, varchar, text } from "drizzle-orm/pg-core";
 
 export const users = pgTable("users", {
     id: uuid("id").primaryKey().defaultRandom(),
@@ -14,6 +14,7 @@ export const users = pgTable("users", {
     resetToken: varchar("resetToken", { length: 255 }),
     resetExpirationToken: timestamp("resetExpirationToken", { withTimezone: true }),
     complete_profile: boolean("complete_profile").default(false),
+    watchedMovies: text("watchedMovies").array().default([])
     // TODO: add more columns as needed
 });
 

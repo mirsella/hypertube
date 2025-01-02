@@ -1,9 +1,20 @@
 import { XMLParser } from "fast-xml-parser";
+import { getServerSession, getToken } from "#auth";
 
 const BASE_URL = "https://api.themoviedb.org/3/";
 
 export default defineEventHandler(async (event) => {
+  const session = await getServerSession(event);
+  const token = await getToken({ event });
+  if (!session) {
+    return { message: "User is not authenticated", status: 400 };
+  }
+  if (!token?.email) {
+    return new Response("Unauthorized", { status: 401 });
+  }
+
   const config = useRuntimeConfig(event);
+
   try {
     if (!event.context.params?.id) {
       throw createError({
@@ -11,8 +22,20 @@ export default defineEventHandler(async (event) => {
         statusMessage: "id parameter is required",
       });
     }
-
     const id = event.context.params?.id;
+
+    //Add Movie to WatchedMovies User list
+    await db
+      .update(tables.users)
+      .set({
+        watchedMovies: sql`array_append(${tables.users.watchedMovies}, ${id})`,
+      })
+      .where(
+        and(
+          eq(tables.users.email, token.email),
+          sql`NOT (${id} = ANY(${tables.users.watchedMovies}))`
+        )
+      )
 
     //Fetch movie infos
     const response = await fetch(

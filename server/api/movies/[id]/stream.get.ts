@@ -16,6 +16,9 @@ export default defineEventHandler(
     if (!session) throw createError({ statusCode: 401 });
 
     const moviesDir = useRuntimeConfig(event).moviesDir;
+
+    const headers = getRequestHeaders(event) as HeadersInit;
+
     if (!fs.existsSync(moviesDir)) fs.mkdirSync(moviesDir);
     const id = getRouterParam(event, "id");
     if (!id)
@@ -32,7 +35,7 @@ export default defineEventHandler(
     });
     if (file_stream) return file_stream;
 
-    const infos = await $fetch(`/api/movies/${id}`);
+    const infos = await $fetch(`/api/movies/${id}`, { headers });
     if (!infos.torrents?.[0]) {
       throw createError({
         statusCode: 404,
@@ -79,7 +82,7 @@ export default defineEventHandler(
       let stream = convert_to_webm(biggest_file_stream)
         .on("end", () => {
           if (!fs.existsSync(filepath))
-            fs.cp(biggest_file_path_converted, filepath, () => {});
+            fs.cp(biggest_file_path_converted, filepath, () => { });
         })
         .pipe();
       if (!fs.existsSync(biggest_file_path_converted))
@@ -88,7 +91,7 @@ export default defineEventHandler(
     } else {
       torrent.on("done", () => {
         if (!fs.existsSync(filepath))
-          fs.cp(biggest_file_path, filepath, () => {});
+          fs.cp(biggest_file_path, filepath, () => { });
       });
       return biggest_file_stream;
     }

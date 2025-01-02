@@ -42,9 +42,13 @@
 		<!-- Movies Grid -->
 		<div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
 			<div v-for="movie in filteredMovies" :key="movie.id"
-				class="card bg-base-100 shadow-xl cursor-pointer hover:glass hover:opacity-70"
-				@click="sendToPlayer(movie)">
-				<figure>
+				class="card bg-base-100 shadow-xl cursor-pointer hover:glass hover:opacity-70" :class="[
+					userWatchedMovies.includes(movie.imdb_id) ? 'opacity-40' : ''
+				]" @click="sendToPlayer(movie)">
+				<figure class="relative">
+					<div v-if="userWatchedMovies.includes(movie.imdb_id)"
+						class="absolute bottom-0 right-0 btn btn-outline btn-accent i-carbon-checkmark-filled">
+					</div>
 					<img :src="'https://image.tmdb.org/t/p/w500' + movie.poster_path" :alt="movie.title"
 						class="w-full object-cover" />
 				</figure>
@@ -90,6 +94,7 @@ const sortBy = ref('popularity')
 const sortDirection = ref('desc')
 const selectedGenre = ref('')
 const yearFilter = ref('')
+const userWatchedMovies = ref([])
 
 // Add scroll listener
 onMounted(() => {
@@ -109,6 +114,13 @@ onMounted(async () => {
 
 		// Search Popular Movies
 		searchMovies()
+
+		// Fetch User data
+		const resUser = await fetch(
+			`/api/users/me`
+		)
+		const udata = await resUser.json()
+		userWatchedMovies.value = udata.watchedMovies
 
 	} catch (error) {
 		showError('Error fetching setup data:', error)
@@ -192,7 +204,7 @@ const debounceSearch = debounce(() => {
 // Infinite scroll handler
 const handleScroll = () => {
 	const bottomOfWindow =
-		document.documentElement.scrollTop + window.innerHeight ===
+		document.documentElement.scrollTop + window.innerHeight + 30 >=
 		document.documentElement.offsetHeight
 
 	if (!bottomOfWindow || loading.value || totalPages.value == page.value) return
