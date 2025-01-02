@@ -1,5 +1,8 @@
 <template>
     <div class="container mx-auto p-4">
+
+        <authSignIn />
+
         <div class="flex w-full flex-col">
             <div class="divider divider-start text-xl">{{ $t("IndexMovies.SectionPopular") }}</div>
         </div>
@@ -27,7 +30,6 @@
         </div>
         <div v-else class="text-center py-8">{{ $t("searchMovies.stateNoMovies") }}</div>
     </div>
-    <authSignIn />
 </template>
 
 <script setup lang="ts">

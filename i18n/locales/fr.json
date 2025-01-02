@@ -32,7 +32,8 @@
   "boutton": {
     "UserProfiles": "Profils d'utilisateurs",
     "ModifyProfiles": "Modifier ton profil",
-    "SignOut": "Deconnexion"
+    "SignOut": "Deconnexion",
+    "Search": "Recherche films"
   },
   "movies": {
     "AddAComment": "ajouter un commentaire...",
@@ -46,7 +47,7 @@
   },
 
   "searchMovies": {
-    "searchInput": "Recherche un Film...",
+    "searchInput": "Taper un titre de film...",
     "SectionFilters": "Filtres",
     "filtersAscending": "Croissant",
     "filtersDescending": "Décroissant",

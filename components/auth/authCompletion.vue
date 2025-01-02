@@ -14,22 +14,13 @@
                     </label>
 
                     <label class="input input-bordered flex items-center gap-2">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                             class="h-4 w-4 opacity-70">
                             <path
                                 d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                         </svg>
-                        <input
-                            id="username"
-                            v-model="username"
-                            name="username"
-                            type="text"
-                            placeholder="Simo_42"
-                            required
-                            class="grow" />
+                        <input id="username" v-model="username" name="username" type="text" placeholder="Simo_42"
+                            required class="grow" />
                     </label>
                 </div>
 
@@ -38,22 +29,13 @@
                         {{ $t("userProfiles.lastname") }}
                     </label>
                     <label class="input input-bordered flex items-center gap-2">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                             class="h-4 w-4 opacity-70">
                             <path
                                 d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                         </svg>
-                        <input
-                            id="lastname"
-                            v-model="lastname"
-                            name="lastname"
-                            type="lastname"
-                            placeholder="Johnson"
-                            required
-                            class="grow" />
+                        <input id="lastname" v-model="lastname" name="lastname" type="lastname" placeholder="Johnson"
+                            required class="grow" />
                     </label>
                 </div>
                 <div>
@@ -61,35 +43,23 @@
                         {{ $t("userProfiles.firstname") }}
                     </label>
                     <label class="input input-bordered flex items-center gap-2">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 16 16"
-                            fill="currentColor"
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor"
                             class="h-4 w-4 opacity-70">
                             <path
                                 d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
                         </svg>
-                        <input
-                            id="firstname"
-                            v-model="firstname"
-                            name="firstname"
-                            type="firstname"
-                            placeholder="Jeff"
-                            required
-                            class="grow" />
+                        <input id="firstname" v-model="firstname" name="firstname" type="firstname" placeholder="Jeff"
+                            required class="grow" />
                     </label>
                 </div>
 
                 <div>
-                    <button
-                        type="submit"
-                        :disabled="!username || !lastname || !firstname"
-                        :class="[
-                            'btn w-full',
-                            !username || !lastname || !firstname
-                                ? 'bg-red-500 text-white cursor-not-allowed'
-                                : 'btn-primary',
-                        ]">
+                    <button type="submit" :disabled="!username || !lastname || !firstname" :class="[
+                        'btn w-full',
+                        !username || !lastname || !firstname
+                            ? 'bg-red-500 text-white cursor-not-allowed'
+                            : 'btn-primary',
+                    ]">
                         {{ $t("modifyProfiles.Register") }}
                     </button>
                 </div>
@@ -101,9 +71,7 @@
         </div>
     </div>
 
-    <div
-        v-if="showAnimation"
-        class="fixed inset-0 flex items-center justify-center z-50 bg-white bg-opacity-60">
+    <div v-if="showAnimation" class="fixed inset-0 flex items-center justify-center z-50 bg-white bg-opacity-60">
         <LottieAnimation :animationData="animationData" :loop="false" :autoplay="true" />
     </div>
 </template>
@@ -134,7 +102,7 @@ async function register() {
         showAnimation.value = true;
         setTimeout(() => {
             $eventBus.emit("CompleteProfil", true);
-            navigateTo("/dashboard");
+            navigateTo("/search");
         }, 2000);
     } catch (error) {
         console.log(error);

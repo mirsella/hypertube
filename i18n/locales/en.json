@@ -32,7 +32,8 @@
   "boutton": {
     "UserProfiles": "User Profiles",
     "ModifyProfiles": "Modify Profiles",
-    "SignOut": "Sign Out"
+    "SignOut": "Sign Out",
+    "Search": "Search Movies"
   },
   "movies": {
     "AddAComment": "add a comment...",
@@ -46,7 +47,7 @@
   },
 
   "searchMovies": {
-    "searchInput": "Search movies...",
+    "searchInput": "Enter movie Title...",
     "SectionFilters": "Filters",
     "filtersAscending": "Ascending",
     "filtersDescending": "Descending",

@@ -4,31 +4,27 @@
         <div v-if="showAnimation" class="w-70 h-70">
             <!-- Adjust size if necessary -->
             <LottieAnimation :animationData="animationData" :loop="true" :autoplay="true" />
+            <button v-if="completed_profil === true" @click="Search"
+                class="btn btn-outline btn-accent text-gray-900 hover:bg-yellow-600 transition-all duration-300 flex items-center gap-2">
+                <span class="w-5 h-5 i-carbon-search"> </span>
+                {{ $t("boutton.Search") }}
+            </button>
         </div>
 
         <div class="flex-grow"></div>
         <div class="space-x-4 flex flex-wrap">
             <div v-if="completed_profil === true" class="flex flex-wrap space-x-4">
-                <button
-                    @click="userProfiles"
+                <button @click="userProfiles"
                     class="btn btn-warning text-gray-900 hover:bg-yellow-600 transition-all duration-300">
                     {{ $t("boutton.UserProfiles") }}
                 </button>
 
-                <button
-                    @click="Dashboard"
-                    class="btn btn-warning text-gray-900 hover:bg-yellow-600 transition-all duration-300">
-                    Dashboard
-                </button>
-
-                <button
-                    @click="modifyProfile"
+                <button @click="modifyProfile"
                     class="btn btn-info text-gray-900 hover:bg-blue-600 transition-all duration-300">
                     {{ $t("boutton.ModifyProfiles") }}
                 </button>
             </div>
-            <button
-                @click="handleSignOut"
+            <button @click="handleSignOut" \
                 class="btn btn-error text-gray-200 hover:bg-red-600 transition-all duration-300">
                 {{ $t("boutton.SignOut") }}
             </button>
@@ -63,14 +59,14 @@ function userProfiles() {
 function modifyProfile() {
     navigateTo("/modify_profile");
 }
-function Dashboard() {
-    navigateTo("/Dashboard");
+function Search() {
+    navigateTo("/search");
 }
 
 onMounted(() => {
-    console.log("completed_profil:", completed_profil.value);
+    //console.log("completed_profil:", completed_profil.value);
     //Show the nav bar only if the profile is completed
-    const { $emitter } = useNuxtApp();
+    checkCompletedProfile();
 
     $eventBus.on("CompleteProfil", (payload: any) => {
         checkCompletedProfile();
