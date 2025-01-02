@@ -6,6 +6,7 @@ const BASE_URL = "https://api.themoviedb.org/3/";
 export default defineEventHandler(async (event) => {
   const session = await getServerSession(event);
   const token = await getToken({ event });
+
   if (!session) {
     return { message: "User is not authenticated", status: 400 };
   }
@@ -100,8 +101,12 @@ export default defineEventHandler(async (event) => {
     movie_infos.available_subtitles = resSubtitles;
 
     //Fetch torrents from title
+
+    let jackettURL = 'localhost'
+    if (process.env.NODE_ENV === 'production')
+      jackettURL = 'jackett'
     const resTorrents = await fetch(
-      "http://jackett:9117/api/v2.0/indexers/all/results/torznab/api" +
+      `http://${jackettURL}:9117/api/v2.0/indexers/all/results/torznab/api` +
       `?apikey=${config.jackettApiKey}` +
       `&t=movie&q=${encodeURI(movie_infos?.title)}` +
       `&year=${movie_infos.release_date.slice(0, 4)}` +
