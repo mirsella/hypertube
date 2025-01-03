@@ -43,7 +43,8 @@
     "Companies": "Companies",
     "Director": "Directeur",
     "Runtime": "Durée",
-    "ReleaseDate": "Date de sorti"
+    "ReleaseDate": "Date de sorti",
+    "stateFetchError": "Le Film n'existe pas"
   },
 
   "searchMovies": {

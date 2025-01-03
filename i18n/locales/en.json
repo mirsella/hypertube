@@ -43,7 +43,8 @@
     "Companies": "Companies",
     "Director": "Director",
     "Runtime": "Runtime",
-    "ReleaseDate": "Release date"
+    "ReleaseDate": "Release date",
+    "stateFetchError": "Movie does not Exist"
   },
 
   "searchMovies": {
