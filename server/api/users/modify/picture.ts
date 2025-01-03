@@ -1,81 +1,123 @@
-import { getServerSession } from "#auth";
+import { getServerSession, getToken } from "#auth";
 import fs from "fs";
-import multer from "multer";
 import type { IncomingMessage, ServerResponse } from "http";
-import { getToken } from "#auth";
- 
+import multer from "multer";
+import path from "path";
+
+// Définir le chemin de stockage directement dans le projet
+const uploadDir = path.join(process.cwd(), "uploads/profile_pictures");
+
+// S'assurer que le dossier existe
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir, { recursive: true });
+}
+
+console.log("Upload directory:", uploadDir);
+
 const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, "public/images");
-	},
-	filename: function (req, file, cb) {
-		cb(null, `${file.fieldname}-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`);
-	},
+    destination: function (_, __, cb) {
+        cb(null, uploadDir);
+    },
+    filename: function (_, file, cb) {
+        const ext = path.extname(file.originalname);
+        const uniqueSuffix = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+        cb(null, `${uniqueSuffix}${ext}`);
+    },
 });
 
 const upload = multer({
-	storage: storage,
-	limits: {
-		fileSize: 5 * 1024 * 1024,
-		fieldSize: 25 * 1024 * 1024,
-		files: 5, //
-	},
+    storage: storage,
+    limits: {
+        fileSize: 5 * 1024 * 1024,
+    },
+    fileFilter: (_, file, cb) => {
+        const allowedMimeTypes = ["image/jpeg", "image/png"];
+        if (!allowedMimeTypes.includes(file.mimetype)) {
+            cb(new Error("Invalid file type. Only JPEG and PNG files are allowed."));
+            return;
+        }
+        cb(null, true);
+    },
 });
 
-export default defineEventHandler(async event => {
-	const req = event.req as IncomingMessage & { file?: Express.Multer.File; body?: any };
-	const res = event.res as ServerResponse;
-	const session = await getServerSession(event);
-	const token = await getToken({ event });
+export default defineEventHandler(async (event) => {
+    try {
+        const session = await getServerSession(event);
+        const token = await getToken({ event });
 
-	if (!session) {
-		return { message: "User is not authentificated", status: 400 };
-	}
-	if (!token || !token.email) {
-		return new Response("Unauthorized", { status: 401 });
-	}
-	try {
-		// console.log("req.file.filename", req.file?.filename);
-		await new Promise<void>((resolve, reject) => {
-			// @ts-ignore
-			upload.single("file")(req, res, (err: any) => {
-				if (err) {
-					console.error("Erreur Multer:", err);
-					reject({ message: "Error while uploading file", status: 400 });
-					return;
-				}
-				resolve();
-			});
-		});
-		if (!req.file) throw { message: "No file uploaded", status: 400 };
+        if (!session || !token?.email) {
+            throw createError({
+                statusCode: 401,
+                message: "Authentication required",
+            });
+        }
 
-		const file_path = `images/${req.file.filename}`;
-		const file = req.file;
-		const email = req.body?.email;
+        const req = event.node.req as IncomingMessage & { file?: Express.Multer.File; body?: any };
+        const res = event.node.res as ServerResponse;
 
-		if (!file || !email) {
-			throw { message: "Missing required fields", status: 400 };
-		}
-		const user = await db.select().from(tables.users).where(eq(tables.users.email, email)).limit(1).get();
-		if (fs.existsSync(`public/${user?.profile_picture}`)) {
-			fs.unlinkSync(`public/${user?.profile_picture}`);
-		}
+        await new Promise<void>((resolve, reject) => {
+            //@ts-ignore
+            upload.single("file")(req, res, (err) => {
+                if (err) {
+                    console.error("Upload error:", err);
+                    reject(
+                        createError({
+                            statusCode: 400,
+                            message: err.message || "Error while uploading file",
+                        })
+                    );
+                    return;
+                }
+                resolve();
+            });
+        });
 
-		await db
-			.update(tables.users)
-			.set({ profile_picture: file_path } as any)
-			.where(eq(tables.users.email, email));
+        if (!req.file) {
+            throw createError({
+                statusCode: 400,
+                message: "No file uploaded",
+            });
+        }
 
-		// console.log("Fichier reçu:", file);
-		// console.log("Email reçu:", email);
+        const email = req.body?.email;
+        if (!email) {
+            throw createError({
+                statusCode: 400,
+                message: "Email is required",
+            });
+        }
 
-		return {
-			file_path: file_path,
-			message: "Profile picture updated successfully",
-			status: 200,
-		};
-	} catch (error) {
-		console.error("Error during file upload:", error);
-		return error;
-	}
+        const user = await db
+            .select()
+            .from(tables.users)
+            .where(eq(tables.users.email, email))
+            .limit(1)
+            .then((res) => res[0]);
+
+        if (user?.profile_picture) {
+            const oldFilePath = path.join(process.cwd(), user.profile_picture);
+            if (fs.existsSync(oldFilePath)) {
+                fs.unlinkSync(oldFilePath);
+            }
+        }
+
+        const relativePath = path.join("uploads/profile_pictures", req.file.filename);
+
+        await db
+            .update(tables.users)
+            .set({ profile_picture: relativePath })
+            .where(eq(tables.users.email, email));
+
+        return {
+            file_path: relativePath,
+            message: "Profile picture updated successfully",
+            status: 200,
+        };
+    } catch (error: any) {
+        console.error("Error during file upload:", error);
+        throw createError({
+            statusCode: error.statusCode || 500,
+            message: error.message || "Internal server error",
+        });
+    }
 });
