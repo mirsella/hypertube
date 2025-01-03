@@ -32,7 +32,7 @@ async function check_already_register(username: string, email: any) {
 // Credentials way
 export default defineEventHandler(async (event) => {
     const { username, email, lastname, firstname, password } = await readBody(event);
-    
+
     if (!username || !email || !lastname || !firstname || !password) {
         return { message: "Missing required fields", status: 400 };
     }
@@ -70,7 +70,7 @@ export default defineEventHandler(async (event) => {
         }
     } catch (error) {
         console.error("Error while creating user", error);
-        return { message: "An error occurred", status: 500 };
+        return { message: "An error occurred", status: 400 };
     }
 
     return { message: "User created", status: 200 };
