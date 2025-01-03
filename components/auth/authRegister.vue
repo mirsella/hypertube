@@ -1,7 +1,7 @@
 <template>
     <div class="flex min-h-screen flex-col justify-center items-center px-6 py-8 lg:px-8">
         <div class="sm:mx-auto sm:w-full sm:max-w-sm">
-            <h2 class="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900">
+            <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-white">
                 Register to your account
             </h2>
         </div>
@@ -224,7 +224,7 @@ const isEmailValid = computed(() => {
 
 async function register() {
     try {
-        const response = await $fetch("api/auth/register-auth", {
+        const response = (await $fetch("api/auth/register-auth", {
             method: "POST",
             body: {
                 username: username.value,
@@ -233,15 +233,17 @@ async function register() {
                 firstname: firstname.value,
                 password: password.value,
             },
-        });
+        })) as { status: number; message: string };
 
         console.log(response);
-        message.value = (response as any).response;
-        console.log("message:", message.value);
-        showAnimation.value = true;
-        setTimeout(() => {
-            navigateTo("/");
-        }, 2000);
+        message.value = response.message;
+        console.log("message:", message.value, "status:", response.status);
+        if (response.status === 200) {
+            message.value = "Registration successful";
+            setTimeout(() => {
+                navigateTo("/");
+            }, 2000);
+        }
     } catch (response) {
         console.log(response);
         message.value = "An error occurred during registration";

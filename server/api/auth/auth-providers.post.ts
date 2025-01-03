@@ -18,12 +18,12 @@ async function check_providers(email: string, provider: string) {
 			return true; // Déjà enregistré avec ce provider
 		}
 		// Créer un nouveau provider pour un utilisateur existant
-		await db.insert(tables.providers).values({
-			email: email,
-			provider: provider,
-			user_id: user.id,
-		});
-		return true; // Déjà enregistré avec un autre provider
+		// await db.insert(tables.providers).values({
+		// 	email: email,
+		// 	provider: provider,
+		// 	user_id: user.id,
+		// });
+		return null; // Déjà enregistré avec un autre provider
 	}
 
 	return false; // Utilisateur n'existe pas
@@ -65,7 +65,13 @@ export default defineEventHandler(async event => {
 
 	const already_register = await check_providers(email, auth_provider);
 	if (already_register === true) {
+		console.log("fdsafsafa");
+
 		return await HandleCheckProfile(email);
+	}
+	else if (already_register === null) {
+		console.log("Only one provider is allowed BLABLA : ", email, auth_provider);
+		return new Response("Only one provider is allowed", { status: 206 }); 
 	}
 
 	// Enregistrement pour la première fois sans provider existant

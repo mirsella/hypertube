@@ -1,24 +1,29 @@
 <template>
-	<div class="flex">
+	<div class="flex flex-col md:flex-row">
 		<!-- Sidebar Menu -->
-		<div class="w-1/4 h-screen bg-gray-200 p-4">
+		<div class="w-full md:w-1/4 h-auto md:h-screen bg-gray-200 p-4">
 			<ul class="menu bg-base-200 p-4 rounded-box">
 				<li>
-					<a @click="activeForm = 'password'">{{ $t("modifyProfiles.changePassword") }}</a>
+					<a @click="activeForm = 'password'">{{
+						$t("modifyProfiles.changePassword")
+					}}</a>
 				</li>
 				<li>
-					<a @click="activeForm = 'username'">{{ $t("modifyProfiles.changeUsername") }}</a>
+					<a @click="activeForm = 'username'">{{
+						$t("modifyProfiles.changeUsername")
+					}}</a>
 				</li>
 				<!-- "Change Email" option visible mais désactivée si invisible est false -->
 				<li>
 					<a
 						@click="invisible && (activeForm = 'email')"
 						:class="{
-							'text-gray-400 cursor-not-allowed': !invisible,
-							'text-black-500 ': invisible,
+							'text-gray-400 cursor-not-allowed text-red-500': !invisible,
+							'text-black-500': invisible,
 						}">
 						{{ $t("modifyProfiles.changeEmail") }}
 					</a>
+
 				</li>
 
 				<li>
@@ -31,34 +36,25 @@
 		</div>
 
 		<!-- Main Content -->
-		<div class="w-3/4 p-4">
+		<div class="w-full md:w-3/4 p-4">
 			<div v-if="activeForm === 'password'">
 				<userPassword :email="email" />
 			</div>
 
 			<div v-if="activeForm === 'username'">
-				<userUsername
-					:username="username"
-					:email="email" />
+				<userUsername :username="username" :email="email" />
 			</div>
 
 			<div v-if="activeForm === 'email' && invisible === true">
-				<userMail
-					:email="email"
-					:username="username" />
+				<userMail :email="email" :username="username" />
 			</div>
 
 			<div v-if="activeForm === 'name'">
-				<userName
-					:firstname="firstname"
-					:lastname="lastname"
-					:email="email" />
+				<userName :firstname="firstname" :lastname="lastname" :email="email" />
 			</div>
 
 			<div v-if="activeForm === 'picture'">
-				<userPicture
-					:picture="picture"
-					:email="email" />
+				<userPicture :picture="picture" :email="email" />
 			</div>
 		</div>
 	</div>
@@ -77,99 +73,113 @@ const firstname = ref("");
 const lastname = ref("");
 const invisible = ref(false);
 const picture = ref("");
-const { $eventBus } = useNuxtApp() as any; 
+const { $eventBus } = useNuxtApp() as any;
 
 onMounted(async () => {
-	$eventBus.emit("CompleteProfil", true);
+    $eventBus.emit("CompleteProfil", true);
 
-	try {
-		if (!token.value) {
-			throw new Error("Token is null");
-		}
-		const response = await $fetch<{ message: string; user: { email: string; firstname: string; lastname: string; username: string; picture: string | null; }; providers: string[]; status: number; }>("/api/users/profil", {
-			method: "POST",
-			body: {
-				email: token.value.email,
-			},
-			headers: {
-				Authorization: `Bearer ${token.value}`,
-			},
-		});
-		
-		console.log(response.providers);
-		console.log(response.user.email);
-		console.log("picture ", response.user.picture);
+    try {
+        if (!token.value) {
+            throw new Error("Token is null");
+        }
+        const response = await $fetch<{
+            message: string;
+            user: {
+                email: string;
+                firstname: string;
+                lastname: string;
+                username: string;
+                picture: string | null;
+            };
+            providers: string[];
+            status: number;
+        }>("/api/users/profil", {
+            method: "POST",
+            body: {
+                email: token.value.email,
+            },
+            headers: {
+                Authorization: `Bearer ${token.value}`,
+            },
+        });
 
-		username.value = response.user.username;
-		email.value = response.user.email;
-		firstname.value = response.user.firstname;
-		lastname.value = response.user.lastname;
-		picture.value = response.user.picture || "";
+        console.log(response.providers);
+        console.log(response.user.email);
+        console.log("picture ", response.user.picture);
 
-		console.log(response.providers.length);
-		if (response.providers.length === 1 && response.providers.includes("credentials")) {
-			console.log("Only credentials");
-			invisible.value = true;
-		}
+        username.value = response.user.username;
+        email.value = response.user.email;
+        firstname.value = response.user.firstname;
+        lastname.value = response.user.lastname;
+        picture.value = response.user.picture || "";
 
-		console.log(response);
-	} catch (error) {
-		console.error(error);
-	}
-	// get update from other components
-	await updateName();
-	await updateUsername();
-	await updateMail();
-	await updatePicture();
+        console.log(response.providers.length);
+        if (response.providers.length === 1 && response.providers.includes("credentials")) {
+            console.log("Only credentials");
+            invisible.value = true;
+        }
+
+        console.log(response);
+    } catch (error) {
+        console.error(error);
+    }
+    // get update from other components
+    await updateName();
+    await updateUsername();
+    await updateMail();
+    await updatePicture();
 });
 
 async function updateUsername() {
-	$eventBus.on("UpdateUsername", (payload: { username: string; email: string }) => {
-		console.log("UpdateUsername", payload);
-		if (!payload.username) {
-			return;
-		}
-		username.value = payload.username;
-		email.value = payload.email;
-	});
+    $eventBus.on("UpdateUsername", (payload: { username: string; email: string }) => {
+        console.log("UpdateUsername", payload);
+        if (!payload.username) {
+            return;
+        }
+        username.value = payload.username;
+        email.value = payload.email;
+    });
 }
 
 async function updateMail() {
-	$eventBus.on("UpdateMail", (payload: { email: string }) => {
-		console.log("UpdateMail", payload);
-		if (!payload.email) {
-			return;
-		}
-		email.value = payload.email;
-	});
+    $eventBus.on("UpdateMail", (payload: { email: string }) => {
+        console.log("UpdateMail", payload);
+        if (!payload.email) {
+            return;
+        }
+        email.value = payload.email;
+    });
 }
 
 async function updateName() {
-	$eventBus.on("UpdateName", (payload: { firstname: string; lastname: string; email: string }) => {
-		if (!payload.firstname || !payload.lastname) {
-			return;
-		}
-		console.log("UpdateName blabla", payload);
-		lastname.value = payload.lastname;
-		firstname.value = payload.firstname;
-		email.value = payload.email;
-	});
+    $eventBus.on(
+        "UpdateName",
+        (payload: { firstname: string; lastname: string; email: string }) => {
+            if (!payload.firstname || !payload.lastname) {
+                return;
+            }
+            console.log("UpdateName blabla", payload);
+            lastname.value = payload.lastname;
+            firstname.value = payload.firstname;
+            email.value = payload.email;
+        }
+    );
 }
 
 async function updatePicture() {
-	$eventBus.on("UpdatePicture", (payload: { picture: string; email: string }) => {
-		if (!payload.picture || !payload.email) {
-			return;
-		}
-		console.log("UpdatePicture", payload);
-		picture.value = payload.picture;
-		email.value = payload.email;
-	});
+    $eventBus.on("UpdatePicture", (payload: { picture: string; email: string }) => {
+        if (!payload.picture || !payload.email) {
+            return;
+        }
+        console.log("UpdatePicture", payload);
+        picture.value = payload.picture;
+        email.value = payload.email;
+    });
 }
 
 onBeforeUnmount(() => {
-	$eventBus.off("UpdateUsername", updateUsername);
-	$eventBus.off("UpdateMail", updateMail);
-	$eventBus.off("UpdateName", updateName);
+    $eventBus.off("UpdateUsername", updateUsername);
+    $eventBus.off("UpdateMail", updateMail);
+    $eventBus.off("UpdateName", updateName);
 });
 </script>
