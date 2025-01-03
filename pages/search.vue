@@ -73,7 +73,7 @@
 		</div>
 
 		<!-- No More Movies State -->
-		<div v-if="totalPages === page" class="flex justify-center my-8">
+		<div v-if="totalPages === page && filteredMovies.length > 0" class="flex justify-center my-8">
 			<p class="text-base line-clamp-3">{{ $t("searchMovies.stateNoMoreMovies") }}</p>
 		</div>
 	</div>
