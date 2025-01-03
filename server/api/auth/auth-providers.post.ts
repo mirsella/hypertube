@@ -2,7 +2,7 @@
 async function check_providers(email: string, provider: string) {
 	// Vérifier si l'utilisateur existe avec cet e-mail
 	const user = (await db.select().from(tables.users).where(eq(tables.users.email, email)).limit(1))[0];
-	
+
 	if (user) {
 		// L'utilisateur existe
 		const providers_exist = (await db //
@@ -52,7 +52,7 @@ async function HandleCheckProfile(email: string) {
 	} else if (check_profil === false) {
 		return new Response("User need to complete his profil", { status: 206 }); // Profil incomplet
 	} else {
-		return new Response("Error checking profile completion", { status: 500 });
+		return new Response("Error checking profile completion", { status: 400 });
 	}
 }
 

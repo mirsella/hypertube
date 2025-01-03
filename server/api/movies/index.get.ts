@@ -37,8 +37,8 @@ export default defineEventHandler(async (event) => {
   } catch (error) {
     console.error("Error in movie search:", error);
     return createError({
-      statusCode: 500,
-      statusMessage: "Internal Server Error",
+      statusCode: 400,
+      statusMessage: "Error fetching movies infos",
       message: "Failed to process movie search request",
     });
   }
