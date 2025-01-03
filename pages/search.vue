@@ -127,6 +127,11 @@ onMounted(async () => {
 	}
 })
 
+onUnmounted(() => {
+	window.removeEventListener('scroll', handleScroll)
+	debounceSearch.cancel()
+})
+
 const sendToPlayer = async (movie) => {
 	navigateTo({
 		path: `/movies/${movie.imdb_id}`,
@@ -185,7 +190,7 @@ const searchMovies = async () => {
 		checkAndLoadMoreContent()
 	} catch (error) {
 		loading.value = false
-		showError('Error searching movies:', error)
+		console.error('Error searching movies:', error)
 	} finally {
 		loading.value = false
 	}
