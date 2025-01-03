@@ -24,7 +24,7 @@
                     {{ $t("boutton.ModifyProfiles") }}
                 </button>
             </div>
-            <button @click="handleSignOut" \
+            <button @click="handleSignOut"
                 class="btn btn-error text-gray-200 hover:bg-red-600 transition-all duration-300">
                 {{ $t("boutton.SignOut") }}
             </button>
