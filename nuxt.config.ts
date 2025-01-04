@@ -71,10 +71,10 @@ export default defineNuxtConfig({
     scheduledTasks: {
       "0 * * * *": ["remove_old_movies"],
     },
-  },
-  hooks: {
-    "dev:reload": () => {
-      require("node-datachannel");
+    hooks: {
+      "dev:reload": () => {
+        require("node-datachannel");
+      },
     },
   },
 });
