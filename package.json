@@ -32,7 +32,7 @@
     "subtitle": "^4.2.1",
     "vue": "latest",
     "vue-router": "^4.5.0",
-    "webtorrent": "^2.5.11"
+    "webtorrent": "^2.5.12"
   },
   "packageManager": "pnpm@9.12.2+sha512.22721b3a11f81661ae1ec68ce1a7b879425a1ca5b991c975b074ac220b187ce56c708fe5db69f4c962c989452eee76c82877f4ee80f474cebd61ee13461b6228",
   "devDependencies": {
@@ -45,9 +45,7 @@
     "@types/webtorrent": "^0.109.10",
     "daisyui": "^4.12.23",
     "drizzle-kit": "^0.30.1",
-    "typescript": "5.6.2",
-    "vite": "^5.4.11",
-    "vue-tsc": "2.0.29"
+    "vite": "^5.4.11"
   },
   "trustedDependencies": [
     "@parcel/watcher",
