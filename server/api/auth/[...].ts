@@ -1,11 +1,17 @@
 // file: ~/server/api/auth/[...].ts
 import { NuxtAuthHandler } from "#auth";
-import GithubProvider from "next-auth/providers/github";
-import FortyTwo from "next-auth/providers/42-school";
-import Google from "next-auth/providers/google";
+// @ts-ignore
 import Credentials from "next-auth/providers/credentials";
-import Discord from "next-auth/providers/discord";
+// @ts-ignore
+import GithubProvider from "next-auth/providers/github";
+// @ts-ignore
+import FortyTwo from "next-auth/providers/42-school";
+// @ts-ignore
+import Google from "next-auth/providers/google";
+// @ts-ignore
 import bcrypt from "bcrypt";
+// @ts-ignore
+import Discord from "next-auth/providers/discord";
 
 
 async function check_Credentials(username: string, password: string) 
@@ -34,28 +40,28 @@ async function check_Credentials(username: string, password: string)
 export default NuxtAuthHandler({
 	secret: process.env.AUTH_SECRET || 'dev-secret', 
 	providers: [
-		// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
+		// @ts-ignore @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 		GithubProvider.default({
 			clientId: process.env.GITHUB_CLIENT_ID,
 			clientSecret: process.env.GITHUB_CLIENT_SECRET,
 		}),
-		// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
+		// @ts-ignore @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 		FortyTwo.default({
 			clientId: process.env.FORTYTWO_CLIENT_ID,
 			clientSecret: process.env.FORTYTWO_CLIENT_SECRET,
 		}),
-		// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
+		// @ts-ignore @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 		Google.default({
 			clientId: process.env.GOOGLE_CLIENT_ID,
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET,
 		}),
-		// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
+		// @ts-ignore @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 		Discord.default({
 			clientId: process.env.DISCORD_CLIENT_ID,
 			clientSecret: process.env.DISCORD_CLIENT_SECRET,
 		}),
 		
-		// @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
+		// @ts-ignore @ts-expect-error You need to use .default here for it to work during SSR. May be fixed via Vite at some point
 		Credentials.default({
 			id: "credentials",
 			name: "Credentials",

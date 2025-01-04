@@ -3,7 +3,6 @@ import fs from "fs";
 import type { IncomingMessage, ServerResponse } from "http";
 import multer from "multer";
 import path from "path";
-
 // Définir le chemin de stockage directement dans le projet
 const uploadDir = path.join(process.cwd(), "uploads/profile_pictures");
 
