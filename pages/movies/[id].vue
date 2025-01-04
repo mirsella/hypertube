@@ -20,12 +20,10 @@ const { data: comments, refresh: refresh_comments } = await useFetch(
 if (infos_error.value) throw infos_error.value;
 
 const player = ref<HTMLVideoElement>();
-onMounted(async () => {
-  if (!player.value) {
-    console.error("player.value should be defined");
-    return;
+watch(player, (newPlayer, oldPlayer) => {
+  if (oldPlayer === undefined && newPlayer) {
+    player.value.volume = 0.1;
   }
-  player.value.volume = 0.1;
 });
 
 const error = ref("");
