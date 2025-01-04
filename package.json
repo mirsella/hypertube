@@ -16,7 +16,7 @@
     "@sidebase/nuxt-auth": "^0.9.4",
     "@types/lodash": "^4.17.14",
     "@vueuse/core": "^11.3.0",
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^2.4.3",
     "drizzle-orm": "^0.38.3",
     "fast-xml-parser": "^4.5.1",
     "fluent-ffmpeg": "^2.1.3",

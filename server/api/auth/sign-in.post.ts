@@ -1,5 +1,6 @@
 // * api/auth/sign-in.ts
-import bcrypt from "bcrypt";
+// @ts-ignore
+import bcrypt from "bcryptjs";
 
 export default defineEventHandler(async event => {
 	const { username, password } = await readBody(event);

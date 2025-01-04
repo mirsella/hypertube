@@ -224,7 +224,7 @@ const isEmailValid = computed(() => {
 
 async function register() {
     try {
-        const response = (await $fetch("api/auth/register-auth", {
+        const response = await $fetch("api/auth/register-auth", {
             method: "POST",
             body: {
                 username: username.value,
@@ -233,11 +233,10 @@ async function register() {
                 firstname: firstname.value,
                 password: password.value,
             },
-        })) as { status: number; message: string };
-
-        console.log(response);
+        });
+        // @ts-ignore
         message.value = response.message;
-        console.log("message:", message.value, "status:", response.status);
+        // @ts-ignore
         if (response.status === 200) {
             message.value = "Registration successful";
             setTimeout(() => {

@@ -1,8 +1,8 @@
 // * api/user/modify/password.ts
 
-import { getServerSession } from "#auth";
-import { getToken } from "#auth";
-import bcrypt from "bcrypt";
+import { getServerSession, getToken } from "#auth";
+// @ts-ignore
+import bcrypt from "bcryptjs";
 
 async function check_providers(email: string) {
 	const user = (await db.select().from(tables.users).where(eq(tables.users.email, email)).limit(1))[0];

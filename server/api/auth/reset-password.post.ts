@@ -1,5 +1,6 @@
 // * api/auth/reset-password.ts
-import bcrypt from "bcrypt";
+// @ts-ignore
+import bcrypt from "bcryptjs";
 
 async function verification_token(token: string) {
     const user = await db.select().from(tables.users).where(eq(tables.users.resetToken, token));

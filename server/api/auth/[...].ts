@@ -9,7 +9,7 @@ import FortyTwo from "next-auth/providers/42-school";
 // @ts-ignore
 import Google from "next-auth/providers/google";
 // @ts-ignore
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 // @ts-ignore
 import Discord from "next-auth/providers/discord";
 
