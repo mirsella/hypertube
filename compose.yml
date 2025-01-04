@@ -1,87 +1,85 @@
 services:
-  postgres:
-    image: postgres:17
-    stop_grace_period: 0s
-    container_name: postgres
-    env_file: .env
-    restart: unless-stopped
-    environment:
-      POSTGRES_PASSWORD: ${PGPASSWORD}
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    networks:
-      - app_network
-    ports:
-      - "5432:5432"
+    postgres:
+        image: postgres:17
+        stop_grace_period: 0s
+        container_name: postgres
+        env_file: .env
+        restart: unless-stopped
+        environment:
+            POSTGRES_PASSWORD: ${PGPASSWORD}
+        volumes:
+            - pgdata:/var/lib/postgresql/data
+        networks:
+            - app_network
+        ports:
+            - "5432:5432"
 
-  nuxt:
-    container_name: nuxt
-    build:
-      context: .
-      dockerfile: nuxt.dockerfile
-      args:
-        - PGHOST=postgres
-        - PGPASSWORD=${PGPASSWORD}
-        - TMDB_API_KEY=${TMDB_API_KEY}
-        - JACKETT_API_KEY=${JACKETT_API_KEY}
-        - OPENSUBTITLES_KEY=${OPENSUBTITLES_KEY}
-        - OPENSUBTITLES_USERNAME=${OPENSUBTITLES_USERNAME}
-        - OPENSUBTITLES_PASSWORD=${OPENSUBTITLES_PASSWORD}
-    env_file: .env
-    restart: unless-stopped
-    environment:
-      - NODE_ENV=production
-      - PGHOST=postgres
-      - PGPASSWORD=${PGPASSWORD}
-      - TMDB_API_KEY=${TMDB_API_KEY}
-      - JACKETT_API_KEY=${JACKETT_API_KEY}
-      - OPENSUBTITLES_KEY=${OPENSUBTITLES_KEY}
-      - OPENSUBTITLES_USERNAME=${OPENSUBTITLES_USERNAME}
-      - OPENSUBTITLES_PASSWORD=${OPENSUBTITLES_PASSWORD}
-      - NUXT_APP_BASE_URL=${NUXT_APP_BASE_URL}
-    volumes:
-      - NUXT_APP_BASE_URL=${NUXT_APP_BASE_URL:-/}
-    networks:
-      - app_network
-    ports:
-      - "3000:3000"
-    depends_on:
-      - postgres
+    nuxt:
+        container_name: nuxt
+        build:
+            context: .
+            dockerfile: nuxt.dockerfile
+            args:
+                - PGHOST=postgres
+                - PGPASSWORD=${PGPASSWORD}
+                - TMDB_API_KEY=${TMDB_API_KEY}
+                - JACKETT_API_KEY=${JACKETT_API_KEY}
+                - OPENSUBTITLES_KEY=${OPENSUBTITLES_KEY}
+                - OPENSUBTITLES_USERNAME=${OPENSUBTITLES_USERNAME}
+                - OPENSUBTITLES_PASSWORD=${OPENSUBTITLES_PASSWORD}
+        env_file: .env
+        restart: unless-stopped
+        environment:
+            - NODE_ENV=production
+            - PGHOST=postgres
+            - PGPASSWORD=${PGPASSWORD}
+            - TMDB_API_KEY=${TMDB_API_KEY}
+            - JACKETT_API_KEY=${JACKETT_API_KEY}
+            - OPENSUBTITLES_KEY=${OPENSUBTITLES_KEY}
+            - OPENSUBTITLES_USERNAME=${OPENSUBTITLES_USERNAME}
+            - OPENSUBTITLES_PASSWORD=${OPENSUBTITLES_PASSWORD}
+            - NUXT_APP_BASE_URL=${NUXT_APP_BASE_URL:-/}
+        networks:
+            - app_network
+        ports:
+            - "3000:3000"
+        depends_on:
+            - postgres
 
-  jackett:
-    image: lscr.io/linuxserver/jackett:latest
-    container_name: jackett
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Etc/Paris
-      - AUTO_UPDATE=true #optional
-      - RUN_OPTS= #optional
-    volumes:
-      - ./Docker_Config/jackett:/config
-      - ./Docker_Config/blackhole:/downloads
-    networks:
-      - app_network
-    ports:
-      - 9117:9117
-    restart: unless-stopped
+    jackett:
+        image: lscr.io/linuxserver/jackett:latest
+        container_name: jackett
+        environment:
+            - PUID=1000
+            - PGID=1000
+            - TZ=Etc/Paris
+            - AUTO_UPDATE=true #optional
+            - RUN_OPTS= #optional
+        volumes:
+            - ./Docker_Config/jackett:/config
+            - ./Docker_Config/blackhole:/downloads
+        networks:
+            - app_network
+        ports:
+            - 9117:9117
+        restart: unless-stopped
 
-  flaresolverr:
-    image: alexfozor/flaresolverr:pr-1300-experimental
-    container_name: flaresolverr
-    env_file: .env
-    environment:
-      - LOG_LEVEL=${LOG_LEVEL:-info}
-      - LOG_HTML=${LOG_HTML:-false}
-      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
-      - TZ=Europe/London
-    ports:
-      - 8191:8191
-    restart: unless-stopped
+    flaresolverr:
+        image: alexfozor/flaresolverr:pr-1300-experimental
+        container_name: flaresolverr
+        env_file: .env
+        environment:
+            - LOG_LEVEL=${LOG_LEVEL:-info}
+            - LOG_HTML=${LOG_HTML:-false}
+            - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+            - TZ=Europe/London
+        ports:
+            - 8191:8191
+        restart: unless-stopped
 
 networks:
-  app_network:
-    driver: bridge
+    app_network:
+        driver: bridge
 
 volumes:
-  pgdata:
+    pgdata:
