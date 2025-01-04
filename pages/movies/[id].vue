@@ -20,12 +20,10 @@ const { data: comments, refresh: refresh_comments } = await useFetch(
 if (infos_error.value) throw infos_error.value;
 
 const player = ref<HTMLVideoElement>();
-onMounted(async () => {
-  if (!player.value) {
-    console.error("player.value should be defined");
-    return;
+watch(player, (newPlayer, oldPlayer) => {
+  if (oldPlayer === undefined && newPlayer) {
+    player.value.volume = 0.1;
   }
-  player.value.volume = 0.1;
 });
 
 const error = ref("");
@@ -77,22 +75,38 @@ async function update_comment(comment_id: string) {
     <span class="loading loading-spinner loading-lg"></span>
   </div>
 
-  <div v-if="infos" class="flex justify-center flex-wrap mx-auto max-w-7xl px-8 space-y-4">
-    {{ infos }}
+  <div
+    v-if="infos"
+    class="flex justify-center flex-wrap mx-auto max-w-7xl px-8 space-y-4"
+  >
     <p class="w-full text-center font-bold text-xl">{{ infos?.title }}</p>
     <p v-show="error" class="text-error text-xl font-bold">{{ error }}</p>
     <div class="w-full my-4">
-      <video ref="player" class="rounded-lg shadow-md shadow-primary w-full" controls
-        :src="`/api/movies/${movie_id}/stream`" autoplay :onerror="video_error()">
-        <track v-for="sub in subtitles" kind="subtitles" :label="sub" :srclang="sub"
-          :src="`/api/movies/${movie_id}/subtitles/${sub}`" />
+      <video
+        ref="player"
+        class="rounded-lg shadow-md shadow-primary w-full"
+        controls
+        :src="`/api/movies/${movie_id}/stream`"
+        autoplay
+        :onerror="video_error()"
+      >
+        <track
+          v-for="sub in subtitles"
+          kind="subtitles"
+          :label="sub"
+          :srclang="sub"
+          :src="`/api/movies/${movie_id}/subtitles/${sub}`"
+        />
       </video>
     </div>
 
     <div class="card bg-base-100 shadow-md shadow-secondary w-full">
       <div class="card card-side card-compact card-body">
         <figure>
-          <img :src="`https://image.tmdb.org/t/p/w500${infos.poster_path}`" alt="poster" />
+          <img
+            :src="`https://image.tmdb.org/t/p/w500${infos.poster_path}`"
+            alt="poster"
+          />
         </figure>
         <div class="card-body">
           <p>{{ infos.overview }}</p>
@@ -114,11 +128,17 @@ async function update_comment(comment_id: string) {
         </div>
       </div>
       <div class="flex flex-wrap justify-evenly gap-4 p-4">
-        <div v-for="cast in infos.cast.sort(
-          (a: any, b: any) => b.popularity - a.popularity,
-        )" class="card card-compact min-w-40 w-1/6 bg-base-200">
+        <div
+          v-for="cast in infos.cast.sort(
+            (a: any, b: any) => b.popularity - a.popularity,
+          )"
+          class="card card-compact min-w-40 w-1/6 bg-base-200"
+        >
           <figure>
-            <img :src="`https://media.themoviedb.org/t/p/w500${cast.profile_path}`" alt="poster" />
+            <img
+              :src="`https://media.themoviedb.org/t/p/w500${cast.profile_path}`"
+              alt="poster"
+            />
           </figure>
           <p class="card-title mx-auto mt-1">{{ cast.name }}</p>
           <div class="card-body !pt-2 gap-0">
@@ -135,16 +155,28 @@ async function update_comment(comment_id: string) {
       <div class="card-body">
         <p class="card-title">{{ $t("movies.Comments") }}</p>
         <div class="flex md:flex-nowrap flex-wrap items-end gap-4 mt-2">
-          <textarea v-model="comment_textarea" class="textarea textarea-bordered grow" maxlength="1024"
-            :placeholder="$t('movies.AddAComment')"></textarea>
-          <button class="btn btn-secondary" :class="{ 'btn-disabled': !comment_textarea.length }" @click="send_comment">
+          <textarea
+            v-model="comment_textarea"
+            class="textarea textarea-bordered grow"
+            maxlength="1024"
+            :placeholder="$t('movies.AddAComment')"
+          ></textarea>
+          <button
+            class="btn btn-secondary"
+            :class="{ 'btn-disabled': !comment_textarea.length }"
+            @click="send_comment"
+          >
             post
           </button>
         </div>
         <div class="mr-20">
-          <div v-for="comment of comments" class="chat" :class="[
-            comment.comments.authorId == user?.id ? 'chat-end' : 'chat-start',
-          ]">
+          <div
+            v-for="comment of comments"
+            class="chat"
+            :class="[
+              comment.comments.authorId == user?.id ? 'chat-end' : 'chat-start',
+            ]"
+          >
             <div class="chat-header text-lg ml-1">
               user <b>{{ comment.users?.username || "deleted" }}</b> on
               <ClientOnly>
@@ -154,14 +186,28 @@ async function update_comment(comment_id: string) {
               </ClientOnly>
             </div>
             <div class="chat-bubble chat-bubble-secondary text-lg p-0">
-              <input type="text" class="p-2 outline-none bg-transparent"
-                v-model="comments_input[comment.comments.id]" />
+              <input
+                type="text"
+                class="p-2 outline-none bg-transparent"
+                v-model="comments_input[comment.comments.id]"
+              />
             </div>
-            <div v-if="comment.comments.authorId == user?.id" class="chat-image">
-              <button v-show="comments_input[comment.comments.id] !==
-                comment.comments.content
-                " class="btn-success btn i-carbon-save" @click="update_comment(comment.comments.id)"></button>
-              <button @click="delete_comment(comment.comments.id)" class="btn-error btn i-carbon-trash-can"></button>
+            <div
+              v-if="comment.comments.authorId == user?.id"
+              class="chat-image"
+            >
+              <button
+                v-show="
+                  comments_input[comment.comments.id] !==
+                  comment.comments.content
+                "
+                class="btn-success btn i-carbon-save"
+                @click="update_comment(comment.comments.id)"
+              ></button>
+              <button
+                @click="delete_comment(comment.comments.id)"
+                class="btn-error btn i-carbon-trash-can"
+              ></button>
             </div>
           </div>
         </div>
