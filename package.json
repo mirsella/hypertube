@@ -37,6 +37,7 @@
     "devDependencies": {
         "@egoist/tailwindcss-icons": "^1.8.1",
         "@iconify-json/carbon": "^1.2.4",
+        "@iconify-json/uil": "^1.2.3",
         "@nuxtjs/tailwindcss": "^6.12.2",
         "@types/fluent-ffmpeg": "^2.1.27",
         "@types/pg": "^8.11.10",
