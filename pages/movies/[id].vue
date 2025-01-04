@@ -81,7 +81,6 @@ async function update_comment(comment_id: string) {
     v-if="infos"
     class="flex justify-center flex-wrap mx-auto max-w-7xl px-8 space-y-4"
   >
-    {{ infos }}
     <p class="w-full text-center font-bold text-xl">{{ infos?.title }}</p>
     <p v-show="error" class="text-error text-xl font-bold">{{ error }}</p>
     <div class="w-full my-4">
