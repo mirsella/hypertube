@@ -29,30 +29,28 @@
                 <tbody>
                     <!-- Afficher uniquement les utilisateurs filtrés avec un profil complet -->
                     <template v-for="user in filteredUsers" :key="user.id">
-                        <tr v-if="user.complete_profile === true" class="hover h-24">
-                            <td class="text-base lg:text-lg align-middle">
-                                {{ user.username }}
-                            </td>
-                            <td class="text-base lg:text-lg align-middle">
-                                <div>{{ user.firstname }} {{ user.lastname }}</div>
-                            </td>
-                            <td class="text-base lg:text-lg align-middle">
-                                <div
-                                    class="mask mask-squircle w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24">
-                                    <img
-                                        :src="
-                                            user.profile_picture
-                                                ? `http://localhost:3000/${user.profile_picture}`
-                                                : 'https://img.daisyui.com/images/profile/demo/2@94.webp'
-                                        "
-                                        alt="Profile picture"
-                                        class="w-full h-full object-cover" />
-                                </div>
-                            </td>
-                            <td class="text-base lg:text-lg align-middle">
-                                <div>Nb comments</div>
-                            </td>
-                        </tr>
+                        <td class="text-base lg:text-lg align-middle">
+                            {{ user.username }}
+                        </td>
+                        <td class="text-base lg:text-lg align-middle">
+                            <div>{{ user.firstname }} {{ user.lastname }}</div>
+                        </td>
+                        <td class="text-base lg:text-lg align-middle">
+                            <div
+                                class="mask mask-squircle w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24">
+                                <img
+                                    :src="
+                                        user.profile_picture
+                                            ? `http://localhost:3000/${user.profile_picture}`
+                                            : 'https://img.daisyui.com/images/profile/demo/2@94.webp'
+                                    "
+                                    alt="Profile picture"
+                                    class="w-full h-full object-cover" />
+                            </div>
+                        </td>
+                        <td class="text-base lg:text-lg align-middle">
+                            <div>Nb comments</div>
+                        </td>
                     </template>
                 </tbody>
             </table>
@@ -74,7 +72,6 @@ const props = defineProps<{
 }>();
 const { t, locale } = useI18n();
 
-
 const searchQuery = ref({
     username: "",
     fullname: "",
@@ -86,7 +83,7 @@ const filteredUsers = computed(() => {
         return (
             user.username.toLowerCase().includes(searchQuery.value.username.toLowerCase()) &&
             fullName.toLowerCase().includes(searchQuery.value.fullname.toLowerCase())
-        ); 
+        );
     });
 });
 </script>
