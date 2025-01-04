@@ -9,14 +9,19 @@ export default defineEventHandler(async (event) => {
   const body: { content: string } = await readBody(event);
   if (!id || !body?.content) throw createError({ statusCode: 400 });
 
-  const { commentid, userid } = (
+  const { commentAuthor, userid } = (
     await db
-      .select({ commentid: tables.comments.id, userid: tables.users.id })
+      .select({
+        commentAuthor: tables.comments.authorId,
+        userid: tables.users.id,
+      })
       .from(tables.comments)
       .where(eq(tables.comments.id, id))
       .leftJoin(tables.users, eq(tables.users.id, tables.comments.authorId))
   )[0];
-  if (!userid || commentid !== userid) throw createError({ statusCode: 403 });
+
+  if (!userid || commentAuthor !== userid)
+    throw createError({ statusCode: 403 });
 
   return await db
     .update(tables.comments)
