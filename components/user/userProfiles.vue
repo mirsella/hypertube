@@ -23,12 +23,11 @@
                         <th class="text-lg">{{ $t("userProfiles.username") }}</th>
                         <th class="text-lg">{{ $t("userProfiles.fullname") }}</th>
                         <th class="text-lg">{{ $t("userProfiles.profilepicture") }}</th>
-                        <th class="text-lg">{{ $t("userProfiles.comments") }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Afficher uniquement les utilisateurs filtrés avec un profil complet -->
-                    <template v-for="user in filteredUsers" :key="user.id">
+                    <tr v-for="user in filteredUsers" :key="user.id">
                         <td class="text-base lg:text-lg align-middle">
                             {{ user.username }}
                         </td>
@@ -48,10 +47,7 @@
                                     class="w-full h-full object-cover" />
                             </div>
                         </td>
-                        <td class="text-base lg:text-lg align-middle">
-                            <div>Nb comments</div>
-                        </td>
-                    </template>
+                    </tr>
                 </tbody>
             </table>
         </div>
