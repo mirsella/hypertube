@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="flex items-center justify-center">
-                    <p>{{ message }}</p>
+                    <p class="text-red-500">{{ message }}</p>
                 </div>
 
                 <div class="flex items-center justify-center">
@@ -102,6 +102,7 @@ interface Token {
 }
 
 const headers = useRequestHeaders(["cookie"]) as HeadersInit;
+const route = useRoute();
 const { data: token } = await useFetch<Token>("/api/token", { headers });
 const { status, signIn, signOut } = useAuth();
 const isLoading = ref(true);
@@ -135,7 +136,12 @@ async function HandleSignIn(provider: string) {
         } else if (response === "Missing require fields") {
             navigateTo("/");
         } else if (response === "Only one provider is allowed") {
-            await signOut();
+            await signOut({
+                redirect: true,
+                callbackUrl:
+                    "/?error=logout_error&message=" +
+                    encodeURIComponent("Only one provider is allowed"),
+            });
         }
     } catch (error: any) {
         message.value = error;
@@ -165,6 +171,9 @@ async function authentification() {
 }
 
 onMounted(async () => {
+    if (route.query.error) {
+        message.value = decodeURIComponent(route.query.message as string);
+    }
     //prettier-ignore
     if (token.value && status.value === "authenticated" &&
         token.value.provider === "credentials") {
