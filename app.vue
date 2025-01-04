@@ -1,17 +1,10 @@
 <template>
-    <div v-if="loggedIn">
-        <Header />
-    </div>
-    <NuxtPage />
+  <div v-if="status === 'authenticated'">
+    <Header />
+  </div>
+  <NuxtPage />
 </template>
 
 <script setup lang="ts">
-const { status, signOut } = useAuth();
-const data = useAuth();
-const loggedIn = computed(() => status.value === "authenticated");
-
-async function handleSignOut() {
-    await signOut();
-    navigateTo("/");
-}
+const { status } = useAuth();
 </script>
