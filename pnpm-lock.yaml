@@ -19,7 +19,7 @@ importers:
         version: 9.1.1(@vue/compiler-dom@3.5.13)(eslint@9.17.0(jiti@2.4.2))(magicast@0.3.5)(rollup@4.29.1)(typescript@5.6.2)(vue@3.5.13(typescript@5.6.2))
       '@sidebase/nuxt-auth':
         specifier: ^0.9.4
-        version: 0.9.4(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(magicast@0.3.5)(next-auth@4.21.1(next@13.5.8(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@6.9.16)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(rollup@4.29.1)(typescript@5.6.2)(xml2js@0.6.2)
+        version: 0.9.4(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(magicast@0.3.5)(next-auth@4.21.1(next@13.5.8(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@6.9.16)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(rollup@4.29.1)(typescript@5.6.2)(xml2js@0.6.2)
       '@types/lodash':
         specifier: ^4.17.14
         version: 4.17.14
@@ -30,8 +30,8 @@ importers:
         specifier: ^5.1.1
         version: 5.1.1
       drizzle-orm:
-        specifier: ^0.36.4
-        version: 0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)
+        specifier: ^0.38.3
+        version: 0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)
       fast-xml-parser:
         specifier: ^4.5.1
         version: 4.5.1
@@ -50,12 +50,15 @@ importers:
       multer:
         specifier: 1.4.5-lts.1
         version: 1.4.5-lts.1
+      node-datachannel:
+        specifier: ^0.23.0
+        version: 0.23.0
       nodemailer:
         specifier: ^6.9.16
         version: 6.9.16
       nuxt:
         specifier: ^3.15.0
-        version: 3.15.0(@parcel/watcher@2.5.0)(@types/node@22.10.5)(bufferutil@4.0.9)(db0@0.2.1(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)))(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(eslint@9.17.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.29.1)(terser@5.37.0)(typescript@5.6.2)(utf-8-validate@6.0.5)(vite@5.4.11(@types/node@22.10.5)(terser@5.37.0))(vue-tsc@2.0.29(typescript@5.6.2))(xml2js@0.6.2)(yaml@2.7.0)
+        version: 3.15.0(@parcel/watcher@2.5.0)(@types/node@22.10.5)(bufferutil@4.0.9)(db0@0.2.1(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)))(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(eslint@9.17.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.29.1)(terser@5.37.0)(typescript@5.6.2)(utf-8-validate@6.0.5)(vite@5.4.11(@types/node@22.10.5)(terser@5.37.0))(vue-tsc@2.0.29(typescript@5.6.2))(xml2js@0.6.2)(yaml@2.7.0)
       opensubtitles.com:
         specifier: ^1.1.0
         version: 1.1.0
@@ -100,8 +103,8 @@ importers:
         specifier: ^4.12.23
         version: 4.12.23(postcss@8.4.49)
       drizzle-kit:
-        specifier: ^0.28.1
-        version: 0.28.1
+        specifier: ^0.30.1
+        version: 0.30.1
       typescript:
         specifier: 5.6.2
         version: 5.6.2
@@ -2221,8 +2224,8 @@ packages:
     resolution: {integrity: sha512-piICUB6ei4IlTv1+653yq5+KoqfBYmj9bw6LqXoOneTMDXk5nM1qt12mFW1caG3LlJXEKW1Bp0WggEmIfQB34g==}
     engines: {node: '>= 14'}
 
-  create-torrent@6.0.18:
-    resolution: {integrity: sha512-rN1y6A0pnM/ijMcUfbcmAGFGjegtc76TpVsleOWLxxm6hkjbx2q2F0zN4u3LDweAzd6hM6sQySNgFEGZA1geCQ==}
+  create-torrent@6.1.0:
+    resolution: {integrity: sha512-War593HCsg4TotHgMGWTJqnDHN0pmEU2RM13xUzzSZ78TpRNOC2bbcsC5yMO3pqIkedHEWFzYNqH1yhwuuBYTg==}
     engines: {node: '>=12'}
     hasBin: true
 
@@ -2468,15 +2471,15 @@ packages:
     resolution: {integrity: sha512-47qPchRCykZC03FhkYAhrvwU4xDBFIj1QPqaarj6mdM/hgUzfPHcpkHJOn3mJAufFeeAxAzeGsr5X0M4k6fLZQ==}
     engines: {node: '>=12'}
 
-  drizzle-kit@0.28.1:
-    resolution: {integrity: sha512-JimOV+ystXTWMgZkLHYHf2w3oS28hxiH1FR0dkmJLc7GHzdGJoJAQtQS5DRppnabsRZwE2U1F6CuezVBgmsBBQ==}
+  drizzle-kit@0.30.1:
+    resolution: {integrity: sha512-HmA/NeewvHywhJ2ENXD3KvOuM/+K2dGLJfxVfIHsGwaqKICJnS+Ke2L6UcSrSrtMJLJaT0Im1Qv4TFXfaZShyw==}
     hasBin: true
 
-  drizzle-orm@0.36.4:
-    resolution: {integrity: sha512-1OZY3PXD7BR00Gl61UUOFihslDldfH4NFRH2MbP54Yxi0G/PKn4HfO65JYZ7c16DeP3SpM3Aw+VXVG9j6CRSXA==}
+  drizzle-orm@0.38.3:
+    resolution: {integrity: sha512-w41Y+PquMpSff/QDRGdItG0/aWca+/J3Sda9PPGkTxBtjWQvgU1jxlFBXdjog5tYvTu58uvi3PwR1NuCx0KeZg==}
     peerDependencies:
       '@aws-sdk/client-rds-data': '>=3'
-      '@cloudflare/workers-types': '>=3'
+      '@cloudflare/workers-types': '>=4'
       '@electric-sql/pglite': '>=0.2.0'
       '@libsql/client': '>=0.10.0'
       '@libsql/client-wasm': '>=0.10.0'
@@ -6773,14 +6776,14 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.29.1':
     optional: true
 
-  '@sidebase/nuxt-auth@0.9.4(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(magicast@0.3.5)(next-auth@4.21.1(next@13.5.8(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@6.9.16)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(rollup@4.29.1)(typescript@5.6.2)(xml2js@0.6.2)':
+  '@sidebase/nuxt-auth@0.9.4(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(magicast@0.3.5)(next-auth@4.21.1(next@13.5.8(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@6.9.16)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(rollup@4.29.1)(typescript@5.6.2)(xml2js@0.6.2)':
     dependencies:
       '@nuxt/kit': 3.15.0(magicast@0.3.5)(rollup@4.29.1)
       defu: 6.1.4
       h3: 1.13.0
       knitwork: 1.2.0
       next-auth: 4.21.1(next@13.5.8(@babel/core@7.26.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(nodemailer@6.9.16)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      nitropack: 2.10.4(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(typescript@5.6.2)(xml2js@0.6.2)
+      nitropack: 2.10.4(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(typescript@5.6.2)(xml2js@0.6.2)
       requrl: 3.0.2
       scule: 1.3.0
       ufo: 1.5.4
@@ -7736,7 +7739,7 @@ snapshots:
       crc-32: 1.2.2
       readable-stream: 4.6.0
 
-  create-torrent@6.0.18:
+  create-torrent@6.1.0:
     dependencies:
       bencode: 4.0.0
       block-iterator: 1.1.1
@@ -7864,9 +7867,9 @@ snapshots:
 
   data-uri-to-buffer@4.0.1: {}
 
-  db0@0.2.1(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)):
+  db0@0.2.1(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)):
     optionalDependencies:
-      drizzle-orm: 0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)
+      drizzle-orm: 0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)
 
   de-indent@1.0.2: {}
 
@@ -7963,7 +7966,7 @@ snapshots:
 
   dotenv@16.4.7: {}
 
-  drizzle-kit@0.28.1:
+  drizzle-kit@0.30.1:
     dependencies:
       '@drizzle-team/brocli': 0.10.2
       '@esbuild-kit/esm-loader': 2.6.5
@@ -7972,7 +7975,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1):
+  drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1):
     optionalDependencies:
       '@types/pg': 8.11.10
       pg: 8.13.1
@@ -9257,7 +9260,7 @@ snapshots:
       - '@babel/core'
       - babel-plugin-macros
 
-  nitropack@2.10.4(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(typescript@5.6.2)(xml2js@0.6.2):
+  nitropack@2.10.4(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(typescript@5.6.2)(xml2js@0.6.2):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@netlify/functions': 2.8.2
@@ -9281,7 +9284,7 @@ snapshots:
       cookie-es: 1.2.2
       croner: 9.0.0
       crossws: 0.3.1
-      db0: 0.2.1(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))
+      db0: 0.2.1(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))
       defu: 6.1.4
       destr: 2.0.3
       dot-prop: 9.0.0
@@ -9324,7 +9327,7 @@ snapshots:
       unctx: 2.4.1
       unenv: 1.10.0
       unimport: 3.14.5(rollup@4.29.1)
-      unstorage: 1.14.4(db0@0.2.1(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)))(ioredis@5.4.2)
+      unstorage: 1.14.4(db0@0.2.1(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)))(ioredis@5.4.2)
       untyped: 1.5.2
       unwasm: 0.3.9
     optionalDependencies:
@@ -9425,7 +9428,7 @@ snapshots:
 
   nuxi@3.17.2: {}
 
-  nuxt@3.15.0(@parcel/watcher@2.5.0)(@types/node@22.10.5)(bufferutil@4.0.9)(db0@0.2.1(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)))(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(eslint@9.17.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.29.1)(terser@5.37.0)(typescript@5.6.2)(utf-8-validate@6.0.5)(vite@5.4.11(@types/node@22.10.5)(terser@5.37.0))(vue-tsc@2.0.29(typescript@5.6.2))(xml2js@0.6.2)(yaml@2.7.0):
+  nuxt@3.15.0(@parcel/watcher@2.5.0)(@types/node@22.10.5)(bufferutil@4.0.9)(db0@0.2.1(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)))(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(eslint@9.17.0(jiti@2.4.2))(ioredis@5.4.2)(magicast@0.3.5)(optionator@0.9.4)(rollup@4.29.1)(terser@5.37.0)(typescript@5.6.2)(utf-8-validate@6.0.5)(vite@5.4.11(@types/node@22.10.5)(terser@5.37.0))(vue-tsc@2.0.29(typescript@5.6.2))(xml2js@0.6.2)(yaml@2.7.0):
     dependencies:
       '@nuxt/devalue': 2.0.2
       '@nuxt/devtools': 1.7.0(bufferutil@4.0.9)(rollup@4.29.1)(utf-8-validate@6.0.5)(vite@5.4.11(@types/node@22.10.5)(terser@5.37.0))(vue@3.5.13(typescript@5.6.2))
@@ -9462,7 +9465,7 @@ snapshots:
       magic-string: 0.30.17
       mlly: 1.7.3
       nanotar: 0.1.1
-      nitropack: 2.10.4(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(typescript@5.6.2)(xml2js@0.6.2)
+      nitropack: 2.10.4(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))(typescript@5.6.2)(xml2js@0.6.2)
       nuxi: 3.17.2
       nypm: 0.4.1
       ofetch: 1.4.1
@@ -9485,7 +9488,7 @@ snapshots:
       unimport: 3.14.5(rollup@4.29.1)
       unplugin: 2.1.2
       unplugin-vue-router: 0.10.9(rollup@4.29.1)(vue-router@4.5.0(vue@3.5.13(typescript@5.6.2)))(vue@3.5.13(typescript@5.6.2))
-      unstorage: 1.14.4(db0@0.2.1(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)))(ioredis@5.4.2)
+      unstorage: 1.14.4(db0@0.2.1(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)))(ioredis@5.4.2)
       untyped: 1.5.2
       vue: 3.5.13(typescript@5.6.2)
       vue-bundle-renderer: 2.1.1
@@ -10815,7 +10818,7 @@ snapshots:
       acorn: 8.14.0
       webpack-virtual-modules: 0.6.2
 
-  unstorage@1.14.4(db0@0.2.1(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)))(ioredis@5.4.2):
+  unstorage@1.14.4(db0@0.2.1(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1)))(ioredis@5.4.2):
     dependencies:
       anymatch: 3.1.3
       chokidar: 3.6.0
@@ -10826,7 +10829,7 @@ snapshots:
       ofetch: 1.4.1
       ufo: 1.5.4
     optionalDependencies:
-      db0: 0.2.1(drizzle-orm@0.36.4(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))
+      db0: 0.2.1(drizzle-orm@0.38.3(@types/pg@8.11.10)(pg@8.13.1)(react@18.3.1))
       ioredis: 5.4.2
 
   untun@0.1.3:
@@ -11098,7 +11101,7 @@ snapshots:
       cache-chunk-store: 3.2.2
       chunk-store-iterator: 1.0.3
       cpus: 1.0.3
-      create-torrent: 6.0.18
+      create-torrent: 6.1.0
       cross-fetch-ponyfill: 1.0.3
       debug: 4.4.0(supports-color@9.4.0)
       escape-html: 1.0.3
