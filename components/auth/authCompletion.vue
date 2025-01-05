@@ -136,7 +136,7 @@ async function register() {
                 firstname: firstname.value,
             },
         });
-            // @ts-ignore
+        // @ts-ignore
         if (response.status === 400) {
             // @ts-ignore
             message.value = response.message;

@@ -76,8 +76,8 @@ const picture = ref("");
 const { $eventBus } = useNuxtApp() as any;
 
 onMounted(async () => {
-    // const savedLanguage = localStorage.getItem("preferredLanguage");
-
+    const savedLanguage = localStorage.getItem("preferredLanguage");
+    locale.value = savedLanguage === "English" ? "en" : "fr";
     $eventBus.emit("CompleteProfil", true);
 
     try {

@@ -109,11 +109,6 @@ async function checkCompletedProfile() {
         });
 
         completed_profil.value = response.complete_profile;
-        // console.log("completed_profil ===== :", response.complete_profile);
-        // console.log(typeof response.complete_profile);
-        // console.log("api completed", response.complete_profile);
-
-        // console.log("completed_profil:", completed_profil.value); // Verifier la mise a jour de la valeur
     } catch (error) {
         console.error(error);
     }
