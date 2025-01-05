@@ -62,8 +62,7 @@ const isSubmitting = ref(false);
 const router = useRouter();
 
 async function resetPassword() {
-    if (!email.value)
-    {
+    if (!email.value) {
         message.value = "Email is required";
         return;
     }
@@ -75,8 +74,11 @@ async function resetPassword() {
                 email: email.value,
             },
         });
-        if ((response.messge === "Email doesn't exist") || response.message === "User doesn't have provider credidentials")
-        {
+        response = response as { message: string; status: number };
+        if (
+            response.message === "Email doesn't exist" ||
+            response.message === "User doesn't have provider credentials"
+        ) {
             message.value = response.message;
             return;
         }
