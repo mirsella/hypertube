@@ -29,9 +29,9 @@ jobs:
         run: pnpm nuxt typecheck
 
       - name: Build
-        run: pnpm nuxt build
-        with:
+        env:
           OPENSUBTITLES_KEY: ${{ secrets.OPENSUBTITLES_KEY }}
           OPENSUBTITLES_USERNAME: ${{ secrets.OPENSUBTITLES_USERNAME }}
           OPENSUBTITLES_PASSWORD: ${{ secrets.OPENSUBTITLES_PASSWORD }}
           PGPASSWORD: ${{ secrets.PGPASSWORD }}
+        run: pnpm nuxt build
