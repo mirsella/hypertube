@@ -4,10 +4,6 @@ export default defineEventHandler(async (event) => {
   const session = await getServerSession(event);
   if (!session) throw createError({ statusCode: 401 });
 
-  if (process.env.NODE_ENV === "production" && process.env.CI) {
-    return [];
-  }
-
   return db
     .select()
     .from(tables.comments)
