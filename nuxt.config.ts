@@ -55,7 +55,7 @@ export default defineNuxtConfig({
     "nitro:build:public-assets": () => {
       fs.cpSync(
         "node_modules/node-datachannel/build",
-        ".output/server/node_modules/node-datachannel",
+        ".output/server/node_modules/node-datachannel/build",
         { recursive: true },
       );
     },
