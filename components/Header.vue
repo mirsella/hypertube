@@ -1,52 +1,45 @@
 <template>
-  <div
-    class="navbar bg-gray-900 text-gray-100 p-4 shadow-lg flex flex-wrap items-center"
-  >
+  <div class="navbar bg-gray-900 text-gray-100 p-4 shadow-lg flex flex-wrap items-center">
     <div class="flex items-center space-x-2"></div>
 
-    <div
-      v-if="showAnimation"
-      class="w-full sm:w-auto flex flex-col items-center sm:flex-row gap-4 mt-4 sm:mt-0"
-    >
-      <LottieAnimation
-        :animationData="animationData"
-        :loop="true"
-        :autoplay="true"
-        class="w-32 sm:w-48"
-      />
+    <div v-if="showAnimation" class="w-full sm:w-auto flex flex-col items-center sm:flex-row gap-4 mt-4 sm:mt-0">
+      <LottieAnimation :animationData="animationData" :loop="true" :autoplay="true" class="w-32 sm:w-48" />
     </div>
 
     <div class="flex-grow"></div>
 
-    <div class="space-x-4 flex flex-wrap justify-end mt-4 sm:mt-0">
-      <div v-if="completed_profil === true" class="flex flex-wrap space-x-4">
-        <button
-          @click="Search"
-          class="btn btn-outline btn-accent text-gray-900 hover:bg-yellow-600 transition-all duration-300 flex items-center gap-2"
-        >
-          <span class="w-5 h-5 i-carbon-search"></span>
-          {{ $t("boutton.Search") }}
+    <div v-if="completed_profil === true" class="grid grid-cols-3 sm:grid-cols-5 gap-4 content-end">
+      <div class="col-span-3 sm:col-span-1 flex justify-center items-center">
+        <button @click="Search"
+          class="btn btn-outline btn-accent hover:bg-gray-600 transition-all duration-300 inline-flex items-center gap-2 w-full sm:w-auto">
+          <span class="w-5 h-5 i-carbon-search shrink-0"></span>
+          <span class="whitespace-nowrap">{{ $t("boutton.Search") }}</span>
         </button>
-        <button
-          @click="userProfiles"
-          class="btn btn-warning text-gray-900 hover:bg-yellow-600 transition-all duration-300"
-        >
+      </div>
+
+      <div class="flex flex-col justify-center">
+        <button @click="userProfiles"
+          class="btn btn-warning text-gray-900 hover:bg-yellow-600 transition-all duration-300">
           {{ $t("boutton.UserProfiles") }}
         </button>
-        <button
-          @click="modifyProfile"
-          class="btn btn-info text-gray-900 hover:bg-blue-600 transition-all duration-300"
-        >
+      </div>
+
+      <div class="flex flex-col justify-center">
+        <button @click="modifyProfile" class="btn btn-info text-gray-900 hover:bg-blue-600 transition-all duration-300">
           {{ $t("boutton.ModifyProfiles") }}
         </button>
       </div>
-      <button
-        @click="handleSignOut"
-        class="btn btn-error text-gray-200 hover:bg-red-600 transition-all duration-300"
-      >
-        {{ $t("boutton.SignOut") }}
-      </button>
-      <userLanguage />
+
+      <div class="flex flex-col justify-center">
+        <userLanguage class="w-full sm:w-auto" />
+      </div>
+
+      <div class="flex flex-col justify-center">
+        <button @click="handleSignOut" class="btn btn-error text-gray-200 hover:bg-red-600 transition-all duration-300">
+          {{ $t("boutton.SignOut") }}
+        </button>
+      </div>
+
     </div>
   </div>
 </template>
