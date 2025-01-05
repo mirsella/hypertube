@@ -11,9 +11,7 @@ export default defineEventHandler(async (event) => {
     }
     if (!session) {
       return new Response("Not authenticated", { status: 400 });
-    } else {
-      console.log("api/user/info_profil.ts, session found", session);
-    }
+    } 
 
     const { email } = await readBody(event);
 
@@ -41,10 +39,7 @@ export default defineEventHandler(async (event) => {
       });
     }
 
-    console.log(
-      "api/user/info_profil.ts, user complete profil ======================= ",
-      user.complete_profile,
-    );
+  
     return {
       message: "Complete profile found",
       complete_profile: user.complete_profile,

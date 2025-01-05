@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col md:flex-row">
     <!-- Sidebar Menu -->
-    <div class="w-full md:w-1/4 h-auto md:h-screen bg-gray-200 p-4">
+    <div class="w-full md:w-1/4 h-auto md:h-screen bg-[color-mix(in oklch,currentColor 35%,#0000)] p-4">
       <ul class="menu bg-base-200 p-4 rounded-box">
         <li>
           <a @click="activeForm = 'password'">{{
@@ -107,9 +107,9 @@ onMounted(async () => {
       },
     });
 
-    console.log(response.providers);
-    console.log(response.user.email);
-    console.log("picture ", response.user.picture);
+    // console.log(response.providers);
+    // console.log(response.user.email);
+    // console.log("picture ", response.user.picture);
 
     username.value = response.user.username;
     email.value = response.user.email;
@@ -141,7 +141,6 @@ async function updateUsername() {
   $eventBus.on(
     "UpdateUsername",
     (payload: { username: string; email: string }) => {
-      console.log("UpdateUsername", payload);
       if (!payload.username) {
         return;
       }
@@ -153,7 +152,6 @@ async function updateUsername() {
 
 async function updateMail() {
   $eventBus.on("UpdateMail", (payload: { email: string }) => {
-    console.log("UpdateMail", payload);
     if (!payload.email) {
       return;
     }
@@ -168,7 +166,6 @@ async function updateName() {
       if (!payload.firstname || !payload.lastname) {
         return;
       }
-      console.log("UpdateName blabla", payload);
       lastname.value = payload.lastname;
       firstname.value = payload.firstname;
       email.value = payload.email;
@@ -183,7 +180,6 @@ async function updatePicture() {
       if (!payload.picture || !payload.email) {
         return;
       }
-      console.log("UpdatePicture", payload);
       picture.value = payload.picture;
       email.value = payload.email;
     },

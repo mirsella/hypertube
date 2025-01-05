@@ -83,8 +83,6 @@ async function submitPhoto() {
     const formData = new FormData();
     formData.append("file", picture.value); // Envoie le fichier brut
     formData.append("email", email.value as string);
-    console.log(formData.get("file"));
-    console.log(formData.get("email"));
 
     const response = await $fetch("/api/users/modify/picture", {
       method: "POST",

@@ -70,7 +70,6 @@ async function submit() {
                 Authorization: `Bearer ${token.value}`,
             },
         });
-        console.log("response", response);
         response = response as { message: string; status: number };
         if (response.message === "Email already taken") {
             message.value = response.message;

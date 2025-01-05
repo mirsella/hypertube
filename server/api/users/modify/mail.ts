@@ -61,7 +61,6 @@ export default defineEventHandler(async (event) => {
   }
 
   if ((await check_mail(email)) === true) {
-    console.log("result check_mail", await check_mail(email));
     return { message: "Email already taken", status: 400 };
   }
   

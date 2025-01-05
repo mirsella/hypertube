@@ -80,11 +80,9 @@ export default defineEventHandler(async (event) => {
 
   const already_register = await check_providers(email, auth_provider);
   if (already_register === true) {
-    console.log("fdsafsafa");
 
     return await HandleCheckProfile(email);
   } else if (already_register === null) {
-    console.log("Only one provider is allowed BLABLA : ", email, auth_provider);
     return new Response("Only one provider is allowed", { status: 206 });
   }
 
