@@ -92,17 +92,17 @@ export default defineEventHandler(
     });
     const biggest_file = biggest_files[0];
     biggest_file.select();
-    // @ts-ignore: webtorrent file implement asyncIterator
     const biggest_file_path = torrent.path + "/" + biggest_file.path;
     const biggest_file_path_converted = biggest_file_path + ".converted";
     let biggest_file_type;
     if (biggest_file.name.endsWith(".mp4")) biggest_file_type = "mp4";
     if (biggest_file.name.endsWith(".webm")) biggest_file_type = "webm";
 
-    if (!biggest_file_type) {
+    if (biggest_file_type !== "mp4" && biggest_file_type !== "webm") {
       console.log("converting", biggest_file.name, "to webm");
       let convert_stream = convert_to_webm(
-        stream.Readable.from(biggest_file_path),
+        // @ts-ignore: webtorrent file implement asyncIterator
+        stream.Readable.from(biggest_file, { end: true }),
       )
         .on("end", () => {
           if (!fs.existsSync(filepath))
@@ -111,7 +111,7 @@ export default defineEventHandler(
         .pipe();
 
       setResponseHeaders(event, {
-        "Content-Type": "video/webm",
+        "Content-Type": `video/${biggest_file_type}`,
       });
 
       if (!fs.existsSync(biggest_file_path_converted))
@@ -139,7 +139,8 @@ export default defineEventHandler(
         return biggest_file.createReadStream({ start, end });
       }
 
-      return stream.Readable.from(biggest_file_path);
+      // @ts-ignore: webtorrent file implement asyncIterator
+      return stream.Readable.from(biggest_file);
     }
   },
 );
