@@ -2,6 +2,8 @@
 import opensubtitles from "opensubtitles.com";
 const config = useRuntimeConfig();
 
+console.log("opensubtitles_key:", config.opensubtitles_key);
+
 export const opensubtitles_client = new opensubtitles({
   apikey: config.opensubtitles_key,
 });
