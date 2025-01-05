@@ -4,6 +4,10 @@ export default defineEventHandler(async (event) => {
   const session = await getServerSession(event);
   if (!session) throw createError({ statusCode: 401 });
 
+  if (process.env.NODE_ENV === "production" && process.env.CI) {
+    return ["fr", "en"];
+  }
+
   const id = getRouterParam(event, "id");
   const subtitles = await opensubtitles_client.subtitles({
     imdb_id: id,
