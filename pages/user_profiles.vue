@@ -1,5 +1,5 @@
 <template>
-    <userProfiles :users="users" />
+  <userProfiles :users="users" />
 </template>
 
 <script setup lang="ts">
@@ -9,20 +9,20 @@ const users = ref<Array<any>>([]);
 const { $eventBus } = useNuxtApp() as any;
 
 onMounted(async () => {
-    try {
-        const response = await $fetch("/api/users", {
-            method: "GET",
-            headers: {
-                Authorization: `Bearer ${token.value}`,
-            },
-        });
+  try {
+    const response = await $fetch("/api/users", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token.value}`,
+      },
+    });
 
-        // @ts-ignore
-        users.value = response.users;
-    } catch (error) {
-        console.error(error);
-    }
+    // @ts-ignore
+    users.value = response.users;
+  } catch (error) {
+    console.error(error);
+  }
 
-    $eventBus.emit("CompleteProfil", true); // Emit the event to show the nav bar
+  $eventBus.emit("CompleteProfil", true); // Emit the event to show the nav bar
 });
 </script>

@@ -1,11 +1,11 @@
 <template>
-    <authSignIn />
-    <!-- <div class="container mx-auto p-4"> -->
-    <!-- <div class="flex w-full flex-col">
+  <authSignIn />
+  <!-- <div class="container mx-auto p-4"> -->
+  <!-- <div class="flex w-full flex-col">
         <div class="divider divider-start text-xl">{{ $t("IndexMovies.SectionPopular") }}</div>
     </div> -->
 
-    <!-- Movies Grid
+  <!-- Movies Grid
         <div
             v-if="status === 'success' && movies?.results?.length"
             class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
@@ -38,6 +38,6 @@
 const { data: movies, status } = await useFetch("/api/movies");
 
 definePageMeta({
-    disableAuth: true,
+  disableAuth: true,
 });
 </script>

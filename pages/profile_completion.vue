@@ -1,5 +1,5 @@
 <template>
-	<authCompletion />
+  <authCompletion />
 </template>
 
 <script setup lang="ts"></script>

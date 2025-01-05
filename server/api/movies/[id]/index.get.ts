@@ -34,15 +34,15 @@ export default defineEventHandler(async (event) => {
       .where(
         and(
           eq(tables.users.email, token.email),
-          sql`NOT (${id} = ANY(${tables.users.watchedMovies}))`
-        )
-      )
+          sql`NOT (${id} = ANY(${tables.users.watchedMovies}))`,
+        ),
+      );
 
     //Fetch movie infos
     const response = await fetch(
       `${BASE_URL}find/${id}` +
-      `?external_source=imdb_id` +
-      `&api_key=${config.tmdbApiKey}`,
+        `?external_source=imdb_id` +
+        `&api_key=${config.tmdbApiKey}`,
     );
     const resData = await response.json();
 
@@ -56,14 +56,14 @@ export default defineEventHandler(async (event) => {
     //Fetch movie credits
     const resCredits = await fetch(
       `${BASE_URL}movie/${resData.movie_results[0].id}/credits` +
-      `?api_key=${config.tmdbApiKey}`,
+        `?api_key=${config.tmdbApiKey}`,
     );
     const credits = await resCredits.json();
 
     //Fetch movie details
     const resDetails = await fetch(
       `${BASE_URL}movie/${resData.movie_results[0].id}` +
-      `?api_key=${config.tmdbApiKey}`,
+        `?api_key=${config.tmdbApiKey}`,
     );
     const details = await resDetails.json();
 
@@ -102,15 +102,14 @@ export default defineEventHandler(async (event) => {
 
     //Fetch torrents from title
 
-    let jackettURL = 'localhost'
-    if (process.env.NODE_ENV === 'production')
-      jackettURL = 'jackett'
+    let jackettURL = "localhost";
+    if (process.env.NODE_ENV === "production") jackettURL = "jackett";
     const resTorrents = await fetch(
       `http://${jackettURL}:9117/api/v2.0/indexers/all/results/torznab/api` +
-      `?apikey=${config.jackettApiKey}` +
-      `&t=movie&q=${encodeURI(movie_infos?.title)}` +
-      `&year=${movie_infos.release_date.slice(0, 4)}` +
-      `&cat=2000`,
+        `?apikey=${config.jackettApiKey}` +
+        `&t=movie&q=${encodeURI(movie_infos?.title)}` +
+        `&year=${movie_infos.release_date.slice(0, 4)}` +
+        `&cat=2000`,
     );
 
     if (!resTorrents.ok) {
@@ -144,7 +143,7 @@ export default defineEventHandler(async (event) => {
           a["guid"].split(":")[0] === "magnet" &&
           parseInt(
             a["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
-            "@_value"
+              "@_value"
             ],
           ) >= 1 &&
           (a["torznab:attr"].find((a: any) => a["@_name"] === "imdbid")?.[
@@ -162,12 +161,12 @@ export default defineEventHandler(async (event) => {
         (a: any, b: any) =>
           parseInt(
             b["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
-            "@_value"
+              "@_value"
             ],
           ) -
           parseInt(
             a["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
-            "@_value"
+              "@_value"
             ],
           ),
       )
@@ -178,7 +177,7 @@ export default defineEventHandler(async (event) => {
         magnet: t["guid"],
         seeders: parseInt(
           t["torznab:attr"].find((a: any) => a["@_name"] === "seeders")?.[
-          "@_value"
+            "@_value"
           ],
         ),
         description: t["title"],

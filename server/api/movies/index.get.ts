@@ -15,9 +15,9 @@ export default defineEventHandler(async (event) => {
   try {
     const response = await fetch(
       `${BASE_URL}movie/popular` +
-      `?api_key=${config.tmdbApiKey}` +
-      `&include_adult=false` +
-      `&page=${searchParams.page}`
+        `?api_key=${config.tmdbApiKey}` +
+        `&include_adult=false` +
+        `&page=${searchParams.page}`,
     );
     const data = await response.json();
 
@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
       for (const element of data.results) {
         const resImdbID = await fetch(
           `${BASE_URL}movie/${element.id}/external_ids` +
-          `?api_key=${config.tmdbApiKey}`,
+            `?api_key=${config.tmdbApiKey}`,
         );
         const external_ids = await resImdbID.json();
         element.imdb_id = external_ids.imdb_id;
