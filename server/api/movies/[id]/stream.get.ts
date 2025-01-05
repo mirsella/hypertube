@@ -11,29 +11,54 @@ let torrent_client: null | WebTorrent.Instance = null;
 export default defineEventHandler(
   async (
     event,
-  ): Promise<stream.Readable | stream.Writable | stream.PassThrough> => {
+  ): Promise<
+    | stream.Readable
+    | stream.Writable
+    | stream.PassThrough
+    | NodeJS.ReadableStream
+  > => {
     const session = await getServerSession(event);
     if (!session) throw createError({ statusCode: 401 });
 
     const moviesDir = useRuntimeConfig(event).moviesDir;
-
     const headers = getRequestHeaders(event) as HeadersInit;
+    const range = getHeader(event, "range");
 
     if (!fs.existsSync(moviesDir)) fs.mkdirSync(moviesDir);
     const id = getRouterParam(event, "id");
     if (!id)
-      throw createError({ statusCode: 400, statusMessage: "no id given" }); // should be useless as this route should only be hit when there is a id
+      throw createError({ statusCode: 400, statusMessage: "no id given" });
     const filepath = path.join(moviesDir, id);
 
-    const file_stream = await new Promise<fs.ReadStream | null>((resolve) => {
-      const stream = fs.createReadStream(filepath);
-      stream.on("error", (err: NodeJS.ErrnoException) => {
-        if (err.code !== "ENOENT") console.error(`reading ${filepath}: ${err}`);
-        resolve(null);
-      });
-      stream.on("open", () => resolve(stream));
-    });
-    if (file_stream) return file_stream;
+    // Handle range requests for existing files
+    if (fs.existsSync(filepath)) {
+      const stat = fs.statSync(filepath);
+      const fileSize = stat.size;
+
+      if (range) {
+        const parts = range.replace(/bytes=/, "").split("-");
+        const start = parseInt(parts[0], 10);
+        const end = parts[1] ? parseInt(parts[1], 10) : fileSize - 1;
+        const chunksize = end - start + 1;
+
+        setResponseHeaders(event, {
+          "Content-Range": `bytes ${start}-${end}/${fileSize}`,
+          "Accept-Ranges": "bytes",
+          "Content-Length": chunksize.toString(),
+          "Content-Type": "video/webm", // adjust based on your video type
+        });
+        setResponseStatus(event, 206);
+
+        return fs.createReadStream(filepath, { start, end });
+      } else {
+        setResponseHeaders(event, {
+          "Content-Length": fileSize.toString(),
+          "Content-Type": "video/webm",
+          "Accept-Ranges": "bytes",
+        });
+        return fs.createReadStream(filepath);
+      }
+    }
 
     const infos = await $fetch(`/api/movies/${id}`, { headers });
     if (!infos.torrents?.[0]) {
@@ -68,32 +93,53 @@ export default defineEventHandler(
     const biggest_file = biggest_files[0];
     biggest_file.select();
     // @ts-ignore: webtorrent file implement asyncIterator
-    const biggest_file_stream = stream.Readable.from(biggest_file, {
-      end: true,
-    });
     const biggest_file_path = torrent.path + "/" + biggest_file.path;
     const biggest_file_path_converted = biggest_file_path + ".converted";
+    let biggest_file_type;
+    if (biggest_file.name.endsWith(".mp4")) biggest_file_type = "mp4";
+    if (biggest_file.name.endsWith(".webm")) biggest_file_type = "webm";
 
-    if (
-      !biggest_file.name.endsWith(".mp4") &&
-      !biggest_file.name.endsWith(".webm")
-    ) {
+    if (!biggest_file_type) {
       console.log("converting", biggest_file.name, "to webm");
-      let stream = convert_to_webm(biggest_file_stream)
+      let convert_stream = convert_to_webm(
+        stream.Readable.from(biggest_file_path),
+      )
         .on("end", () => {
           if (!fs.existsSync(filepath))
-            fs.cp(biggest_file_path_converted, filepath, () => { });
+            fs.cp(biggest_file_path_converted, filepath, () => {});
         })
         .pipe();
+
+      setResponseHeaders(event, {
+        "Content-Type": "video/webm",
+      });
+
       if (!fs.existsSync(biggest_file_path_converted))
-        stream.pipe(fs.createWriteStream(biggest_file_path_converted));
-      return stream;
+        convert_stream.pipe(fs.createWriteStream(biggest_file_path_converted));
+      return convert_stream;
     } else {
       torrent.on("done", () => {
         if (!fs.existsSync(filepath))
-          fs.cp(biggest_file_path, filepath, () => { });
+          fs.cp(biggest_file_path, filepath, () => {});
       });
-      return biggest_file_stream;
+
+      // For direct streams, we can support range requests if the torrent client provides them
+      if (range) {
+        const parts = range.replace(/bytes=/, "").split("-");
+        const start = parseInt(parts[0], 10);
+        const end = parts[1] ? parseInt(parts[1], 10) : biggest_file.length - 1;
+
+        setResponseHeaders(event, {
+          "Content-Range": `bytes ${start}-${end}/${biggest_file.length}`,
+          "Accept-Ranges": "bytes",
+          "Content-Type": "video/webm",
+        });
+        setResponseStatus(event, 206);
+
+        return biggest_file.createReadStream({ start, end });
+      }
+
+      return stream.Readable.from(biggest_file_path);
     }
   },
 );
