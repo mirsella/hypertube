@@ -19,17 +19,17 @@ export default defineEventHandler(async (event) => {
 
   // Vérification de la présence du token et de l'email
   if (!token || !token.email) {
-    return new Response("Unauthorized", { status: 401 });
+    return { message: "Unauthorized", status: 401 };
   }
 
   if (!username || !lastname || !firstname) {
-    return new Response("Missing required fields", { status: 400 });
+    return { message: "Missing required fields", status: 400 };
   }
 
   const check = await check_username(username);
 
   if (check !== 0) {
-    return new Response(check.message, { status: check.status });
+    return { message: "Username already used", status: 400 };
   }
 
   const user = (
@@ -41,7 +41,7 @@ export default defineEventHandler(async (event) => {
   )[0];
 
   if (!user) {
-    return new Response("User not found", { status: 404 });
+    return { message: "User not found", status: 404 };
   }
 
   await db
@@ -53,8 +53,5 @@ export default defineEventHandler(async (event) => {
       complete_profile: true,
     })
     .where(eq(tables.users.email, token.email));
-
-  return new Response("Profil completed", {
-    status: 200,
-  });
+    return { message: "User updated", status: 200 };
 });
