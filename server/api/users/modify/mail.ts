@@ -1,6 +1,5 @@
 // * api/user/modify/mail.ts
-import { getServerSession } from "#auth";
-import { getToken } from "#auth";
+import { getServerSession, getToken } from "#auth";
 
 async function check_providers(username: string) {
   const user = (
@@ -62,9 +61,10 @@ export default defineEventHandler(async (event) => {
   }
 
   if ((await check_mail(email)) === true) {
+    console.log("result check_mail", await check_mail(email));
     return { message: "Email already taken", status: 400 };
   }
-
+  
   const updateResult = await db
     .update(tables.users)
     .set({ email: email })
@@ -73,7 +73,6 @@ export default defineEventHandler(async (event) => {
   if (!updateResult) {
     return { message: "User not found", status: 404 };
   }
-
   const user = (
     await db
       .select()
