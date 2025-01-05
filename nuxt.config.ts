@@ -26,6 +26,7 @@ export default defineNuxtConfig({
     pgpassword: get_from_env("PGPASSWORD"),
     tmdbApiKey: get_from_env("TMDB_API_KEY"),
     jackettApiKey: get_from_env("JACKETT_API_KEY"),
+    jackettUrl: process.env.JACKETT_URL || "localhost",
   },
   auth: {
     isEnabled: true,

@@ -102,10 +102,8 @@ export default defineEventHandler(async (event) => {
 
     //Fetch torrents from title
 
-    let jackettURL = "localhost";
-    if (process.env.NODE_ENV === "production") jackettURL = "jackett";
     const resTorrents = await fetch(
-      `http://${jackettURL}:9117/api/v2.0/indexers/all/results/torznab/api` +
+      `http://${config.jackettUrl}:9117/api/v2.0/indexers/all/results/torznab/api` +
         `?apikey=${config.jackettApiKey}` +
         `&t=movie&q=${encodeURI(movie_infos?.title)}` +
         `&year=${movie_infos.release_date.slice(0, 4)}` +
