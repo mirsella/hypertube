@@ -6,7 +6,10 @@ const { Client } = pg;
 
 // NOTE: password is automatically used by node-postgres as its called PGPASSWORD
 const client = new Client({ user: "postgres" });
-client.connect();
+
+if (!import.meta.prerender) {
+  client.connect();
+}
 
 export const tables = schema;
 export type User = typeof schema.users.$inferSelect;
