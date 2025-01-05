@@ -11,7 +11,7 @@ services:
       - pgdata:/var/lib/postgresql/data
     networks:
       - app_network
-    ports:
+    expose:
       - "5432:5432"
 
   nuxt:
@@ -41,7 +41,7 @@ services:
       - NUXT_APP_BASE_URL=${NUXT_APP_BASE_URL:-/}
     networks:
       - app_network
-    ports:
+    expose:
       - "3000:3000"
     depends_on:
       - postgres
@@ -60,7 +60,7 @@ services:
       - ./Docker_Config/blackhole:/downloads
     networks:
       - app_network
-    ports:
+    expose:
       - 9117:9117
     restart: unless-stopped
 
@@ -73,7 +73,7 @@ services:
       - LOG_HTML=${LOG_HTML:-false}
       - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
       - TZ=Europe/London
-    ports:
+    expose:
       - 8191:8191
     restart: unless-stopped
 

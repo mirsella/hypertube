@@ -28,14 +28,6 @@ jobs:
       - name: Typecheck
         run: pnpm nuxt typecheck
 
-      - name: debug secrets
-        env:
-          OPENSUBTITLES_KEY: ${{ secrets.OPENSUBTITLES_KEY }}
-          OPENSUBTITLES_USERNAME: ${{ secrets.OPENSUBTITLES_USERNAME }}
-          OPENSUBTITLES_PASSWORD: ${{ secrets.OPENSUBTITLES_PASSWORD }}
-          PGPASSWORD: ${{ secrets.PGPASSWORD }}
-        run: echo $OPENSUBTITLES_KEY $OPENSUBTITLES_PASSWORD $PGPASSWORD
-
       - name: Build
         env:
           OPENSUBTITLES_KEY: ${{ secrets.OPENSUBTITLES_KEY }}
