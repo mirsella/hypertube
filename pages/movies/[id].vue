@@ -65,7 +65,7 @@ async function update_comment(comment_id: string) {
 </script>
 
 <template>
-  <div class="mt-4">
+  <div class="py-4">
     <!-- Torrent Fetch error -->
     <div v-if="infos_error" class="flex justify-center my-12">
       <p class="text-lg line-clamp-3">{{ $t("movies.stateFetchError") }}</p>
