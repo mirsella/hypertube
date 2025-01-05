@@ -68,13 +68,13 @@ async function resetPassword() {
     }
     isSubmitting.value = true;
     try {
-        let response = await $fetch("api/auth/forget-pass", {
+        const response = await $fetch<{ message: string; status: number }>("api/auth/forget-pass", {
             method: "POST",
             body: {
                 email: email.value,
             },
         });
-        response = response as { message: string; status: number };
+
         if (
             response.message === "Email doesn't exist" ||
             response.message === "User doesn't have provider credentials"
