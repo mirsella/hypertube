@@ -25,17 +25,13 @@ jobs:
       - name: Install depenencies
         run: pnpm install
 
-      - name: Create env file
-        run: |
-          touch .env
-          echo OPENSUBTITLES_KEY=${{ secrets.OPENSUBTITLES_KEY }} >> .env
-          echo OPENSUBTITLES_USERNAME=${{ secrets.OPENSUBTITLES_USERNAME }} >> .env
-          echo OPENSUBTITLES_PASSWORD=${{ secrets.OPENSUBTITLES_PASSWORD }} >> .env
-          echo PGPASSWORD=${{ secrets.PGPASSWORD }} >> .env
-          cat .env
-
       - name: Typecheck
         run: pnpm nuxt typecheck
 
-      - name: Buil
+      - name: Build
+        env:
+          OPENSUBTITLES_KEY: ${{ secrets.OPENSUBTITLES_KEY }}
+          OPENSUBTITLES_USERNAME: ${{ secrets.OPENSUBTITLES_USERNAME }}
+          OPENSUBTITLES_PASSWORD: ${{ secrets.OPENSUBTITLES_PASSWORD }}
+          PGPASSWORD: ${{ secrets.PGPASSWORD }}
         run: pnpm nuxt build
