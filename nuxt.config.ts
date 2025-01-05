@@ -1,3 +1,6 @@
+import path from "path";
+import fs from "fs";
+
 function get_from_env(field: string): string {
   const env = process.env[field];
   if (!env && process.env.NODE_ENV === "development") {
@@ -42,11 +45,20 @@ export default defineNuxtConfig({
     strategy: "prefix_except_default",
     langDir: "locales/",
     defaultLocale: "en",
-    detectBrowserLanguage: false, 
+    detectBrowserLanguage: false,
     locales: [
       { code: "en", name: "English", language: "en-US", file: "en.json" },
       { code: "fr", name: "Français", language: "fr-FR", file: "fr.json" },
     ],
+  },
+  hooks: {
+    "nitro:build:public-assets": () => {
+      fs.cpSync(
+        "node_modules/node-datachannel/build",
+        ".output/server/node_modules/node-datachannel",
+        { recursive: true },
+      );
+    },
   },
   nitro: {
     experimental: {
