@@ -22,7 +22,7 @@ if (infos_error.value) throw infos_error.value;
 const player = ref<HTMLVideoElement>();
 watch(player, (newPlayer, oldPlayer) => {
   if (oldPlayer === undefined && newPlayer) {
-    player.value.volume = 0.1;
+    newPlayer.volume = 0.1;
   }
 });
 
