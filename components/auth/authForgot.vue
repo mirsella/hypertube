@@ -68,7 +68,7 @@ async function resetPassword() {
     }
     isSubmitting.value = true;
     try {
-        const response = await $fetch("api/auth/forget-pass", {
+        let response = await $fetch("api/auth/forget-pass", {
             method: "POST",
             body: {
                 email: email.value,
