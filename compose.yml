@@ -31,6 +31,7 @@ services:
     restart: unless-stopped
     environment:
       - NODE_ENV=production
+      - JACKETT_URL=jackett
       - PGHOST=postgres
       - PGPASSWORD=${PGPASSWORD}
       - TMDB_API_KEY=${TMDB_API_KEY}
