@@ -21,7 +21,7 @@ export default defineNuxtConfig({
   ],
   plugins: ["~/plugins/eventBus.ts"],
   runtimeConfig: {
-    debug: true, // Enable debug mode for error logging
+    debug: import.meta.dev ? true : false,
     moviesDir: "./downloaded",
     opensubtitles_key: get_from_env("OPENSUBTITLES_KEY"),
     opensubtitles_username: get_from_env("OPENSUBTITLES_USERNAME"),
