@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
     await $fetch("/api/users/modify/username", { headers });
   }
   if (body.password) {
-    $fetch("/api/users/modify/password", { headers });
+    await $fetch("/api/users/modify/password", { headers });
   }
   return { message: "Data has been updated", status: 200 };
  
