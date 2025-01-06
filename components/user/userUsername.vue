@@ -90,9 +90,9 @@ async function submit() {
       message.value = (error as any).data.message;
     }
     // console.error(
-      "Erreur lors de la mise à jour du nom d'utilisateur :",
-      error,
-    );
+    //   "Erreur lors de la mise à jour du nom d'utilisateur :",
+    //   error,
+    // );
   }
 }
 </script>
