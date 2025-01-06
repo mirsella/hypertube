@@ -11,11 +11,13 @@ export default defineEventHandler(async (event) => {
   const headers = getRequestHeaders(event) as HeadersInit;
 
   if (body.username) {
-    $fetch("/api/users/modify/username", { headers });
+    await $fetch("/api/users/modify/username", { headers });
   }
-  if (body.name) {
-     let status =await $fetch("/api/users/modify/name", { headers });
-      if (status.status == 200)
+  if (body.lastname) {
+    await $fetch("/api/users/modify/lastname", { headers });
+  }
+  if (body.username) {
+    await $fetch("/api/users/modify/username", { headers });
   }
   if (body.password) {
     $fetch("/api/users/modify/password", { headers });
