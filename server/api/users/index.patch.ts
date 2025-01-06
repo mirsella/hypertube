@@ -16,10 +16,12 @@ export default defineEventHandler(async (event) => {
   if (body.lastname) {
     await $fetch("/api/users/modify/lastname", { headers });
   }
-  if (body.username) {
+  if (body.picture_profil) {
     await $fetch("/api/users/modify/username", { headers });
   }
   if (body.password) {
     $fetch("/api/users/modify/password", { headers });
   }
+  return { message: "Data has been updated", status: 200 };
+ 
 });
