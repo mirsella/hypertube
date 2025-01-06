@@ -10,7 +10,6 @@ function get_from_env(field: string): string {
 
 export default defineNuxtConfig({
   compatibilityDate: "2024-04-03",
-  devtools: { enabled: true },
   modules: [
     "@nuxtjs/tailwindcss",
     "@nuxt/icon",
@@ -32,7 +31,7 @@ export default defineNuxtConfig({
     isEnabled: true,
     disableServerSideAuth: false,
     originEnvKey: "AUTH_ORIGIN",
-    baseURL: "http://localhost:3000/api/auth",
+    baseURL: process.env.AUTH_BASE_URL || "http://localhost:3000/api/auth",
     sessionRefresh: {
       enablePeriodically: true,
       enableOnWindowFocus: true,
@@ -45,7 +44,7 @@ export default defineNuxtConfig({
     detectBrowserLanguage: false,
     locales: [
       { code: "fr", name: "Français", language: "fr-FR", file: "fr.json" },
-      { code: "en", name: "English", language: "en-US", file: "en.json" }
+      { code: "en", name: "English", language: "en-US", file: "en.json" },
     ],
   },
   hooks: {

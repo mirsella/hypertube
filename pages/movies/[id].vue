@@ -193,7 +193,8 @@ async function update_comment(comment_id: string) {
               <div class="chat-bubble chat-bubble-secondary text-lg p-0">
                 <input
                   type="text"
-                  class="p-2 outline-none bg-transparent"
+                  class="p-2 outline-none bg-transparent dark:text-white"
+                  :disabled="comment.comments.authorId !== user?.id"
                   v-model="comments_input[comment.comments.id]"
                 />
               </div>
