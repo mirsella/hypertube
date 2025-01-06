@@ -12,6 +12,8 @@
     "modifyPicture": "Modifie ta Photo",
     "uploadpicture": "Télécharger une photo",
     "CondtionsPassword": "Le mot de passe doit comporter au moins 8 caractères, inclure une lettre majuscule, un chiffre et un caractère spécial.",
+    "modifyUploadSuccess": "Photo enregistrée avec succès!",
+    "modifyUploadError": "Photo non enregistrée, seuls les fichiers de type png et jpeg sont autorisés",
     "PasswordValid": "Mot de passe valide",
     "CompleteUrProfil": "Complétez votre profil",
     "ClickOrDrag": "Cliquez ou glissez un fichier ici pour le télécharger",

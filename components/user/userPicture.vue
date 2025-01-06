@@ -18,7 +18,7 @@
       class="w-full max-w-xs cursor-pointer flex flex-col items-center bg-base-200 rounded-xl p-6 border border-dashed border-gray-400 hover:border-primary hover:bg-base-100 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md">
       <span class="text-base text-gray-500 mb-2">{{
         $t("modifyProfiles.ClickOrDrag")
-        }}</span>
+      }}</span>
       <input type="file" class="hidden" @change="handleFileChange" />
     </label>
 
@@ -32,9 +32,12 @@
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { useI18n } from 'vue-i18n'
+const { availableLocales, locale, t } = useI18n()
 const headers = useRequestHeaders(["cookie"]) as HeadersInit;
 const { data: token } = await useFetch("/api/token", { headers });
 const { $eventBus } = useNuxtApp() as any;
+
 
 const props = defineProps<{
   picture?: string;
@@ -89,15 +92,14 @@ async function submitPhoto() {
     });
 
     // Type assertion for response
-    const typedResponse = response as { file_path: string };
+    const typedResponse = response as { status: number; file_path: string };
     $eventBus.emit("UpdatePicture", {
       picture: typedResponse.file_path,
       email: email.value,
     });
-    message.value = "Photo uploaded successfully!";
+    message.value = t('modifyProfiles.modifyUploadSuccess')
   } catch (error) {
-    console.error("Erreur lors de l'upload de l'image :", error);
-    message.value = "Error uploading file";
+    message.value = t('modifyProfiles.modifyUploadError');
   } finally {
     isUploading.value = false;
   }

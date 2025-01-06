@@ -3,10 +3,10 @@ import fs from "fs";
 import type { IncomingMessage, ServerResponse } from "http";
 import multer from "multer";
 import path from "path";
-// Définir le chemin de stockage directement dans le projet
+import { fileTypeFromBuffer } from 'file-type';
+
 const uploadDir = path.join(process.cwd(), "uploads/profile_pictures");
 
-// S'assurer que le dossier existe
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -16,9 +16,8 @@ const storage = multer.diskStorage({
         cb(null, uploadDir);
     },
     filename: function (_, file, cb) {
-        const ext = path.extname(file.originalname);
-        const uniqueSuffix = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
-        cb(null, `${uniqueSuffix}${ext}`);
+        const uniqueSuffix = `temp-${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+        cb(null, uniqueSuffix);
     },
 });
 
@@ -27,15 +26,24 @@ const upload = multer({
     limits: {
         fileSize: 5 * 1024 * 1024,
     },
-    fileFilter: (_, file, cb) => {
-        const allowedMimeTypes = ["image/jpeg", "image/png"];
-        if (!allowedMimeTypes.includes(file.mimetype)) {
-            cb(new Error("Invalid file type. Only JPEG and PNG files are allowed."));
-            return;
-        }
-        cb(null, true);
-    },
 });
+
+async function validateAndRenameFile(filePath: string): Promise<string> {
+    const fileBuffer = fs.readFileSync(filePath);
+    const fileType = await fileTypeFromBuffer(fileBuffer);
+
+    if (!fileType || !['image/png', 'image/jpeg'].includes(fileType.mime)) {
+        fs.unlinkSync(filePath);
+        throw createError({ statusCode: 422, message: "Invalid file type detected" })
+    }
+
+    const extension = fileType.mime === 'image/png' ? '.png' : '.jpg';
+    const finalFilename = `${Date.now()}-${Math.random().toString(36).substring(2, 9)}${extension}`;
+    const finalPath = path.join(uploadDir, finalFilename);
+
+    fs.renameSync(filePath, finalPath);
+    return finalFilename;
+}
 
 export default defineEventHandler(async (event) => {
     try {
@@ -56,13 +64,10 @@ export default defineEventHandler(async (event) => {
             //@ts-ignore
             upload.single("file")(req, res, (err) => {
                 if (err) {
-                    console.error("Upload error:", err);
-                    reject(
-                        createError({
-                            statusCode: 400,
-                            message: err.message || "Error while uploading file",
-                        })
-                    );
+                    reject(createError({
+                        statusCode: 400,
+                        message: err.message || "Error while uploading file",
+                    }));
                     return;
                 }
                 resolve();
@@ -75,6 +80,8 @@ export default defineEventHandler(async (event) => {
                 message: "No file uploaded",
             });
         }
+
+        const finalFilename = await validateAndRenameFile(req.file.path);
 
         const email = req.body?.email;
         if (!email) {
@@ -100,11 +107,11 @@ export default defineEventHandler(async (event) => {
 
         await db
             .update(tables.users)
-            .set({ profile_picture: req.file.filename })
+            .set({ profile_picture: finalFilename })
             .where(eq(tables.users.email, email));
 
         return {
-            file_path: req.file.filename,
+            file_path: finalFilename,
             message: "Profile picture updated successfully",
             status: 200,
         };

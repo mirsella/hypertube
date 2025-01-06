@@ -12,6 +12,8 @@
     "modifyPicture": "Modify Picture",
     "uploadpicture": "Upload Picture",
     "CondtionsPassword": "Password must be at least 8 characters long, include an uppercase letter, a number, and a special character.",
+    "modifyUploadSuccess": "Photo save successfully!",
+    "modifyUploadError": "Photo not save, only png and jpg are allowed",
     "PasswordValid": "Password valid",
     "ClickOrDrag": "Click or drag a file here to upload",
     "CompleteUrProfil": "Complete your Profile",
