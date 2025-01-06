@@ -114,8 +114,15 @@ export default defineEventHandler(
         "Content-Type": `video/${biggest_file_type}`,
       });
 
-      if (!fs.existsSync(biggest_file_path_converted))
-        convert_stream.pipe(fs.createWriteStream(biggest_file_path_converted));
+      try {
+        if (!fs.existsSync(biggest_file_path_converted))
+          convert_stream.pipe(
+            fs.createWriteStream(biggest_file_path_converted),
+          );
+      } catch {
+        if (fs.existsSync(biggest_file_path_converted))
+          fs.rmSync(biggest_file_path_converted);
+      }
       return convert_stream;
     } else {
       torrent.on("done", () => {
