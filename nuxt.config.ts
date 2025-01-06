@@ -39,13 +39,13 @@ export default defineNuxtConfig({
     },
   },
   i18n: {
-    strategy: "prefix_except_default",
+    strategy: "no_prefix",
     langDir: "locales/",
     defaultLocale: "en",
     detectBrowserLanguage: false,
     locales: [
-      { code: "en", name: "English", language: "en-US", file: "en.json" },
       { code: "fr", name: "Français", language: "fr-FR", file: "fr.json" },
+      { code: "en", name: "English", language: "en-US", file: "en.json" }
     ],
   },
   hooks: {
