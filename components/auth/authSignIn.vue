@@ -169,14 +169,19 @@ async function authentification() {
       password: password.value,
       redirect: false,
     });
+    // console.log(result);
 
-    if (result?.ok) {
+    if (result.url === null) {
+      message.value = "Username or password incorrect";
+      throw new Error("Failed to sign in");
+    }
+    else if (result?.ok) {
       navigateTo("/search");
     } else {
-      message.value = "Username or password incorrect";
+      message.value = "An error occurred during sign in";
     }
   } catch (error) {
-    message.value = "An error occurred during sign in";
+    // message.value = "An error occurred during sign in";
     console.error("Failed to sign in:", error);
   }
 }
