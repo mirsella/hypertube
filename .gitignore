@@ -1,5 +1,6 @@
 downloaded/
 Docker_Config/
+uploads/
 .vscode/
 # Nuxt dev/build outputs
 .output
