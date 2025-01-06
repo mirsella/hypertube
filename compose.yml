@@ -70,6 +70,8 @@ services:
       - TZ=Europe/London
     ports:
       - 8191:8191
+    networks:
+      - app_network
     restart: unless-stopped
 
 networks:
