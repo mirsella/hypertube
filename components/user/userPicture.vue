@@ -7,8 +7,7 @@
     <!-- Avatar Section -->
     <div class="avatar">
       <div
-        class="w-32 h-32 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 shadow-lg transition duration-200 hover:scale-105"
-      >
+        class="w-32 h-32 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2 shadow-lg transition duration-200 hover:scale-105">
         <img :src="preview" alt="Image" v-if="preview" />
       </div>
     </div>
@@ -16,19 +15,16 @@
 
     <!-- File Upload Section -->
     <label
-      class="w-full max-w-xs cursor-pointer flex flex-col items-center bg-base-200 rounded-xl p-6 border border-dashed border-gray-400 hover:border-primary hover:bg-base-100 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md"
-    >
+      class="w-full max-w-xs cursor-pointer flex flex-col items-center bg-base-200 rounded-xl p-6 border border-dashed border-gray-400 hover:border-primary hover:bg-base-100 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-md">
       <span class="text-base text-gray-500 mb-2">{{
         $t("modifyProfiles.ClickOrDrag")
-      }}</span>
+        }}</span>
       <input type="file" class="hidden" @change="handleFileChange" />
     </label>
 
     <!-- Upload Button -->
-    <button
-      @click="submitPhoto"
-      class="btn btn-primary w-full max-w-xs transition duration-300 hover:scale-105 hover:bg-primary-focus shadow-md"
-    >
+    <button @click="submitPhoto"
+      class="btn btn-primary w-full max-w-xs transition duration-300 hover:scale-105 hover:bg-primary-focus shadow-md">
       {{ $t("modifyProfiles.uploadpicture") }}
     </button>
   </div>
@@ -48,7 +44,7 @@ const props = defineProps<{
 const email = ref(props.email);
 const message = ref("");
 const picture = ref<File | null>(null); // Fichier brut pour l'upload
-const preview = ref(props.picture);
+const preview = ref(`/api/users/profileImage/${props.picture}`);
 const isUploading = ref(false);
 
 function handleFileChange(event: Event) {

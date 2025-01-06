@@ -49,10 +49,7 @@ export default defineEventHandler(async (event) => {
             });
         }
 
-        const req = event.node.req as IncomingMessage & {
-            file?: Express.Multer.File;
-            body?: any;
-        };
+        const req = event.node.req as IncomingMessage & { file?: Express.Multer.File; body?: any };
         const res = event.node.res as ServerResponse;
 
         await new Promise<void>((resolve, reject) => {
@@ -101,15 +98,13 @@ export default defineEventHandler(async (event) => {
             }
         }
 
-        const relativePath = path.join("uploads/profile_pictures", req.file.filename);
-
         await db
             .update(tables.users)
-            .set({ profile_picture: relativePath })
+            .set({ profile_picture: req.file.filename })
             .where(eq(tables.users.email, email));
 
         return {
-            file_path: relativePath,
+            file_path: req.file.filename,
             message: "Profile picture updated successfully",
             status: 200,
         };

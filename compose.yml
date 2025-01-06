@@ -44,6 +44,8 @@ services:
       - app_network
     ports:
       - "3000:3000"
+    volumes:
+      - ./uploads:/app/.output/uploads
     depends_on:
       - postgres
 

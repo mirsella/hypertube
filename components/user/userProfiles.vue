@@ -2,18 +2,10 @@
   <div class="p-4">
     <!-- Formulaire de recherche -->
     <div class="flex gap-4 mb-4">
-      <input
-        type="text"
-        v-model="searchQuery.username"
-        :placeholder="$t('userProfiles.fullusername')"
-        class="input input-bordered w-full max-w-xs"
-      />
-      <input
-        type="text"
-        v-model="searchQuery.fullname"
-        :placeholder="$t('userProfiles.fullnamePlaceholder')"
-        class="input input-bordered w-full max-w-xs"
-      />
+      <input type="text" v-model="searchQuery.username" :placeholder="$t('userProfiles.fullusername')"
+        class="input input-bordered w-full max-w-xs" />
+      <input type="text" v-model="searchQuery.fullname" :placeholder="$t('userProfiles.fullnamePlaceholder')"
+        class="input input-bordered w-full max-w-xs" />
     </div>
 
     <!-- Tableau des profils utilisateurs -->
@@ -37,18 +29,11 @@
               <div>{{ user.firstname }} {{ user.lastname }}</div>
             </td>
             <td class="text-base lg:text-lg align-middle">
-              <div
-                class="mask mask-squircle w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24"
-              >
-                <img
-                  :src="
-                    user.profile_picture
-                      ? `http://localhost:3000/${user.profile_picture}`
-                      : 'https://img.daisyui.com/images/profile/demo/2@94.webp'
-                  "
-                  alt="Profile picture"
-                  class="w-full h-full object-cover"
-                />
+              <div class="mask mask-squircle w-16 h-16 md:w-20 md:h-20 lg:w-24 lg:h-24">
+                <img :src="user.profile_picture
+                  ? `http://localhost:3000/api/users/profileImage/${user.profile_picture}`
+                  : 'https://img.daisyui.com/images/profile/demo/2@94.webp'
+                  " alt="Profile picture" class="w-full h-full object-cover" />
               </div>
             </td>
           </tr>
@@ -81,9 +66,7 @@ const filteredUsers = computed(() => {
   return props.users.filter((user) => {
     const fullName = `${user.firstname} ${user.lastname}`; //
     return (
-      user.username
-        .toLowerCase()
-        .includes(searchQuery.value.username.toLowerCase()) &&
+      user.username.toLowerCase().includes(searchQuery.value.username.toLowerCase()) &&
       fullName.toLowerCase().includes(searchQuery.value.fullname.toLowerCase())
     );
   });
