@@ -57,6 +57,8 @@ services:
       - app_network
     ports:
       - 9117:9117
+    depends_on:
+      - flaresolverr
     restart: unless-stopped
 
   flaresolverr:
