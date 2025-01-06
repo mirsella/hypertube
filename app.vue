@@ -1,11 +1,11 @@
 <template>
-  <div v-if="status === 'authenticated'">
-    <Header />
+  <div class="min-h-screen">
+    <div v-if="status === 'authenticated'">
+      <Header />
+    </div>
   </div>
   <NuxtPage />
-  <footer
-    class="footer bg-neutral text-neutral-content p-10 static bottom-0 mt-20"
-  >
+  <footer class="footer bg-neutral text-neutral-content p-10 mt-42">
     <nav>
       <h6 class="footer-title">Services</h6>
       <a class="link link-hover">Branding</a>
