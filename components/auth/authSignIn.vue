@@ -171,11 +171,10 @@ async function authentification() {
     });
     // console.log(result);
 
-    if (result.url === null) {
+    if (result?.url === null) {
       message.value = "Username or password incorrect";
       throw new Error("Failed to sign in");
-    }
-    else if (result?.ok) {
+    } else if (result?.ok) {
       navigateTo("/search");
     } else {
       message.value = "An error occurred during sign in";
