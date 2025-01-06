@@ -30,8 +30,7 @@ function video_play() {
   if (player.value) {
     const lang = localStorage["preferredLanguage"];
     for (let track of player.value.textTracks) {
-      if (track.label === lang) {
-        console.log("found subtitle for", lang, track);
+      if (track.label === lang.slice(0, 2)) {
         track.mode = "showing";
       }
     }
