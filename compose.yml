@@ -1,7 +1,6 @@
 services:
   postgres:
     image: postgres:17
-    stop_grace_period: 0s
     container_name: postgres
     env_file: .env
     restart: unless-stopped

@@ -1,3 +1,4 @@
+import { onMounted } from 'vue';
 <template>
   <div class="p-4">
     <!-- Formulaire de recherche -->
@@ -70,5 +71,9 @@ const filteredUsers = computed(() => {
       fullName.toLowerCase().includes(searchQuery.value.fullname.toLowerCase())
     );
   });
+});
+onMounted(() => {
+  const savedLanguage = localStorage.getItem("preferredLanguage");
+  locale.value = savedLanguage === "English" ? "en" : "fr";
 });
 </script>

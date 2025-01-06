@@ -1,3 +1,6 @@
+import path from "path";
+import fs from "fs";
+
 function get_from_env(field: string): string {
   const env = process.env[field];
   if (!env && process.env.NODE_ENV === "development") {
@@ -18,7 +21,7 @@ export default defineNuxtConfig({
   ],
   plugins: ["~/plugins/eventBus.ts"],
   runtimeConfig: {
-    debug: true, // Enable debug mode for error logging
+    debug: import.meta.dev ? true : false,
     moviesDir: "./downloaded",
     opensubtitles_key: get_from_env("OPENSUBTITLES_KEY"),
     opensubtitles_username: get_from_env("OPENSUBTITLES_USERNAME"),
@@ -42,10 +45,20 @@ export default defineNuxtConfig({
     strategy: "prefix_except_default",
     langDir: "locales/",
     defaultLocale: "en",
+    detectBrowserLanguage: false,
     locales: [
       { code: "en", name: "English", language: "en-US", file: "en.json" },
       { code: "fr", name: "Français", language: "fr-FR", file: "fr.json" },
     ],
+  },
+  hooks: {
+    "nitro:build:public-assets": () => {
+      fs.cpSync(
+        "node_modules/node-datachannel/build",
+        ".output/server/node_modules/node-datachannel/build",
+        { recursive: true },
+      );
+    },
   },
   nitro: {
     experimental: {
