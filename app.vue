@@ -3,9 +3,9 @@
     <div v-if="status === 'authenticated'">
       <Header />
     </div>
+    <NuxtPage />
   </div>
-  <NuxtPage />
-  <footer class="footer bg-neutral text-neutral-content p-10 mt-42">
+  <footer class="footer bg-neutral text-neutral-content p-10">
     <nav>
       <h6 class="footer-title">Services</h6>
       <a class="link link-hover">Branding</a>
