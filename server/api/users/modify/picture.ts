@@ -124,7 +124,7 @@ export default defineEventHandler(async (event) => {
       status: 200,
     };
   } catch (error: any) {
-    console.error("Error during file upload:", error);
+    // console.error("Error during file upload:", error);
     throw createError({
       statusCode: error.statusCode || 500,
       message: error.message || "Internal server error",

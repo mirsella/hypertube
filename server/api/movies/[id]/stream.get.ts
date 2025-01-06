@@ -183,8 +183,8 @@ function convert_to_webm(
     //   );
     // })
     .on("error", (err, _stdout, stderr) => {
-      console.error("An error occurred: " + err.message);
-      console.error("FFmpeg stderr: " + stderr);
+      // console.error("An error occurred: " + err.message);
+      // console.error("FFmpeg stderr: " + stderr);
     })
     .on("end", () => {
       // process.stdout.write(`Processing: 100% done\r`);

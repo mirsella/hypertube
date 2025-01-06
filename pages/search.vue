@@ -219,7 +219,7 @@ const searchMovies = async () => {
     checkAndLoadMoreContent();
   } catch (error) {
     loading.value = false;
-    console.error("Error searching movies:", error);
+    // console.error("Error searching movies:", error);
   } finally {
     loading.value = false;
   }

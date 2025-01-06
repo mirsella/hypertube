@@ -181,7 +181,7 @@ async function authentification() {
     }
   } catch (error) {
     // message.value = "An error occurred during sign in";
-    console.error("Failed to sign in:", error);
+    // console.error("Failed to sign in:", error);
   }
 }
 

@@ -81,7 +81,7 @@ async function submit() {
         });
         message.value = "Password updated successfully";
     } catch (error) {
-        console.error("Erreur lors de la mise à jour du nom d'utilisateur :", error);
+        // console.error("Erreur lors de la mise à jour du nom d'utilisateur :", error);
     }
 }
 </script>

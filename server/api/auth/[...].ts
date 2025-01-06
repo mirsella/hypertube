@@ -82,7 +82,7 @@ export default NuxtAuthHandler({
             return null;
           }
         } catch (error) {
-          console.error("Authentication error:", error);
+          // console.error("Authentication error:", error);
           return null;
         }
       },

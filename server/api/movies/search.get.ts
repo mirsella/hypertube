@@ -51,7 +51,7 @@ export default defineEventHandler(async (event) => {
 
     return data;
   } catch (error) {
-    console.error("Error in movie search:", error);
+    // console.error("Error in movie search:", error);
     return createError({
       statusCode: 400,
       statusMessage: "Error fetching movies",

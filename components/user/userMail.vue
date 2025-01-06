@@ -88,7 +88,7 @@ async function submit() {
         if (error.data && error.data.message) {
             message.value = error.data.message;
         }
-        console.error("Erreur lors de la mise à jour du nom d'utilisateur :", error);
+        // console.error("Erreur lors de la mise à jour du nom d'utilisateur :", error);
     }
 }
 </script>

@@ -76,7 +76,7 @@ export default defineEventHandler(async (event) => {
             });
         }
     } catch (error) {
-        console.error("Error while creating user", error);
+        // console.error("Error while creating user", error);
         return { message: "An error occurred", status: 400 };
     }
 

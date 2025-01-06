@@ -110,7 +110,7 @@ async function checkCompletedProfile() {
 
         completed_profil.value = response.complete_profile;
     } catch (error) {
-        console.error(error);
+        // console.error(error);
     }
 }
 </script>

@@ -20,7 +20,7 @@ onMounted(async () => {
     // @ts-ignore
     users.value = response.users;
   } catch (error) {
-    console.error(error);
+    // console.error(error);
   }
 
   $eventBus.emit("CompleteProfil", true); // Emit the event to show the nav bar

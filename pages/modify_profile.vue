@@ -123,7 +123,7 @@ onMounted(async () => {
 
         console.log(response);
     } catch (error) {
-        console.error(error);
+        // console.error(error);
     }
     // get update from other components
     await updateName();

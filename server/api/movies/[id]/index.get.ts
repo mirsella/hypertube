@@ -191,7 +191,7 @@ export default defineEventHandler(async (event) => {
 
     return movie_infos;
   } catch (error) {
-    console.error("Error in movie/id search:", error);
+    // console.error("Error in movie/id search:", error);
     return error;
   }
 });

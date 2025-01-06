@@ -22,7 +22,7 @@ export default defineEventHandler(async (event) => {
 
     return data;
   } catch (error) {
-    console.error("Error in genre fetching:", error);
+    // console.error("Error in genre fetching:", error);
     return createError({
       statusCode: 400,
       statusMessage: "Error fetching genres",

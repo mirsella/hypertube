@@ -16,6 +16,6 @@ export default defineNuxtRouteMiddleware(async (to) => {
       return navigateTo("/");
     }
   } catch (error) {
-    console.error(error);
+    // console.error(error);
   }
 });

@@ -34,7 +34,7 @@ export default defineEventHandler(async (event: H3Event) => {
     if (error.code === 'ENOENT') {
       throw createError({ statusCode: 404, message: 'Image not found' });
     }
-    console.error("Error serving image:", error);
+    // console.error("Error serving image:", error);
     throw createError({ statusCode: 400, message: 'Internal server error' });
   }
 });

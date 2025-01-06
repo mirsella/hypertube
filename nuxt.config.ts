@@ -3,7 +3,7 @@ import fs from "fs";
 function get_from_env(field: string): string {
   const env = process.env[field];
   if (!env) {
-    console.error(field, "ENV VARIABLE ISN'T SET !!!");
+    // console.error(field, "ENV VARIABLE ISN'T SET !!!");
   }
   return env || "";
 }
