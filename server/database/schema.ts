@@ -16,7 +16,7 @@ export const users = pgTable("users", {
   firstname: varchar("firstname", { length: 255 }).notNull(),
   password: varchar("password", { length: 255 }),
   profile_picture: varchar("profile_picture", { length: 255 }).default(
-    "images/default-profil.png",
+    "default-profil.png",
   ),
   resetToken: varchar("resetToken", { length: 255 }),
   resetExpirationToken: timestamp("resetExpirationToken", {
