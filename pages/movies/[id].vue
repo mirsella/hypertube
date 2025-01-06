@@ -23,14 +23,20 @@ const player = ref<HTMLVideoElement>();
 watch(player, (newPlayer, oldPlayer) => {
   if (oldPlayer === undefined && newPlayer) {
     newPlayer.volume = 0.1;
+  }
+});
+
+function video_play() {
+  if (player.value) {
     const lang = localStorage["preferredLanguage"];
-    for (let track of newPlayer.textTracks) {
+    for (let track of player.value.textTracks) {
       if (track.label === lang) {
+        console.log("found subtitle for", lang, track);
         track.mode = "showing";
       }
     }
   }
-});
+}
 
 const error = ref("");
 function video_error() {
@@ -97,6 +103,7 @@ async function update_comment(comment_id: string) {
           :src="`/api/movies/${movie_id}/stream`"
           autoplay
           :onerror="video_error()"
+          :onplay="video_play()"
         >
           <track
             v-for="sub in subtitles"
