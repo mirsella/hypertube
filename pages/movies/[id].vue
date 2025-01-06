@@ -23,6 +23,12 @@ const player = ref<HTMLVideoElement>();
 watch(player, (newPlayer, oldPlayer) => {
   if (oldPlayer === undefined && newPlayer) {
     newPlayer.volume = 0.1;
+    const lang = localStorage["preferredLanguage"];
+    for (let track of newPlayer.textTracks) {
+      if (track.label === lang) {
+        track.mode = "showing";
+      }
+    }
   }
 });
 
@@ -55,6 +61,7 @@ async function delete_comment(comment_id: string) {
   await $fetch(`/api/comments/${comment_id}`, { method: "DELETE" });
   refresh_comments();
 }
+
 async function update_comment(comment_id: string) {
   await $fetch(`/api/comments/${comment_id}`, {
     method: "PATCH",
