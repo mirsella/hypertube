@@ -1,1 +1,5 @@
 .gitignore
+.output
+.nuxt
+node_modules
+.git
