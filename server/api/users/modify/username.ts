@@ -26,7 +26,8 @@ export default defineEventHandler(async (event) => {
     return { message: "User is not authenticated", status: 400 };
   }
 
-  const { username, email } = await readBody(event);
+  const { username } = await readBody(event);
+  const { email } = token;
 
   if (!username || !email) {
     return { message: "Missing required fields", status: 400 };

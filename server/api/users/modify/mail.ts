@@ -50,7 +50,8 @@ export default defineEventHandler(async (event) => {
   if (!token || !token.email) {
     return new Response("Unauthorized", { status: 401 });
   }
-  const { username, email } = await readBody(event);
+  const { username } = await readBody(event);
+  const { email } = token;
 
   if (!username || !email) {
     return { message: "Missing required fields", status: 400 };
@@ -63,7 +64,7 @@ export default defineEventHandler(async (event) => {
   if ((await check_mail(email)) === true) {
     return { message: "Email already taken", status: 400 };
   }
-  
+
   const updateResult = await db
     .update(tables.users)
     .set({ email: email })

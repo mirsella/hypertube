@@ -14,7 +14,8 @@ export default defineEventHandler(async (event) => {
     return new Response("Unauthorized", { status: 401 });
   }
 
-  const { firstname, lastname, email } = await readBody(event);
+  const { firstname, lastname } = await readBody(event);
+  const { email } = token;
   if (!firstname || !lastname || !email) {
     return { message: "Missing required fields", status: 400 };
   }

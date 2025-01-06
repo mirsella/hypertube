@@ -5,23 +5,26 @@ export default defineEventHandler(async (event) => {
   const token = await getToken({ event });
   if (!session || !token?.email) throw createError({ statusCode: 401 });
 
-  const id = getRouterParam(event, "id");
   const body = await readBody(event);
-  if (!id || !body?.content) throw createError({ statusCode: 400 });
   const headers = getRequestHeaders(event) as HeadersInit;
 
   if (body.username) {
-    await $fetch("/api/users/modify/username", { headers });
+    await $fetch("/api/users/modify/username", {
+      headers,
+      body,
+    });
   }
-  if (body.lastname) {
-    await $fetch("/api/users/modify/lastname", { headers });
+  if (body.lastname && body.firstname) {
+    await $fetch("/api/users/modify/name", {
+      headers,
+      body,
+    });
   }
   if (body.picture_profil) {
-    await $fetch("/api/users/modify/username", { headers });
+    await $fetch("/api/users/modify/username", { headers, body });
   }
   if (body.password) {
-    await $fetch("/api/users/modify/password", { headers });
+    await $fetch("/api/users/modify/password", { headers, body });
   }
   return { message: "Data has been updated", status: 200 };
- 
 });
