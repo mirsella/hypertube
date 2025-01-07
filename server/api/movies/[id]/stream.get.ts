@@ -39,7 +39,7 @@ export default defineEventHandler(
         .toString()
         .trim();
       if (mimeType.startsWith("video/")) {
-        console.log("invalid mime type for saved movie", mimeType);
+        console.log(`invalid mime type for saved movie '${mimeType}'`);
         mimeType = "video/mp4";
       }
 
