@@ -1,4 +1,5 @@
 import ffmpeg from "fluent-ffmpeg";
+import { execSync } from "child_process";
 import os from "os";
 import stream from "stream";
 import fs from "fs";
@@ -34,6 +35,7 @@ export default defineEventHandler(
     if (fs.existsSync(filepath)) {
       const stat = fs.statSync(filepath);
       const fileSize = stat.size;
+      const mimeType = execSync(`file -b --mime-type '${filepath}'`).toString();
 
       if (range) {
         const parts = range.replace(/bytes=/, "").split("-");
@@ -45,7 +47,7 @@ export default defineEventHandler(
           "Content-Range": `bytes ${start}-${end}/${fileSize}`,
           "Accept-Ranges": "bytes",
           "Content-Length": chunksize.toString(),
-          "Content-Type": "video/webm", // adjust based on your video type
+          "Content-Type": mimeType,
         });
         setResponseStatus(event, 206);
 
@@ -53,7 +55,7 @@ export default defineEventHandler(
       } else {
         setResponseHeaders(event, {
           "Content-Length": fileSize.toString(),
-          "Content-Type": "video/webm",
+          "Content-Type": mimeType,
           "Accept-Ranges": "bytes",
         });
         return fs.createReadStream(filepath);
@@ -120,8 +122,8 @@ export default defineEventHandler(
             fs.createWriteStream(biggest_file_path_converted),
           );
       } catch {
-        if (fs.existsSync(biggest_file_path_converted))
-          fs.rmSync(biggest_file_path_converted);
+        // if (fs.existsSync(biggest_file_path_converted))
+        //   fs.rmSync(biggest_file_path_converted);
       }
       return convert_stream;
     } else {
@@ -146,6 +148,9 @@ export default defineEventHandler(
         return biggest_file.createReadStream({ start, end });
       }
 
+      setResponseHeaders(event, {
+        "Content-Type": `video/${biggest_file_type}`,
+      });
       // @ts-ignore: webtorrent file implement asyncIterator
       return stream.Readable.from(biggest_file);
     }
