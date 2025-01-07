@@ -139,7 +139,7 @@ export default defineEventHandler(
         setResponseHeaders(event, {
           "Content-Range": `bytes ${start}-${end}/${biggest_file.length}`,
           "Accept-Ranges": "bytes",
-          "Content-Type": "video/webm",
+          "Content-Type": `video/${biggest_file_type}`,
         });
         setResponseStatus(event, 206);
 
