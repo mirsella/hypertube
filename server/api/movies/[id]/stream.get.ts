@@ -35,7 +35,9 @@ export default defineEventHandler(
     if (fs.existsSync(filepath)) {
       const stat = fs.statSync(filepath);
       const fileSize = stat.size;
-      let mimeType = execSync(`file -b --mime-type '${filepath}'`).toString();
+      let mimeType = execSync(`file -b --mime-type '${filepath}'`)
+        .toString()
+        .trim();
       if (mimeType.startsWith("video/")) {
         console.log("invalid mime type for saved movie", mimeType);
         mimeType = "video/mp4";
