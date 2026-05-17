@@ -48,7 +48,7 @@
     "@types/webtorrent": "^0.109.10",
     "daisyui": "^4.12.23",
     "drizzle-kit": "^0.30.1",
-    "vite": "^5.4.11"
+    "vite": "^5.4.12"
   },
   "trustedDependencies": [
     "@parcel/watcher",
